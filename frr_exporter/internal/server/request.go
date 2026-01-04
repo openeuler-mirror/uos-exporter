@@ -28,4 +28,3 @@ func (r *Request) Fail(status int) {
 		fmt.Printf("Warning: Failed to write error response to client: %v", err)
 	}
 }
-// Final commit for frr_exporter/internal/server/request.go
