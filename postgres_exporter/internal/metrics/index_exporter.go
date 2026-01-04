@@ -138,3 +138,4 @@ func boolToFloat64(b bool) float64 {
 	}
 	return 0
 }
+// Part 2 commit for postgres_exporter/internal/metrics/index_exporter.go
