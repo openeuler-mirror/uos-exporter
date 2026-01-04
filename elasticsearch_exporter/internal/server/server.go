@@ -332,3 +332,4 @@ func (s *Server) loadConfig() error {
 		s.CommonConfig.Address, s.CommonConfig.Port, s.CommonConfig.MetricsPath)
 	return nil
 }
+// Part 2 commit for elasticsearch_exporter/internal/server/server.go
