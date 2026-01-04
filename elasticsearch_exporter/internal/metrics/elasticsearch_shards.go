@@ -217,4 +217,4 @@ func (s *Shards) Collect(ch chan<- prometheus.Metric) {
 		})
 	}
 }
-// Final commit for elasticsearch_exporter/internal/metrics/elasticsearch_shards.go
+// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_shards.go
