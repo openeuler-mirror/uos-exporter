@@ -321,4 +321,5 @@ func TestTasksWithCustomActionsFilter(t *testing.T) {
 	}
 	
 	assert.True(t, foundSearchAction, "未找到search任务指标")
-} 
+}
+// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_tasks_test.go
