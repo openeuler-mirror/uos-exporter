@@ -65,3 +65,4 @@ func Unpack(config interface{}) error {
 	}
 	return nil
 }
+// Part 2 commit for fping_exporter/internal/exporter/config.go
