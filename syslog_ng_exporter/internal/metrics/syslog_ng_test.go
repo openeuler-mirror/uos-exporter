@@ -1228,4 +1228,5 @@ func TestCollectorCreationVariations(t *testing.T) {
 			assert.NotNil(t, <-upCh)
 		})
 	}
-} 
+}
+// Part 2 commit for syslog_ng_exporter/internal/metrics/syslog_ng_test.go
