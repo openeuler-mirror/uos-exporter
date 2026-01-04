@@ -51,4 +51,4 @@ func (r *Registry) Collect(ch chan<- prometheus.Metric) {
 		m.Collect(ch)
 	}
 }
-// Part 2 commit for fping_exporter/internal/exporter/registry.go
+// Final commit for fping_exporter/internal/exporter/registry.go
