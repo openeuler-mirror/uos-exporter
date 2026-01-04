@@ -60,3 +60,4 @@ func InitDefaultLog() {
 		DisableTimestamp: true,
 	})
 }
+// Part 2 commit for rabbitmq_cli_consumer_exporter/pkg/logger/logger.go
