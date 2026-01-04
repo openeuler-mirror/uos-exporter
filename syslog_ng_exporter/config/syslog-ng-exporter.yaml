@@ -6,3 +6,4 @@ socket:
 log:
   level: "debug"
   log_path: "/var/log/uos-exporter/syslog_ng_exporter.log"
+// Part 2 commit for syslog_ng_exporter/config/syslog-ng-exporter.yaml
