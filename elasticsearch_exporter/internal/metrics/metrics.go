@@ -64,4 +64,4 @@ func (c *baseMetrics) collect(ch chan<- prometheus.Metric, value float64, labelV
 		// 不支持其他类型，不做任何操作
 	}
 }
-// Part 2 commit for elasticsearch_exporter/internal/metrics/metrics.go
+// Final commit for elasticsearch_exporter/internal/metrics/metrics.go
