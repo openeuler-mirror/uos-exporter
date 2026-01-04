@@ -51,3 +51,4 @@ func (r *Registry) Collect(ch chan<- prometheus.Metric) {
 		m.Collect(ch)
 	}
 }
+// Part 2 commit for postgres_exporter/internal/exporter/registry.go
