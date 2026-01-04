@@ -400,3 +400,4 @@ func (u *SyslogNGUp) Collect(ch chan<- prometheus.Metric) {
 		u.baseMetrics.collect(ch, 0, []string{})
 	}
 }
+// Part 2 commit for syslog_ng_exporter/internal/metrics/syslog_ng.go
