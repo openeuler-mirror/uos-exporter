@@ -73,4 +73,3 @@ log:
 		return s.Error
 	}
 }
-// Part 2 commit for syslog_ng_exporter/exporter.go
