@@ -216,4 +216,5 @@ func (s *Shards) Collect(ch chan<- prometheus.Metric) {
 			"cluster": clusterName,
 		})
 	}
-} 
+}
+// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_shards.go
