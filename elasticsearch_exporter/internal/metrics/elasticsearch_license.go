@@ -219,4 +219,4 @@ func (l *License) Describe(ch chan<- *prometheus.Desc) {
 	ch <- l.licenseExpirySeconds
 	ch <- l.jsonParseFailures.Desc()
 }
-// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_license.go
+// Final commit for elasticsearch_exporter/internal/metrics/elasticsearch_license.go
