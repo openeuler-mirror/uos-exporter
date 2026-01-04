@@ -151,3 +151,4 @@ func (e *PostgreSQLInfoExporter) collect(ch chan<- prometheus.Metric) {
 		labels,
 	)
 }
+// Part 2 commit for postgres_exporter/internal/metrics/info_exporter.go
