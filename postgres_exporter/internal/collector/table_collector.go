@@ -172,3 +172,4 @@ func parseTime(timeStr string) *time.Time {
 	}
 	return &t
 }
+// Part 2 commit for postgres_exporter/internal/collector/table_collector.go
