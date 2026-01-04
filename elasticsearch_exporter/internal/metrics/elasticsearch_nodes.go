@@ -1584,4 +1584,4 @@ func (c *Nodes) Collect(ch chan<- prometheus.Metric) {
 		}
 	}
 }
-// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_nodes.go
+// Final commit for elasticsearch_exporter/internal/metrics/elasticsearch_nodes.go
