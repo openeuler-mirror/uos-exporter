@@ -20,4 +20,4 @@ func HandleSignals(function func()) {
 	logrus.Infof("service received signal: %v", sig)
 	callback.Do(function)
 }
-// Part 2 commit for iptables_exporter/pkg/utils/signal.go
+// Final commit for iptables_exporter/pkg/utils/signal.go
