@@ -201,4 +201,4 @@ elasticsearch_license_json_parse_failures 0
 	assert.NoError(t, err)
 	assert.Contains(t, logOutput.String(), "Failed to fetch and decode license")
 }
-// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_license_test.go
+// Final commit for elasticsearch_exporter/internal/metrics/elasticsearch_license_test.go
