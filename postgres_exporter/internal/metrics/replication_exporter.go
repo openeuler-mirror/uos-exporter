@@ -208,3 +208,4 @@ func (e *PostgreSQLReplicationExporter) collect(ch chan<- prometheus.Metric) {
 		)
 	}
 }
+// Part 2 commit for postgres_exporter/internal/metrics/replication_exporter.go
