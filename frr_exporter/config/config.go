@@ -39,4 +39,4 @@ type Settings struct {
 	ScrapeUri string `yaml:"scrape_uri"`
 	Insecure  bool   `yaml:"insecure"`
 }
-// Part 2 commit for frr_exporter/config/config.go
+// Final commit for frr_exporter/config/config.go
