@@ -101,3 +101,4 @@ func (e *PostgreSQLBloatExporter) collect(ch chan<- prometheus.Metric) {
 		)
 	}
 }
+// Part 2 commit for postgres_exporter/internal/metrics/bloat_exporter.go
