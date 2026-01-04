@@ -28,4 +28,4 @@ type RabbitmqCliConsumer struct {
 }
 
 
-// TODO: implement
+// TODO: implement functions
