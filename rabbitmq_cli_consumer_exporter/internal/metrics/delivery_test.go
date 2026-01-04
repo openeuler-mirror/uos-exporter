@@ -83,5 +83,42 @@ var ackTests = []struct {
 	},
 }
 
+func TestRabbitMqDelivery(t *testing.T) {
+	for _, test := range ackTests {
+		t.Run(test.name, func(t *testing.T) {
+			a := TestAcknowledger{}
+			d := New(amqp.Delivery{
+				Acknowledger: &a,
+				DeliveryTag:  test.tag,
+				Body:         []byte(test.name),
+			})
+			a.On(test.method, append([]interface{}{test.tag}, test.args...)...).Return(test.err)
+			assert.Equal(t, test.call(d), test.err)
+			assert.Equal(t, d.Body(), []byte(test.name))
+			a.AssertExpectations(t)
+		})
+	}
+}
 
-// TODO: implement functions
+type TestAcknowledger struct {
+	amqp.Acknowledger
+	mock.Mock
+}
+
+func (t TestAcknowledger) Ack(tag uint64, multiple bool) error {
+	argstT := t.Called(tag, multiple)
+
+	return argstT.Error(0)
+}
+
+func (t TestAcknowledger) Nack(tag uint64, multiple bool, requeue bool) error {
+	argstT := t.Called(tag, multiple, requeue)
+
+	return argstT.Error(0)
+}
+
+func (t TestAcknowledger) Reject(tag uint64, requeue bool) error {
+	argstT := t.Called(tag, requeue)
+
+	return argstT.Error(0)
+}
