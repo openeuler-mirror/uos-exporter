@@ -56,3 +56,4 @@ func Unpack(config interface{}) error {
 	}
 	return nil
 }
+// Part 2 commit for frr_exporter/internal/exporter/config.go
