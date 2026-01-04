@@ -63,5 +63,70 @@ var squidInfosList = []squidInfos{
 }
 
 // GetSquidInfos 返回所有Squid信息指标
+func GetSquidInfos() []prometheus.Collector {
+	collectors := []prometheus.Collector{}
+	for _, info := range squidInfosList {
+		collectors = append(collectors,
+			NewSquidInfo(info.Section, info.Description, info.Unit))
+	}
+	return collectors
+}
 
-// TODO: implement functions
+// SquidInfo 是用于存储Squid信息的指标
+type SquidInfo struct {
+	*baseMetrics
+	section string
+}
+
+// NewSquidInfo创建一个新的SquidInfo实例
+func NewSquidInfo(section, description, unit string) *SquidInfo {
+	var name string
+	var help string
+
+	name = prometheus.BuildFQName("squid", "info", strings.Replace(section, "%", "pct", -1))
+
+	if description == "" {
+		help = strings.Replace(section, "_", " ", -1)
+	} else {
+		help = description
+	}
+
+	help = help + " in " + unit
+
+	return &SquidInfo{
+		baseMetrics: NewMetrics(name, help, []string{}),
+		section:     section,
+	}
+}
+
+// Describe 实现了Collector接口
+func (si *SquidInfo) Describe(ch chan<- *prometheus.Desc) {
+	ch <- si.baseMetrics.desc
+}
+
+// Collect实现了Collector接口，用于采集指标
+func (si *SquidInfo) Collect(ch chan<- prometheus.Metric) {
+	// 创建一个客户端连接Squid服务器
+	client := NewCacheObjectClient(&CacheObjectRequest{
+		Hostname: GlobalHostname,
+		Port:     GlobalPort,
+		Login:    GlobalLogin,
+		Password: GlobalPassword,
+		Headers:  GlobalHeaders,
+	})
+
+	infos, err := client.GetInfos()
+	if err != nil {
+		// 连接失败，记录错误并返回
+		return
+	}
+
+	// 查找匹配的指标
+	for _, info := range infos {
+		if info.Key == si.section {
+			// 找到匹配的指标，使用实际数据
+			ch <- prometheus.MustNewConstMetric(si.baseMetrics.desc, prometheus.GaugeValue, info.Value)
+			return
+		}
+	}
+} 
