@@ -1,0 +1,22 @@
+address: "0.0.0.0"
+port: 9082
+metricsPath: "/metrics"
+log:
+  level: "debug"
+  log_path: "/var/log/uos-exporter/html_exporter.log"
+
+scrape_config:
+  address: "http://example.com"
+  selector: "//body/p[1]"
+  decimal_point_separator: "."
+  thousands_separator: ","
+  metric:
+    name: "example_metric"
+    help: "Example metric from HTML page"
+    type: "gauge"
+    labels:
+      source: "example_page"
+      category: "example"
+
+global_config:
+  metric_name_prefix: "htmlexporter_"
