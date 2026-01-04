@@ -386,4 +386,5 @@ func (s *SLM) Collect(ch chan<- prometheus.Metric) {
 			"policy": policy.Policy,
 		})
 	}
-} 
+}
+// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_slm.go
