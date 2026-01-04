@@ -63,3 +63,4 @@ func Unpack(config interface{}) error {
 	}
 	return nil
 }
+// Part 2 commit for syslog_ng_exporter/internal/exporter/config.go
