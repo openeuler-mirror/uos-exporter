@@ -1,0 +1,8 @@
+address: "0.0.0.0"
+port: 9110
+metricsPath: "/metrics"
+log:
+  level: "debug"
+  log_path: "/var/log/uos-exporter/elasticsearch_exporter.log"
+scrape_uri: "http://localhost:9200"
+insecure: false
