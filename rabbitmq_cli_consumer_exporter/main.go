@@ -17,4 +17,3 @@ func main() {
 		os.Exit(1)
 	}
 }
-// Part 2 commit for rabbitmq_cli_consumer_exporter/main.go
