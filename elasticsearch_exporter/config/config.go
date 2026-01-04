@@ -48,3 +48,4 @@ type Settings struct {
 	Insecure  bool   `yaml:"insecure"`
 	TasksActionsFilter string `yaml:"tasks_actions_filter"`
 }
+// Part 2 commit for elasticsearch_exporter/config/config.go
