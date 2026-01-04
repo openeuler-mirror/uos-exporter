@@ -387,4 +387,4 @@ func (s *SLM) Collect(ch chan<- prometheus.Metric) {
 		})
 	}
 }
-// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_slm.go
+// Final commit for elasticsearch_exporter/internal/metrics/elasticsearch_slm.go
