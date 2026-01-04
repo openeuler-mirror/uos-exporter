@@ -79,4 +79,4 @@ func clearChannel(ch chan struct{}) {
 		}
 	}
 }
-// Part 2 commit for iptables_exporter/pkg/ratelimit/ratelimit.go
+// Final commit for iptables_exporter/pkg/ratelimit/ratelimit.go
