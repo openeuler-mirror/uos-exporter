@@ -4,5 +4,9 @@ metricsPath: "/metrics"
 log:
   level: "debug"
   log_path: "/var/log/uos-exporter/squid-exporter.log"
-
-// TODO: implement functions
+squid:
+  hostname: "localhost"
+  port: 3128
+  login: ""
+  password: ""
+  extractTimes: true
