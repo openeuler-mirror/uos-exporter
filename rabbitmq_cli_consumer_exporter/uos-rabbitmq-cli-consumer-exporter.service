@@ -1,0 +1,14 @@
+[Unit]
+Description=rabbitmq cli metrics
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+ExecStart=/usr/bin/rabbitmq-cli-consumer-exporter
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
