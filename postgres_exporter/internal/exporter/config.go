@@ -134,3 +134,4 @@ func LoadConfig() (*Config, error) {
 
 	return &cfg, nil
 }
+// Part 2 commit for postgres_exporter/internal/exporter/config.go
