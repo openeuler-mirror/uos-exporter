@@ -188,4 +188,5 @@ func (t *Tasks) Collect(ch chan<- prometheus.Metric) {
 	for action, count := range stats.CountByAction {
 		t.taskAction.collect(ch, float64(count), prometheus.Labels{"action": action})
 	}
-} 
+}
+// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_tasks.go
