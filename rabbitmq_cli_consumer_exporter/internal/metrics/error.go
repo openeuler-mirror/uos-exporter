@@ -24,5 +24,10 @@ func NewAcknowledgmentError(err error) error {
 
 // AcknowledgmentError defines an error indicating that acknowledgment of a message failed.
 type AcknowledgmentError struct {
+	err error
+}
 
-// TODO: implement functions
+// Error is part of the error builtin.
+func (e AcknowledgmentError) Error() string {
+	return fmt.Sprintf("failed to aknowledge message: %v", e.err)
+}
