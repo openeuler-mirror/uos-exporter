@@ -31,3 +31,4 @@ func (c *baseMetrics) Desc() *prometheus.Desc {
 func (c *baseMetrics) collect(ch chan<- prometheus.Metric, value float64, labels []string) {
 	ch <- prometheus.MustNewConstMetric(c.desc, prometheus.GaugeValue, value, labels...)
 }
+// Part 2 commit for hacluster_exporter/internal/metrics/metrics.go
