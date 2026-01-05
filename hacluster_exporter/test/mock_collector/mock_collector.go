@@ -23,5 +23,65 @@ type MockScrapeCollectorMockRecorder struct {
 }
 
 // NewMockScrapeCollector creates a new mock instance.
+func NewMockScrapeCollector(ctrl *gomock.Controller) *MockScrapeCollector {
+	mock := &MockScrapeCollector{ctrl: ctrl}
+	mock.recorder = &MockScrapeCollectorMockRecorder{mock}
+	return mock
+}
 
-// TODO: implement functions
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockScrapeCollector) EXPECT() *MockScrapeCollectorMockRecorder {
+	return m.recorder
+}
+
+// Collect mocks base method.
+func (m *MockScrapeCollector) Collect(arg0 chan<- prometheus.Metric) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Collect", arg0)
+}
+
+// Collect indicates an expected call of Collect.
+func (mr *MockScrapeCollectorMockRecorder) Collect(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Collect", reflect.TypeOf((*MockScrapeCollector)(nil).Collect), arg0)
+}
+
+// CollectWithError mocks base method.
+func (m *MockScrapeCollector) CollectWithError(arg0 chan<- prometheus.Metric) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CollectWithError", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CollectWithError indicates an expected call of CollectWithError.
+func (mr *MockScrapeCollectorMockRecorder) CollectWithError(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CollectWithError", reflect.TypeOf((*MockScrapeCollector)(nil).CollectWithError), arg0)
+}
+
+// Describe mocks base method.
+func (m *MockScrapeCollector) Describe(arg0 chan<- *prometheus.Desc) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Describe", arg0)
+}
+
+// Describe indicates an expected call of Describe.
+func (mr *MockScrapeCollectorMockRecorder) Describe(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Describe", reflect.TypeOf((*MockScrapeCollector)(nil).Describe), arg0)
+}
+
+// GetSubsystem mocks base method.
+func (m *MockScrapeCollector) GetSubsystem() string {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSubsystem")
+	ret0, _ := ret[0].(string)
+	return ret0
+}
+
+// GetSubsystem indicates an expected call of GetSubsystem.
+func (mr *MockScrapeCollectorMockRecorder) GetSubsystem() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSubsystem", reflect.TypeOf((*MockScrapeCollector)(nil).GetSubsystem))
+}
