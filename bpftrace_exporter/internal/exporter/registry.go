@@ -56,4 +56,4 @@ func (r *Registry) Collect(ch chan<- prometheus.Metric) {
 func GetRegistry() *Registry {
 	return defaultReg
 }
-// Part 2 commit for bpftrace_exporter/internal/exporter/registry.go
+// Final commit for bpftrace_exporter/internal/exporter/registry.go
