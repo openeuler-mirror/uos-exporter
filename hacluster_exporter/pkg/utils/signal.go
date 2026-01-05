@@ -20,4 +20,4 @@ func HandleSignals(function func()) {
 	logrus.Infof("service received signal: %v", sig)
 	callback.Do(function)
 }
-// Part 2 commit for hacluster_exporter/pkg/utils/signal.go
+// Final commit for hacluster_exporter/pkg/utils/signal.go
