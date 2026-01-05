@@ -11,3 +11,4 @@ bmc:
   timeout: 3m
   retries: 2             # 命令重试次数
   cache_ttl: 60s
+// Part 2 commit for bmc_exporter/config/bmc-exporter.yaml
