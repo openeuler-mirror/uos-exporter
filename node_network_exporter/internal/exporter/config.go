@@ -23,5 +23,41 @@ var (
 	}
 )
 
+func init() {
+	kingpin.HelpFlag.Short('h')
+	Configfile = kingpin.Flag("config", "Configuration file").
+		Short('c').
+		Default("/etc/uos-exporter/node-network-exporter.yaml").
+		String()
+}
 
-// TODO: implement functions
+type Logging struct {
+	Level   string `yaml:"level"`
+	LogPath string `yaml:"log_path"`
+	MaxSize string `yaml:"max_size"`
+	MaxAge  int    `yaml:"max_age"`
+}
+
+type Config struct {
+	Logging     Logging `yaml:"log"`
+	Address     string  `yaml:"address"`
+	Port        int     `yaml:"port"`
+	MetricsPath string  `yaml:"metricsPath"`
+}
+
+func Unpack(config interface{}) error {
+	if !utils.FileExists(*Configfile) {
+		logrus.Errorf("%s file not found", *Configfile)
+	} else {
+		file, err := os.Open(*Configfile)
+		if err != nil {
+			logrus.Error("Failed to open config file: ", err)
+			return err
+		}
+		err = yaml.NewDecoder(file).Decode(config)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
