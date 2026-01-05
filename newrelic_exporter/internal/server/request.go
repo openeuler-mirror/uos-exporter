@@ -28,3 +28,4 @@ func (r *Request) Fail(status int) {
 		logrus.Warnf("Failed to write error response to client: %v", err)
 	}
 }
+// Part 2 commit for newrelic_exporter/internal/server/request.go
