@@ -33,4 +33,4 @@ func Ratelimit(ratelimiter *ratelimit.RateLimiter) HandlerFunc {
 		}
 	}
 }
-// Part 2 commit for clickhouse_exporter/internal/server/ratelimit_middlware.go
+// Final commit for clickhouse_exporter/internal/server/ratelimit_middlware.go
