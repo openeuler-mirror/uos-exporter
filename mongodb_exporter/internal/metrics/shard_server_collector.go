@@ -245,3 +245,4 @@ func connectToShard(uri string) (*mongo.Client, error) {
 
 	return client, nil
 }
+// Part 2 commit for mongodb_exporter/internal/metrics/shard_server_collector.go
