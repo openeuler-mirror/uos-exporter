@@ -57,3 +57,4 @@ func Unpack(config interface{}) error {
 	}
 	return nil
 }
+// Part 2 commit for samba_exporter/internal/exporter/config.go
