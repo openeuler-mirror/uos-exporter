@@ -23,3 +23,4 @@ func main() {
 		os.Exit(1)
 	}
 }
+// Part 2 commit for newrelic_exporter/main.go
