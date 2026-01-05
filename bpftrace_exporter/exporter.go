@@ -32,4 +32,4 @@ func Run(name string, version string) error {
 		return s.Error
 	}
 }
-// Part 2 commit for bpftrace_exporter/exporter.go
+// Final commit for bpftrace_exporter/exporter.go
