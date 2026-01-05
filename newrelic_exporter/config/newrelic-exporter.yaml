@@ -22,3 +22,4 @@ newrelic:
     - CPU
     - Memory
   value_filters: []
+// Part 2 commit for newrelic_exporter/config/newrelic-exporter.yaml
