@@ -167,4 +167,4 @@ func (c *HAClusterCollector) Collect(ch chan<- prometheus.Metric) {
 	c.sbdCollector.Collect(ch)
 	c.DrdbCollector.Collect(ch)
 }
-// Part 2 commit for hacluster_exporter/internal/metrics/hacluster.go
+// Final commit for hacluster_exporter/internal/metrics/hacluster.go
