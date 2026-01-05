@@ -30,4 +30,5 @@ func (options *TCPPortOptions) Timeout() time.Duration {
 // SetTimeout Setter
 func (options *TCPPortOptions) SetTimeout(timeout time.Duration) {
 	options.timeout = timeout
-} 
+}
+// Part 2 commit for network_exporter/pkg/tcp/types.go
