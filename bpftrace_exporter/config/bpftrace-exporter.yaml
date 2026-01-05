@@ -1,0 +1,9 @@
+address: "0.0.0.0"
+port: 9069
+metricsPath: "/metrics"
+log:
+  level: "debug"
+  log_path: "/var/log/uos-exporter/bpftrace_exporter.log"
+bpftrace_path: "/usr/bin/bpftrace"
+script_path: "/usr/share/bpftrace/tools/runqlat.bt"
+var_defs: "usecs:hist"
