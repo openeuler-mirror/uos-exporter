@@ -24,35 +24,5 @@ var (
 	}
 )
 
-func init() {
-	kingpin.HelpFlag.Short('h')
-	Configfile = kingpin.Flag("config", "Configuration file").
-		Short('c').
-		Default("/etc/uos-exporter/node-utility-exporter.yaml").
-		String()
-}
 
-type Config struct {
-	Logging     logger.Config `yaml:"log"`
-	Address     string        `yaml:"address"`
-	Port        int           `yaml:"port"`
-	MetricsPath string        `yaml:"metricsPath"`
-}
-
-func Unpack(config interface{}) error {
-	if !utils.FileExists(*Configfile) {
-		logrus.Errorf("%s file not found", *Configfile)
-		logrus.Debug("Use default config")
-	} else {
-		file, err := os.Open(*Configfile)
-		if err != nil {
-			logrus.Error("Failed to open config file: ", err)
-			return err
-		}
-		err = yaml.NewDecoder(file).Decode(config)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
+// TODO: implement functions
