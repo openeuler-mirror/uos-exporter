@@ -210,3 +210,4 @@ func getZoneByShard(shard string) (string, bool) {
 		return "", false
 	}
 }
+// Part 2 commit for mongodb_exporter/internal/metrics/zone_collector.go
