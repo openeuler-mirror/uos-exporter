@@ -171,4 +171,5 @@ func (c *supervisordCollector) Update(ch chan<- prometheus.Metric) error {
 	}
 
 	return nil
-} 
+}
+// Part 2 commit for node_process_exporter/internal/metrics/supervisord.go
