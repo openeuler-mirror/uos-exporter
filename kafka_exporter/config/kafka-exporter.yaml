@@ -6,3 +6,4 @@ log:
 log_path: "/var/log/uos-exporter/kafka-exporter.log"
 kafka_uri: "localhost:9092"
 zookeeper_uri: "localhost:2181"
+// Part 2 commit for kafka_exporter/config/kafka-exporter.yaml
