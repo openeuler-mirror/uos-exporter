@@ -10,3 +10,4 @@ redis_instances:
     addr: "localhost:6379"
     password: ""
     db: 0
+// Part 2 commit for redis_exporter/config/exporter.yaml
