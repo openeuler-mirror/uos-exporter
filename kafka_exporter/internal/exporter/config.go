@@ -57,4 +57,4 @@ func Unpack(config interface{}) error {
 	}
 	return nil
 }
-// Part 2 commit for kafka_exporter/internal/exporter/config.go
+// Final commit for kafka_exporter/internal/exporter/config.go
