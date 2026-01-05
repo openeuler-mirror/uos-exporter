@@ -418,4 +418,4 @@ func (h *LandingPageHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
 	_, _ = w.Write(h.landingPage)
 }
-// Part 2 commit for clickhouse_exporter/internal/server/landpage.go
+// Final commit for clickhouse_exporter/internal/server/landpage.go
