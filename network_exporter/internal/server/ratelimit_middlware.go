@@ -29,4 +29,3 @@ func Ratelimit(ratelimiter *ratelimit.RateLimiter) HandlerFunc {
 		}
 	}
 }
-// Part 2 commit for network_exporter/internal/server/ratelimit_middlware.go
