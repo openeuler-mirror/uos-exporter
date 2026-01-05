@@ -30,5 +30,6 @@ func (p *cibAdminParser) Parse() (Root, error) {
 	return CIB, nil
 }
 
-
-// TODO: implement functions
+func NewCibAdminParser(cibAdminPath string) *cibAdminParser {
+	return &cibAdminParser{cibAdminPath}
+}
