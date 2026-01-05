@@ -370,4 +370,4 @@ func (c *PacemakerCollector) recordNodeAttributes(crmMon crmmon.Root, ch chan<- 
 		}
 	}
 }
-// Part 2 commit for hacluster_exporter/internal/metrics/collectors/pacemaker/pacemaker.go
+// Final commit for hacluster_exporter/internal/metrics/collectors/pacemaker/pacemaker.go
