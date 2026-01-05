@@ -199,3 +199,4 @@ func TestParsePartsResponse(t *testing.T) {
 		}
 	}
 }
+// Part 2 commit for clickhouse_exporter/internal/metrics/utils_test.go
