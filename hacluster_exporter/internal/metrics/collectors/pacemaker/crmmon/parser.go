@@ -29,5 +29,6 @@ func (c *crmMonParser) Parse() (crmMon Root, err error) {
 	return crmMon, nil
 }
 
-
-// TODO: implement functions
+func NewCrmMonParser(crmMonPath string) *crmMonParser {
+	return &crmMonParser{crmMonPath}
+}
