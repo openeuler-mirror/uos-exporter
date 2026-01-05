@@ -17,3 +17,4 @@ func main() {
 		os.Exit(1)
 	}
 }
+// Part 2 commit for network_exporter/main.go
