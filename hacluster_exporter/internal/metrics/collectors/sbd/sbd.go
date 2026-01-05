@@ -228,4 +228,3 @@ func (c *SbdCollector) getSbdTimeouts(sbdDevices []string) (map[string]float64, 
 	}
 	return sbdWatchdogs, sbdMsgWaits
 }
-// Final commit for hacluster_exporter/internal/metrics/collectors/sbd/sbd.go
