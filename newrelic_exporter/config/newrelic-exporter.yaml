@@ -1,0 +1,24 @@
+address: "0.0.0.0"
+port: 9113
+metricsPath: "/metrics"
+log:
+  level: "debug"
+  log_path: "/var/log/uos-exporter/newrelic_exporter.log"
+
+# NewRelic API配置
+newrelic:
+  api_key: "your_valid_newrelic_api_key_here" # 替换为有效的 API 密钥
+  api_server: "https://api.newrelic.com"
+  period: 60
+  timeout: 15s
+  service: "applications"
+  apps_list_cache_time: 1h
+  metric_names_cache_time: 1h
+  metric_filters:
+    - Apdex
+    - WebTransaction
+    - HttpDispatcher
+    - Database
+    - CPU
+    - Memory
+  value_filters: []
