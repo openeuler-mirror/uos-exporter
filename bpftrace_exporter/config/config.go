@@ -97,3 +97,4 @@ func LoadConfigFile(configPath string) (*Settings, error) {
 
 	return settings, nil
 }
+// Part 2 commit for bpftrace_exporter/config/config.go
