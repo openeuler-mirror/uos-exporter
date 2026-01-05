@@ -54,4 +54,4 @@ func TestFileRotator(t *testing.T) {
 		}
 	}
 }
-// Part 2 commit for hacluster_exporter/pkg/logger/filerotator_test.go
+// Final commit for hacluster_exporter/pkg/logger/filerotator_test.go
