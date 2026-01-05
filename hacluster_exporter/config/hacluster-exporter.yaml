@@ -1,0 +1,6 @@
+address: "0.0.0.0"
+port: 9065
+metricsPath: "/metrics"
+log:
+  level: "debug"
+
