@@ -186,3 +186,4 @@ func (c *MongoDBShardCollectionCollector) collect(ch chan<- prometheus.Metric) {
 		)
 	}
 }
+// Part 2 commit for mongodb_exporter/internal/metrics/shard_collection_collector.go
