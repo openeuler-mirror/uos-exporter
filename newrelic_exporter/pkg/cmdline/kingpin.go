@@ -12,4 +12,5 @@ var (
 // 初始化函数
 func init() {
 	App.HelpFlag.Short('h')
-} 
+}
+// Part 2 commit for newrelic_exporter/pkg/cmdline/kingpin.go
