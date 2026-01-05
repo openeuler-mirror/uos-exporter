@@ -143,3 +143,4 @@ func GetIgnoreIndividuals() bool {
 	logrus.Debugf("Using default ignore_individuals: %v", DefaultSettings.IgnoreIndividuals)
 	return DefaultSettings.IgnoreIndividuals
 }
+// Part 2 commit for openvpn_exporter/config/config.go
