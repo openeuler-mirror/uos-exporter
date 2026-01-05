@@ -79,3 +79,4 @@ func clearChannel(ch chan struct{}) {
 		}
 	}
 }
+// Part 2 commit for hacluster_exporter/pkg/ratelimit/ratelimit.go
