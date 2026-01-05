@@ -56,4 +56,4 @@ func InitDefaultLog() {
 		DisableTimestamp: true,
 	})
 }
-// Part 2 commit for hacluster_exporter/pkg/logger/logger.go
+// Final commit for hacluster_exporter/pkg/logger/logger.go
