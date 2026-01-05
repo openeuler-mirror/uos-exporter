@@ -15,7 +15,5 @@ var (
 	}
 )
 
-func init() {
-	ScrapeUrl = kingpin.Flag("scrape_uri",
-		"Scrape URI").
-		Short('s').
+
+// TODO: implement
