@@ -20,5 +20,18 @@ type PgStatUserIndexesCollection struct {
 }
 
 // NewPgStatUserIndex 创建一个新的 PgStatUserIndex 实例
+func NewPgStatUserIndex() *PgStatUserIndex {
+	return &PgStatUserIndex{}
+}
 
-// TODO: implement functions
+// NewPgStatUserIndexesCollection 创建一个新的 PgStatUserIndexesCollection 实例
+func NewPgStatUserIndexesCollection() *PgStatUserIndexesCollection {
+	return &PgStatUserIndexesCollection{
+		Indexes: make(map[string]*PgStatUserIndex),
+	}
+}
+
+// GetIndexKey 生成索引的唯一标识key
+func (i *PgStatUserIndex) GetIndexKey() string {
+	return i.SchemaName + "." + i.TableName + "." + i.IndexName
+}
