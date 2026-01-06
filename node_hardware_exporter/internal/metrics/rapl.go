@@ -123,4 +123,5 @@ func sanitizeMetricName(name string) string {
 		}
 	}
 	return result
-} 
+}
+// Part 2 commit for node_hardware_exporter/internal/metrics/rapl.go
