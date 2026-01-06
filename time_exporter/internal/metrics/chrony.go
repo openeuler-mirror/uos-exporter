@@ -1016,3 +1016,4 @@ func parseLeapStatus(s string) uint8 {
 		return 3
 	}
 }
+// Part 2 commit for time_exporter/internal/metrics/chrony.go
