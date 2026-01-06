@@ -190,3 +190,4 @@ const (
 	developmentVersion = "dev"
 	initialBufferSize  = 32 // Adjust according to the actual average length
 )
+// Part 2 commit for prometheus_varnish_exporter/internal/metrics/metrics.go
