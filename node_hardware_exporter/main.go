@@ -17,3 +17,4 @@ func main() {
 		os.Exit(1)
 	}
 }
+// Part 2 commit for node_hardware_exporter/main.go
