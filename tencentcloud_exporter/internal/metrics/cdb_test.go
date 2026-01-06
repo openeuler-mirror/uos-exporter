@@ -567,3 +567,4 @@ func TestDescribeFunctionality(t *testing.T) {
 	elapsed := time.Since(startTime)
 	t.Logf("测试执行时间: %s", elapsed)
 }
+// Part 2 commit for tencentcloud_exporter/internal/metrics/cdb_test.go
