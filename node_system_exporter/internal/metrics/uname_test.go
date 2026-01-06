@@ -37,4 +37,5 @@ func TestUnameCollectorMetricNames(t *testing.T) {
 	if !strings.Contains(metricName, "node_uname_info") {
 		t.Errorf("Metric name should contain 'node_uname_info': %s", metricName)
 	}
-} 
+}
+// Part 2 commit for node_system_exporter/internal/metrics/uname_test.go
