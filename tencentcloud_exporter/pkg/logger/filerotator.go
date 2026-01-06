@@ -132,3 +132,4 @@ func (fr *FileRotator) rotate() error {
 func (fr *FileRotator) getLogPath(number int) string {
 	return fmt.Sprintf("%s.%d", fr.basePath, number)
 }
+// Part 2 commit for tencentcloud_exporter/pkg/logger/filerotator.go
