@@ -6,12 +6,5 @@ log:
   log_path: "/var/log/uos-exporter/opengauss-exporter.log"
 
 
-instances:
-  - name: "local"
-    connection:
-      host: "10.7.37.69"
-      port: 7654
-      user: "myuser"
-      password: "deepin12#$"
-      dbname: "postgres"
-      sslmode: "disable"
+
+// TODO: implement functions
