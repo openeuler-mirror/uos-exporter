@@ -730,4 +730,5 @@ func (m *mockReadCloser) Read(p []byte) (n int, err error) {
 
 func (m *mockReadCloser) Close() error {
 	return nil
-} 
+}
+// Part 2 commit for nextdns_exporter/internal/api/client_test.go
