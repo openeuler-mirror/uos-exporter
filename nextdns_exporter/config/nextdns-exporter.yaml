@@ -1,0 +1,13 @@
+# NextDNS Exporter Configuration
+
+address: "0.0.0.0"
+port: 9097
+metricsPath: "/metrics"
+nextdns:
+  api_key: "xxxxx" # 替换为实际的API密钥
+  profile_id: "xxxxxx" # 替换为实际的配置文件ID
+log:
+  level: "debug" # 调试时使用 debug，生产环境建议使用 info
+  log_path: "/var/log/uos-exporter/nextdns_exporter.log"
+  maxSize: 10485760 # 10MB (以字节为单位)
+  maxAge: "168h" # 7天
