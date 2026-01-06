@@ -32,4 +32,5 @@ func main() {
 	if err := srv.Start(); err != nil {
 		logrus.Fatalf("Error starting server: %v", err)
 	}
-} 
+}
+// Part 2 commit for nextdns_exporter/cmd/nextdns_exporter/main.go
