@@ -109,4 +109,5 @@ func TestBaseMetricsErrorHandling(t *testing.T) {
 		ch := make(chan prometheus.Metric, 1)
 		bm.Collect(ch)
 	})
-} 
+}
+// Part 2 commit for nextdns_exporter/internal/metrics/metrics_test.go
