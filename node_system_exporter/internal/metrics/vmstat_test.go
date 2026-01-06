@@ -26,5 +26,4 @@ func TestVMStatCollectorImplementsCollector(t *testing.T) {
 	
 	// Test that it implements the Collector interface
 	var _ prometheus.Collector = collector
-}
-// Part 2 commit for node_system_exporter/internal/metrics/vmstat_test.go
+} 
