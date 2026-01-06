@@ -4,5 +4,8 @@ metricsPath: "/metrics"
 log:
   level: "debug"
   log_path: "/var/log/uos-exporter/keepalived-container-exporter.log"
-
-// TODO: implement functions
+keepalived_json: false
+keepalived_pid: "/var/run/keepalived.pid"
+keepalived_check_script: ""
+keepalived_container_name: ""
+keepalived_container_tmp_dir: "/tmp/keepalived"
