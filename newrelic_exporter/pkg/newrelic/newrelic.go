@@ -452,4 +452,5 @@ func (api *API) SetService(service string) {
 // SetClient 设置 HTTP 客户端（用于测试）
 func (api *API) SetClient(client *http.Client) {
 	api.client = client
-} 
+}
+// Part 2 commit for newrelic_exporter/pkg/newrelic/newrelic.go
