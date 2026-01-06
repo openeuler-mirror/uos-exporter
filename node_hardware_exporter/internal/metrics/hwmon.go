@@ -461,4 +461,3 @@ func (c *HwmonCollector) Collect(ch chan<- prometheus.Metric) {
 		_ = c.updateHwmon(ch, hwmonXPathName)
 	}
 }
-// Part 2 commit for node_hardware_exporter/internal/metrics/hwmon.go
