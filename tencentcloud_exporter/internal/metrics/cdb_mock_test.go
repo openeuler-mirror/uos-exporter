@@ -549,3 +549,4 @@ func TestHandleMultipleMetricTypes(t *testing.T) {
 		}
 	})
 }
+// Part 2 commit for tencentcloud_exporter/internal/metrics/cdb_mock_test.go
