@@ -833,3 +833,4 @@ func (c *PerfCollector) updateCacheStats(ch chan<- prometheus.Metric) error {
 
 	return nil
 }
+// Part 2 commit for node_hardware_exporter/internal/metrics/perf_linux.go
