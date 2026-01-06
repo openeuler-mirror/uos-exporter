@@ -1,0 +1,13 @@
+[Unit]
+Description=Node System Exporter for Prometheus
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+ExecStart=/usr/bin/node-system-exporter
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+
+[Install]
+WantedBy=multi-user.target
