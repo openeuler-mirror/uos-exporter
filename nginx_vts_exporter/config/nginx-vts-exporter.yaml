@@ -4,3 +4,4 @@ metricsPath: "/metrics"
 log:
   level: "debug"
 log_path: "/var/log/uos-exporter/nginx-vts-exporter.log"
+// Part 2 commit for nginx_vts_exporter/config/nginx-vts-exporter.yaml
