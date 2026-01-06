@@ -172,4 +172,5 @@ func (c *WatchdogCollector) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(c.watchdogInfoDesc, prometheus.GaugeValue, 1.0,
 			wd.Name, toLabelValue(wd.Options), toLabelValue(wd.Identity), toLabelValue(wd.State), toLabelValue(wd.Status), toLabelValue(wd.PretimeoutGovernor))
 	}
-} 
+}
+// Part 2 commit for node_hardware_exporter/internal/metrics/watchdog.go
