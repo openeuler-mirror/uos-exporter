@@ -39,5 +39,43 @@ func (v *VRRPData) setWantState(state string) error {
 // 数值转换方法
 func (v *VRRPData) setGArpDelay(delay string) error {
 	delayInt, err := strconv.Atoi(delay)
+	v.GArpDelay = delayInt
+	if err != nil {
+		logrus.WithFields(logrus.Fields{
+			"delay": delay,
+			"error": err,
+		}).Error("Gratuitous ARP delay conversion failed")
+		return fmt.Errorf("invalid GArpDelay value: %w", err)
+	}
+	// v.GArpDelay = delayInt
+	return nil
+}
 
-// TODO: implement functions
+func (v *VRRPData) setVRID(vrid string) error {
+	vridInt, err := strconv.Atoi(vrid)
+	v.VRID = vridInt
+	if err != nil {
+		logrus.WithFields(logrus.Fields{
+			"vrid":  vrid,
+			"error": err,
+		}).Error("VRID conversion failed")
+		return fmt.Errorf("invalid VRID value: %w", err)
+	}
+	// v.VRID = vridInt
+	return nil
+}
+
+// VIP管理方法
+func (v *VRRPData) addVIP(vip string) {
+	cleanVIP := strings.TrimSpace(vip)
+	if cleanVIP != "" {
+		v.VIPs = append(v.VIPs, cleanVIP)
+	}
+}
+
+func (v *VRRPData) addExcludedVIP(vip string) {
+	cleanVIP := strings.TrimSpace(vip)
+	if cleanVIP != "" {
+		v.ExcludedVIPs = append(v.ExcludedVIPs, cleanVIP)
+	}
+}
