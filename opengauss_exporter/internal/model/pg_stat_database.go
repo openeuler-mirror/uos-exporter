@@ -46,5 +46,13 @@ type PgStatDatabaseCollection struct {
 }
 
 // NewPgStatDatabase 创建一个新的 PgStatDatabase 实例
+func NewPgStatDatabase() *PgStatDatabase {
+	return &PgStatDatabase{}
+}
 
-// TODO: implement functions
+// NewPgStatDatabaseCollection 创建一个新的 PgStatDatabaseCollection 实例
+func NewPgStatDatabaseCollection() *PgStatDatabaseCollection {
+	return &PgStatDatabaseCollection{
+		Databases: make(map[string]*PgStatDatabase),
+	}
+}
