@@ -4,3 +4,4 @@ metricsPath: "/metrics"
 log:
   level: "debug"
 log_path: "/var/log/uos-exporter/prometheus_varnish.log"
+// Part 2 commit for prometheus_varnish_exporter/config/prometheus-varnish-exporter.yaml
