@@ -32,18 +32,5 @@ type PgStatReplicationCollection struct {
 }
 
 // NewPgStatReplication 创建一个新的 PgStatReplication 实例
-func NewPgStatReplication() *PgStatReplication {
-	return &PgStatReplication{}
-}
 
-// NewPgStatReplicationCollection 创建一个新的 PgStatReplicationCollection 实例
-func NewPgStatReplicationCollection() *PgStatReplicationCollection {
-	return &PgStatReplicationCollection{
-		Replications: make(map[string]*PgStatReplication),
-	}
-}
-
-// GetReplicationKey 生成复制连接的唯一标识key
-func (r *PgStatReplication) GetReplicationKey() string {
-	return r.ApplicationName + ":" + r.ClientAddr
-}
+// TODO: implement functions
