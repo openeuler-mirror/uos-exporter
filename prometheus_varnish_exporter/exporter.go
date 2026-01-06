@@ -32,3 +32,4 @@ func Run(name string, version string) error {
 		return s.Error
 	}
 }
+// Part 2 commit for prometheus_varnish_exporter/exporter.go
