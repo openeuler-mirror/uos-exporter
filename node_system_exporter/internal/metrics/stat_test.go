@@ -70,4 +70,5 @@ func TestStatCollectorMetricNames(t *testing.T) {
 			t.Errorf("Metric name should contain 'node_%s': %s", expectedName, metricName)
 		}
 	}
-} 
+}
+// Part 2 commit for node_system_exporter/internal/metrics/stat_test.go
