@@ -1,0 +1,8 @@
+address: "0.0.0.0"
+port: 9043
+metricsPath: "/metrics"
+log:
+  level: "debug"
+  log_path: "/var/log/uos-exporter/keepalived-container-exporter.log"
+
+// TODO: implement functions
