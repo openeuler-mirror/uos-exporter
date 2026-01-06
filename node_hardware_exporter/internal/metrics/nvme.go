@@ -59,4 +59,5 @@ func (c *NVMeCollector) Collect(ch chan<- prometheus.Metric) {
 		infoValue := 1.0
 		ch <- prometheus.MustNewConstMetric(infoDesc, prometheus.GaugeValue, infoValue, device.Name, device.FirmwareRevision, device.Model, device.Serial, device.State)
 	}
-} 
+}
+// Part 2 commit for node_hardware_exporter/internal/metrics/nvme.go
