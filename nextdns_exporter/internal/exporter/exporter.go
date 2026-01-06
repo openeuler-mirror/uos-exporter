@@ -22,4 +22,5 @@ func NewExporter(config *Config) prometheus.Collector {
 
 	// 创建NextDNSMetrics实例
 	return metrics.NewNextDNSMetrics(config.NextDNS.ProfileID, config.NextDNS.APIKey)
-} 
+}
+// Part 2 commit for nextdns_exporter/internal/exporter/exporter.go
