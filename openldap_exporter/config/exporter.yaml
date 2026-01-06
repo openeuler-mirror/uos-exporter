@@ -5,10 +5,5 @@ log:
   level: "info"
   log_path: "/var/log/uos-exporter/openldap-exporter.log"
 
-# OpenLDAP 客户端配置 - 使用匿名绑定
-ldap:
-  host: "127.0.0.1"
-  port: "389"
-  bind_dn: "cn=admin,dc=example,dc=com"                 # 空字符串表示匿名绑定
-  bind_password: "admin123"           # 匿名绑定不需要密码
 
+// TODO: implement functions
