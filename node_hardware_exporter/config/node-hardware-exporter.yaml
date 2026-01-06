@@ -1,0 +1,6 @@
+address: "0.0.0.0"
+port: 9124
+metricsPath: "/metrics"
+log:
+  level: "debug"
+  log_path: "/var/log/uos-exporter/template_exporter.log"
