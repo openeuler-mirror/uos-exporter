@@ -1,0 +1,9 @@
+address: "0.0.0.0"
+port: 9006
+metricsPath: "/metrics"
+log:
+  level: "info"
+  log_path: "/var/log/uos-exporter/openldap-exporter.log"
+
+
+// TODO: implement functions
