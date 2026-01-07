@@ -842,3 +842,4 @@ func newSMTPClient(ctx context.Context, smtpProbe config.SMTPProbe, ip *net.IPAd
 // 	// 实现在metrics.go中
 // 	return false  // 这只是一个存根，实际实现在metrics.go文件中
 // }
+// Part 2 commit for smtp_exporter/internal/metrics/smtp.go
