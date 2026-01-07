@@ -242,4 +242,5 @@ func TestDiskStatsMetricNames(t *testing.T) {
 			}
 		}
 	}
-} 
+}
+// Part 2 commit for node_storage_exporter/internal/metrics/diskstats_test.go
