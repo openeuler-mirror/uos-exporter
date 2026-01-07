@@ -1,0 +1,33 @@
+# SFTP Exporter Configuration
+# Prometheus SFTP Exporter 配置文件
+
+# 服务器绑定地址和端口
+bind_address: "0.0.0.0"
+port: 9020
+metrics_path: "/metrics"
+
+# 日志配置
+log:
+  level: "info"                    # 日志级别: panic | fatal | error | warning | info | debug | trace
+  log_path: "/var/log/uos-exporter/sftp-exporter.log"
+  # log_path: "./sftp-exporter.log"
+  max_size: "10MB"                 # 日志文件最大大小
+
+# SFTP 连接配置
+sftp:
+  host: "localhost"                # SFTP 服务器地址
+  port: 22                         # SFTP 服务器端口
+  user: "sftpuser"                 # SFTP 用户名
+  password: "sftppasswd"             # SFTP 密码
+  
+  # 或者使用私钥认证（与密码认证二选一）
+  # key: "LS0tLS1CRUdJTi..."        # Base64 编码的私钥
+  # key_passphrase: "passphrase"   # 私钥密码（如果私钥加密）
+  
+     # 要监控的路径列表
+  paths:
+    - "upload"                          # 上传目录（相对路径）
+    - "data"                     # 数据目录（相对路径）
+    # - "/"                        # 根目录（需要特殊权限）
+  
+  statvfs: true                    # 使用 StatVFS 扩展获取文件系统统计信息 
