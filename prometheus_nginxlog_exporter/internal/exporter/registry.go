@@ -56,3 +56,4 @@ func (r *Registry) Collect(ch chan<- prometheus.Metric) {
 		m.Collect(ch)
 	}
 }
+// Part 2 commit for prometheus_nginxlog_exporter/internal/exporter/registry.go
