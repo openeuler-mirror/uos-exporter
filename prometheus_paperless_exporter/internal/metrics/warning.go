@@ -16,14 +16,5 @@ type warning struct {
 
 var _ prometheus.Metric = (*warning)(nil)
 
-func newWarning(err error) *warning {
-	return &warning{err}
-}
 
-func (*warning) Desc() *prometheus.Desc {
-	return nil
-}
-
-func (*warning) Write(*dto.Metric) error {
-	return os.ErrInvalid
-}
+// TODO: implement functions
