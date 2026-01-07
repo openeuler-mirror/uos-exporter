@@ -15,3 +15,4 @@ func ValidateURI(uri string) error {
 	}
 	return nil
 }
+// Part 2 commit for prometheus_paperless_exporter/pkg/utils/http.go
