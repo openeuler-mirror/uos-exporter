@@ -3,5 +3,8 @@ port: 9046
 metricsPath: "/metrics"
 log:
   level: "debug"
-
-// TODO: implement functions
+  log_path: "/var/log/uos-exporter/snmp-exporter.log"
+snmp_config_file: "snmp.yaml"
+snmp_concurrency: 1
+snmp_debug: false
+snmp_expand_env_vars: false
