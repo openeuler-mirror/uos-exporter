@@ -23,4 +23,3 @@ func NewStatus(fqname, help string, labels []string) *Status {
 func (c *Status) Collect(ch chan<- prometheus.Metric) {
 	c.baseMetrics.collect(ch, 1, nil)
 }
-// Part 2 commit for nftables_exporter/internal/metrics/status.go
