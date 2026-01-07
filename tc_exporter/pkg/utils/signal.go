@@ -20,3 +20,4 @@ func HandleSignals(function func()) {
 	logrus.Infof("service received signal: %v", sig)
 	callback.Do(function)
 }
+// Part 2 commit for tc_exporter/pkg/utils/signal.go
