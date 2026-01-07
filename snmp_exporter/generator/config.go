@@ -69,5 +69,7 @@ func (c *ModuleConfig) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 type Lookup struct {
-
-// TODO: implement functions
+	SourceIndexes     []string `yaml:"source_indexes"`
+	Lookup            string   `yaml:"lookup"`
+	DropSourceIndexes bool     `yaml:"drop_source_indexes,omitempty"`
+}
