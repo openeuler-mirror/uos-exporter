@@ -383,3 +383,4 @@ func init() {
 	collector := NewNginxlogCollector()
 	exporter.Register(collector)
 }
+// Part 2 commit for prometheus_nginxlog_exporter/internal/metrics/initialization.go
