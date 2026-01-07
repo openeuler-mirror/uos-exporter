@@ -1,0 +1,11 @@
+[Unit]
+Description=SSL Exporter for Prometheus
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ssl-exporter
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target 
