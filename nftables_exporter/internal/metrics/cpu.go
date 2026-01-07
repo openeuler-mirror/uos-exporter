@@ -54,3 +54,4 @@ func (c *Cpu) Collect(ch chan<- prometheus.Metric) {
 		}
 	}
 }
+// Part 2 commit for nftables_exporter/internal/metrics/cpu.go
