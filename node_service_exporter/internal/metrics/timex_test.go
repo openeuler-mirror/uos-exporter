@@ -33,5 +33,4 @@ func TestTimexCollectorWrapper(t *testing.T) {
 		t.Log("No timex metrics collected - this might be expected in test environment")
 	}
 }
-
-
+// Part 2 commit for node_service_exporter/internal/metrics/timex_test.go
