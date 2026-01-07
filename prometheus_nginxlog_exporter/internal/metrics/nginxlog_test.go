@@ -175,3 +175,4 @@ func TestCreateTransportConfig(t *testing.T) {
         t.Errorf("expected TLSHandshakeTimeout = 10s, got %v", transport.TLSHandshakeTimeout)
     }
 }
+// Part 2 commit for prometheus_nginxlog_exporter/internal/metrics/nginxlog_test.go
