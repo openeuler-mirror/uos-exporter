@@ -43,3 +43,4 @@ modules:
       auth:
         username: "user@example.com"
         password: "password"
+// Part 2 commit for smtp_exporter/config/smtp-exporter.yaml
