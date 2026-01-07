@@ -146,4 +146,3 @@ func GetFilters(devid uint32, ns string) ([]tc.Object, error) {
 		})
 	})
 }
-// Part 2 commit for tc_exporter/internal/tc/tc.go
