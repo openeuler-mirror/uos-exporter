@@ -1,0 +1,6 @@
+address: "0.0.0.0"
+port: 9121
+metricsPath: "/metrics"
+log:
+  level: "info"
+  log_path: "/var/log/uos-exporter/node_storage_exporter.log"
