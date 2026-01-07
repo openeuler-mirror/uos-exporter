@@ -1,0 +1,7 @@
+address: "127.0.0.1"
+port: 9055
+metricsPath: "/metrics"
+log:
+  level: "debug"
+#  log_path: "/var/log/exporter.log"
+
