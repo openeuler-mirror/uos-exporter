@@ -18,4 +18,3 @@ func main() {
 		os.Exit(1)
 	}
 }
-// Part 2 commit for tc_exporter/main.go
