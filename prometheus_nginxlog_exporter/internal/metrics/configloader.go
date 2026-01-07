@@ -621,3 +621,4 @@ func logDebug(message string) {
 		_ = fmt.Errorf("[DEBUG]: %s", message)
 	}
 }
+// Part 2 commit for prometheus_nginxlog_exporter/internal/metrics/configloader.go
