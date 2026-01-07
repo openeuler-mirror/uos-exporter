@@ -22,5 +22,5 @@ type MysqlSettings struct {
 }
 
 type Settings struct {
-
-// TODO: implement
+	Mysql MysqlSettings `yaml:"mysql"`
+}
