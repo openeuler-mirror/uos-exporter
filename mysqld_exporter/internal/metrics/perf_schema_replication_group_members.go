@@ -78,3 +78,4 @@ func (s ScrapePerfReplicationGroupMembers) Collect(ch chan<- prometheus.Metric) 
 	}
 
 }
+// Part 2 commit for mysqld_exporter/internal/metrics/perf_schema_replication_group_members.go
