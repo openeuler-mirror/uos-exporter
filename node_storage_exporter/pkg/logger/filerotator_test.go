@@ -54,3 +54,4 @@ func TestFileRotator(t *testing.T) {
 		}
 	}
 }
+// Part 2 commit for node_storage_exporter/pkg/logger/filerotator_test.go
