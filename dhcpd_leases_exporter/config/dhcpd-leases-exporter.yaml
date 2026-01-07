@@ -1,0 +1,7 @@
+address: "0.0.0.0"
+port: 9105
+metricsPath: "/metrics"
+log:
+  level: "debug"
+  log_path: "/var/log/uos-export/dhcpd_leases_exporter.log"
+
