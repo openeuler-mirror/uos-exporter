@@ -64,3 +64,4 @@ func (n *NFT) Update() error {
 		Array())
 	return nil
 }
+// Part 2 commit for nftables_exporter/internal/nftables/nftables.go
