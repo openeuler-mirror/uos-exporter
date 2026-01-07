@@ -17,3 +17,4 @@ func main() {
 		os.Exit(1)
 	}
 }
+// Part 2 commit for proxysql_exporter/main.go
