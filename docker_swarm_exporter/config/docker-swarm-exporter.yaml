@@ -1,0 +1,8 @@
+address: "127.0.0.1"
+port: 9053
+metricsPath: "/metrics"
+log:
+  level: "debug"
+#  log_path: "/var/log/exporter.log"
+swarm_host: "unix:///var/run/docker.sock"
+#swarm_host: "tcp://127.0.0.1:2375"
