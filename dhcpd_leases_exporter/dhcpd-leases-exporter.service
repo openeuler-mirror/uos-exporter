@@ -1,0 +1,14 @@
+[Unit]
+Description=DHCP Leases Exporter
+Documentation=https://github.com/yourusername/dhcpd_leases_exporter
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/dhcpd-leases-exporter
+
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target 
