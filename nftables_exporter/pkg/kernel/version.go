@@ -76,3 +76,4 @@ func parseMajorVersion(version string) (int, error) {
 	}
 	return majorVersion, nil
 }
+// Part 2 commit for nftables_exporter/pkg/kernel/version.go
