@@ -167,5 +167,120 @@ type ScrapePerfFileInstances struct {
 	performanceSchemaFileInstancesCountDesc
 }
 
+func init() {
+	exporter.Register(
+		NewScrapePerfFileInstances())
+}
+func NewScrapePerfFileInstances() *ScrapePerfFileInstances {
+	return &ScrapePerfFileInstances{
+		//instance:                                instance,
+		performanceSchemaFileInstancesBytesDesc: *NewPerformanceSchemaFileInstancesBytesDesc(),
+		performanceSchemaFileInstancesCountDesc: *NewPerformanceSchemaFileInstancesCountDesc(),
+	}
+}
 
-// TODO: implement functions
+func (qd ScrapePerfFileInstances) Collect(ch chan<- prometheus.Metric) {
+	qd.instance = *GetInstance()
+
+	if err := qd.instance.Ping(); err != nil {
+		logrus.Errorf("ping mysql instance error: %s", err)
+		return
+	}
+	db := instance.GetDB()
+	rows, err := db.Query(perfFileInstancesQuery)
+	if err != nil {
+		logrus.Error(err)
+		return
+	}
+	defer rows.Close()
+	var (
+		fileName        string
+		eventName       string
+		countRead       uint64
+		countWrite      uint64
+		sumBytesRead    uint64
+		sumBytesWritten uint64
+	)
+	for rows.Next() {
+		err = rows.Scan(
+			&fileName,
+			&eventName,
+			&countRead,
+			&countWrite,
+			&sumBytesRead,
+			&sumBytesWritten)
+		if err != nil {
+			logrus.Error(err)
+			return
+		}
+		fileName = strings.TrimPrefix(fileName, *performanceSchemaFileInstancesRemovePrefix)
+		qd.performanceSchemaFileInstancesCountDesc.Collect(ch,
+			float64(countRead),
+			[]string{
+				fileName,
+				eventName,
+				"read"})
+		qd.performanceSchemaFileInstancesCountDesc.Collect(ch,
+			float64(countWrite),
+			[]string{
+				fileName,
+				eventName,
+				"write"})
+		qd.performanceSchemaFileInstancesBytesDesc.Collect(ch,
+			float64(sumBytesRead),
+			[]string{
+				fileName,
+				eventName,
+				"read"})
+		qd.performanceSchemaFileInstancesBytesDesc.Collect(ch,
+			float64(sumBytesWritten),
+			[]string{
+				fileName,
+				eventName,
+				"write"})
+	}
+}
+
+type performanceSchemaFileInstancesBytesDesc struct {
+	*baseMetrics
+}
+
+func NewPerformanceSchemaFileInstancesBytesDesc() *performanceSchemaFileInstancesBytesDesc {
+	return &performanceSchemaFileInstancesBytesDesc{
+		NewMetrics(
+			"perf_schema_file_instances_bytes",
+			"The number of bytes processed by file read/write operations.",
+			[]string{
+				"file_name",
+				"event_name",
+				"mode"})}
+}
+func (qd *performanceSchemaFileInstancesBytesDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaFileInstancesCountDesc struct {
+	*baseMetrics
+}
+
+func NewPerformanceSchemaFileInstancesCountDesc() *performanceSchemaFileInstancesCountDesc {
+	return &performanceSchemaFileInstancesCountDesc{
+		NewMetrics(
+			"perf_schema_file_instances_total",
+			"The total number of file read/write operations.",
+			[]string{
+				"file_name",
+				"event_name",
+				"mode"})}
+}
+func (qd *performanceSchemaFileInstancesCountDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
