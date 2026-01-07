@@ -172,3 +172,4 @@ func (log *Logger) Fatalln(args ...interface{}) {
 func (log *Logger) Panicln(args ...interface{}) {
 	log.zap.Panicln(args...)
 }
+// Part 2 commit for prometheus_nginxlog_exporter/internal/metrics/log.go
