@@ -33,3 +33,4 @@ func TestTimeCollectorWrapper(t *testing.T) {
 		t.Log("No time metrics collected - this might be expected in test environment")
 	}
 }
+// Part 2 commit for node_service_exporter/internal/metrics/time_test.go
