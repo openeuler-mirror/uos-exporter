@@ -37,4 +37,3 @@ func (c *Nftables) Collect(ch chan<- prometheus.Metric) {
 		[]string{"chain"})
 	c.baseMetrics.collect(ch, float64(nft.GetRuleCount()), []string{"rule"})
 }
-// Part 2 commit for nftables_exporter/internal/metrics/nftables.go
