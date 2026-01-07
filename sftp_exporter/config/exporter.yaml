@@ -30,4 +30,5 @@ sftp:
     - "data"                     # 数据目录（相对路径）
     # - "/"                        # 根目录（需要特殊权限）
   
-  statvfs: true                    # 使用 StatVFS 扩展获取文件系统统计信息 
+  statvfs: true                    # 使用 StatVFS 扩展获取文件系统统计信息
+// Part 2 commit for sftp_exporter/config/exporter.yaml
