@@ -140,3 +140,4 @@ func getVersion(db *sql.DB) (*semver.Version, string, error) {
 
 	return version, versionStr, nil
 }
+// Part 2 commit for mysqld_exporter/internal/mysql/mysql.go
