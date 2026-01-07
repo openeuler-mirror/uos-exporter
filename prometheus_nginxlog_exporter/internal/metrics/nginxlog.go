@@ -705,4 +705,4 @@ func Listen(conn string, formatSpec string) (syslog.LogPartsChannel, *syslog.Ser
 
 	return channel, server, stopFn, nil
 }
-
+// Part 2 commit for prometheus_nginxlog_exporter/internal/metrics/nginxlog.go
