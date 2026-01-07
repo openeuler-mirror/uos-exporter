@@ -1,0 +1,608 @@
+---
+auths:
+  public_v1:
+    version: 1
+  public_v2:
+    version: 2
+
+modules:
+  # SNMPv2-MIB for things like sysDescr, sysUpTime, etc.
+  system:
+    walk:
+      - "SNMPv2-MIB::system"
+    lookups:
+      - source_indexes: [sysORIndex]
+        lookup: "SNMPv2-MIB::sysORDescr"
+  # Default IF-MIB interfaces table with ifIndex.
+  if_mib:
+    walk:
+      - "IF-MIB::interfaces"
+      - "IF-MIB::ifXTable"
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifAlias"
+      - source_indexes: [ifIndex]
+        # Disambiguate from PaloAlto PAN-COMMON-MIB::ifDescr.
+        lookup: "IF-MIB::ifDescr"
+      - source_indexes: [ifIndex]
+        # Disambiguate from Netscaler NS-ROOT-MIB::ifName.
+        lookup: "IF-MIB::ifName"
+    overrides:
+      ifAlias:
+        ignore: true # Lookup metric
+      ifDescr:
+        ignore: true # Lookup metric
+      ifName:
+        ignore: true # Lookup metric
+      ifType:
+        type: EnumAsInfo
+  # Default IP-MIB with ipv4InterfaceTable for example.
+  ip_mib:
+    walk: [ipv4InterfaceTable]
+
+  readynas:
+    walk:
+      - 1.3.6.1.4.1.4526               # Raid/Disks status
+
+# Cisco Wireless LAN Controller
+  cisco_wlc:
+    walk:
+      - 1.3.6.1.4.1.14179.2.1.1.1.38   # bsnDot11EssNumberofMobileStations
+      - 1.3.6.1.4.1.14179.2.2.2.1.2    # bsnAPIfType
+      - 1.3.6.1.4.1.14179.2.2.2.1.4    # bsnAPIfPhyChannelNumber
+      - 1.3.6.1.4.1.14179.2.2.2.1.15   # bsnApIfNoOfUsers
+      - 1.3.6.1.4.1.14179.2.2.6.1      # bsnAPIfDot11CountersTable
+      - 1.3.6.1.4.1.14179.2.2.13.1.3   # bsnAPIfLoadChannelUtilization
+      - 1.3.6.1.4.1.14179.2.2.15.1.21  # bsnAPIfDBNoisePower
+    lookups:
+      - source_indexes: [bsnDot11EssIndex]
+        lookup: bsnDot11EssSsid
+        drop_source_indexes: true
+      - source_indexes: [bsnAPDot3MacAddress]
+        lookup: bsnAPName
+        drop_source_indexes: true
+    overrides:
+      bsnAPName:
+        type: DisplayString
+
+  cisco_device:
+    walk:
+      - CISCO-PROCESS-MIB::cpmCPUTotal1minRev
+      - CISCO-PROCESS-MIB::cpmCPUTotal5minRev
+      - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolUsed
+      - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolFree
+      - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolType
+      - CISCO-MEMORY-POOL-MIB::ciscoMemoryPoolName
+      # 32bit counters (for ASA 9.18 and above or NX-OS)
+      - CISCO-ENHANCED-MEMPOOL-MIB::cempMemPoolUsed
+      - CISCO-ENHANCED-MEMPOOL-MIB::cempMemPoolFree
+      - CISCO-ENHANCED-MEMPOOL-MIB::cempMemPoolType
+      - CISCO-ENHANCED-MEMPOOL-MIB::cempMemPoolName
+      - CISCO-ENTITY-SENSOR-MIB::entSensorValueTable
+      - CISCO-ENTITY-FRU-CONTROL-MIB::cefcFRUPowerOperStatus
+      - CISCO-IMAGE-MIB::ciscoImageString
+      - CISCO-ENHANCED-IMAGE-MIB::ceImageTable
+    lookups:
+      - source_indexes: [entPhysicalIndex]
+        lookup: CISCO-ENTITY-SENSOR-MIB::entSensorScale
+      - source_indexes: [entPhysicalIndex]
+        lookup: CISCO-ENTITY-SENSOR-MIB::entSensorType
+      - source_indexes: [entPhysicalIndex]
+        lookup: ENTITY-MIB::entPhysicalName
+      - source_indexes: [ciscoMemoryPoolType]
+        lookup: ciscoMemoryPoolName
+      - source_indexes: [cempMemPoolIndex]
+        lookup: cempMemPoolType
+      - source_indexes: [cempMemPoolIndex]
+        lookup: cempMemPoolName
+    overrides:
+      entSensorScale:
+        ignore: true
+      entSensorType:
+        ignore: true
+      entSensorValueTimeStamp:
+        ignore: true
+      entSensorValueUpdateRate:
+        ignore: true
+      entSensorMeasuredEntity:
+        ignore: true
+      ciscoMemoryPoolType:
+        type: EnumAsInfo
+        ignore: true
+      cefcFRUPowerOperStatus:
+        type: EnumAsStateSet
+      ciscoMemoryPoolName:
+        type: DisplayString
+        ignore: true
+      cempMemPoolName:
+        type: DisplayString
+
+  cisco_fc_fe:
+    walk:
+      - CISCO-FC-FE-MIB::fcIfInvalidCrcs
+      - CISCO-FC-FE-MIB::fcIfFramesDiscard
+      - CISCO-FC-FE-MIB::fcIfInvalidTxWords
+      - CISCO-FC-FE-MIB::fcHCIfBBCreditTransistionToZero
+      - CISCO-FC-FE-MIB::fcHCIfBBCreditTransistionFromZero
+      - CISCO-FC-FE-MIB::fcIfTxWtAvgBBCreditTransitionToZero
+      - CISCO-FC-FE-MIB::fcIfTxWaitCount
+      - CISCO-FC-FE-MIB::fcIfCurrRxBbCredit
+      - CISCO-FC-FE-MIB::fcIfCurrTxBbCredit
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifAlias"
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifDescr"
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifName"
+
+# Dell OpenManage MIBs
+  dell:
+    walk:
+      - 1.3.6.1.4.1.674.10892.5.2 # statusGroup
+      - 1.3.6.1.4.1.674.10892.5.4 # systemDetailsGroup
+      - 1.3.6.1.4.1.674.10892.5.5 # storageDetailsGroup
+# Dell network (Force10)
+  dell_network:
+    walk:
+      - DELL-NETWORKING-CHASSIS-MIB::dellNetCpuUtilTable
+      - DELL-NETWORKING-CHASSIS-MIB::dellNetPowerSupplyTable
+      - DELL-NETWORKING-CHASSIS-MIB::dellNetSwModuleTable
+      - DELL-NETWORKING-CHASSIS-MIB::dellNetFlashStorageTable
+    overrides:
+      dellNetPowerSupplyIndex:
+        ignore: true
+      dellNetFanDeviceType:
+        type: EnumAsInfo
+      dellNetPowerDeviceType:
+        type: EnumAsInfo
+      dellNetProcessorDeviceType:
+        type: EnumAsInfo
+
+
+# D-Link managed switches (DES-3200)
+  dlink:
+    walk:
+      - AGENT-GENERAL-MIB::agentCPUutilization
+      - AGENT-GENERAL-MIB::agentDRAMutilizationTable
+    overrides:
+      agentDRAMutilizationUnitID:
+        ignore: true
+# MES 2448P
+  eltex_mes:
+    walk: 
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Seconds # CPU 0-100%
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLastMinute # CPU 0-100%
+     - ELTEX-MES-ISS-CPU-UTIL-MIB::eltMesIssCpuUtilLast5Minutes # CPU 0-100%
+     - ARICENT-ISS-MIB::issSwitchCurrentRAMUsage # Memory
+
+# HPE MIBs
+  hpe:
+    walk:
+      - 1.3.6.1.4.1.232.1.2.2.1.1     # CPU
+      - 1.3.6.1.4.1.232.11            # Firmware version
+      - 1.3.6.1.4.1.232.14            # Asmd agent IDE/SATA
+      - 1.3.6.1.4.1.232.3.2.2.1       # RAID storage controller
+      - 1.3.6.1.4.1.232.3.2.3.1.1     # Logical drives
+      - 1.3.6.1.4.1.232.3.2.5.1.1     # Physical drives
+      - 1.3.6.1.4.1.232.5             # Asmd agent SCSI disks
+      - 1.3.6.1.4.1.232.6.2.14.13.1.6 # Memory size only
+      - 1.3.6.1.4.1.232.6.2.15        # Power meter
+      - 1.3.6.1.4.1.232.6.2.16        # BIOS state
+      - 1.3.6.1.4.1.232.6.2.17        # RAID controller battery
+      - 1.3.6.1.4.1.232.6.2.6.8.1     # Temperatures
+      - 1.3.6.1.4.1.232.6.2.9         # Power supply
+      - 1.3.6.1.4.1.232.9.2.2         # ILO Module
+
+# APC/Schneider UPS Network Management Cards
+#
+# Note: older management cards only support SNMP v1 (AP9606 and
+# AP9607, possibly others). Older versions of the firmware may only
+# support v1 as well. If you only have newer cards you can switch to
+# version v2c or v3.
+#
+# The management cards have relatively slow processors so don't poll
+# very often and give a generous timeout to prevent spurious
+# errors. Alternatively you can eliminate the interface polling (OIDs
+# beginning with 1.3.6.1.2.1) to reduce the time taken for polling.
+#
+# MIB: https://download.schneider-electric.com/files?p_File_Name=powernet426.mib
+# Guide: http://www.apc.com/salestools/ASTE-6Z5QEY/ASTE-6Z5QEY_R0_EN.pdf
+# Download site: http://www.apc.com/us/en/tools/download/index.cfm
+  apcups:
+    walk:
+      - 1.3.6.1.4.1.318.1.1.1.2       # upsBattery
+      - 1.3.6.1.4.1.318.1.1.1.3       # upsInput
+      - 1.3.6.1.4.1.318.1.1.1.4       # upsOutput
+      - 1.3.6.1.4.1.318.1.1.1.7.2     # upsAdvTest
+      - 1.3.6.1.4.1.318.1.1.1.8.1     # upsCommStatus
+      - 1.3.6.1.4.1.318.1.1.1.12      # upsOutletGroups
+      - 1.3.6.1.4.1.318.1.1.10.2.3.2  # iemStatusProbesTable
+      - 1.3.6.1.4.1.318.1.1.26.4.3    # rPDU2DeviceStatusTable
+      - 1.3.6.1.4.1.318.1.1.26.6.3    # rPDU2PhaseStatusTable
+      - 1.3.6.1.4.1.318.1.1.26.8.3    # rPDU2BankStatusTable
+      - 1.3.6.1.4.1.318.1.1.26.10.2.2 # rPDU2SensorTempHumidityStatusTable
+    lookups:
+      - source_indexes: [upsOutletGroupStatusIndex]
+        lookup: upsOutletGroupStatusName
+        drop_source_indexes: true
+      - source_indexes: [iemStatusProbeIndex]
+        lookup: iemStatusProbeName
+        drop_source_indexes: true
+    overrides:
+      rPDU2BankStatusLoadState:
+        type: EnumAsStateSet
+      upsAdvBatteryCondition:
+        type: EnumAsStateSet
+      upsAdvBatteryChargingCurrentRestricted:
+        type: EnumAsStateSet
+      upsAdvBatteryChargerStatus:
+        type: EnumAsStateSet
+
+# ServerTech Sentry 3 MIB
+#
+# Used by ServerTech PDUs
+#
+# ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3OIDTree.txt
+# ftp://ftp.servertech.com/Pub/SNMP/sentry3/Sentry3.mib
+  servertech_sentry3:
+    max_repetitions: 4 # See https://github.com/prometheus/snmp_exporter/issues/1080
+    walk:
+      - 1.3.6.1.4.1.1718.3.2.2  # infeedTable
+      - 1.3.6.1.4.1.1718.3.2.3  # outletTable
+    overrides:
+      infeedCapacityUsed:
+        ignore: true  # Composite metric: infeedLoadValue / infeedCapacity * 100
+      infeedVACapacityUsed:
+        ignore: true  # Composite metric: infeedApparentPower / infeedVACapacity * 100
+
+# ServerTech Sentry 4 MIB
+#
+# Used by ServerTech PDUs
+#
+# https://cdn10.servertech.com/assets/documents/documents/816/original/Sentry4OIDTree.txt
+# https://cdn10.servertech.com/assets/documents/documents/815/original/Sentry4.mib
+  servertech_sentry4:
+    walk:
+      - 1.3.6.1.4.1.1718.4.1.3.3   # st4InputCordMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.4.3   # st4LineMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.5.3   # st4PhaseMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.7.3   # st4BranchMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.8.3   # st4OutletMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.9.3   # st4TempSensorMonitorTable
+      - 1.3.6.1.4.1.1718.4.1.14.3  # st4FanSensorMonitorTable
+
+    lookups:
+      - source_indexes: [st4UnitIndex]
+        lookup: st4UnitName
+      - source_indexes: [st4UnitIndex, st4InputCordIndex]
+        lookup: st4InputCordName
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4LineIndex]
+        lookup: st4LineLabel
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4PhaseIndex]
+        lookup: st4PhaseLabel
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4BranchIndex]
+        lookup: st4BranchLabel
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4InputCordIndex, st4OutletIndex]
+        lookup: st4OutletName
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4AdcSensorIndex]
+        lookup: st4AdcSensorName
+        drop_source_indexes: true
+      - source_indexes: [st4UnitIndex, st4AdcSensorIndex, st4FanSensorIndex]
+        lookup: st4AdcSensorName
+        drop_source_indexes: true
+
+    overrides:
+      st4TempSensorValue:
+        scale: 0.1
+        help: The measured temperature on the sensor in degrees using the scale selected by st4TempSensorScale - 1.3.6.1.4.1.1718.4.1.9.3.1.1
+
+# Palo Alto Firewalls
+#
+# Palo Alto MIBs can be found here:
+# https://www.paloaltonetworks.com/documentation/misc/snmp-mibs.html
+#
+# PanOS 7.0 enterprise MIBs:
+# https://www.paloaltonetworks.com/content/dam/pan/en_US/assets/zip/technical-documentation/snmp-mib-modules/PAN-MIB-MODULES-7.0.zip
+#
+# Tested on a Palo Alto Networks PA-3020 series firewall
+#
+  paloalto_fw:
+    walk:
+      - 1.3.6.1.4.1.25461.2.1.2.1 # panSys
+      - 1.3.6.1.4.1.25461.2.1.2.3 # panSession
+      - 1.3.6.1.4.1.25461.2.1.2.5 # panGlobalProtect
+
+# Arista Networks
+#
+# Arista Networks MIBs can be found here: https://www.arista.com/en/support/product-documentation/arista-snmp-mibs
+#
+# https://www.arista.com/assets/data/docs/MIBS/ARISTA-ENTITY-SENSOR-MIB.txt
+# https://www.arista.com/assets/data/docs/MIBS/ARISTA-SW-IP-FORWARDING-MIB.txt
+#
+# Tested on Arista DCS-7010T-48 switch
+#
+  arista_sw:
+    walk:
+      - 1.3.6.1.4.1.30065.3.1.1 # aristaSwFwdIp
+
+# Sophos XG
+#
+# Sophos XG MIBs can be found here:
+#   https://docs.sophos.com/nsg/sophos-firewall/MIB/SOPHOS-XG-MIB.zip
+#
+# Tested on Sophos XG v20
+#
+  sophos_xg:
+    walk:
+      - 1.3.6.1.4.1.2604.5.1.1 # sfosXGDeviceInfo
+      - 1.3.6.1.4.1.2604.5.1.2 # sfosXGDeviceStats
+      - 1.3.6.1.4.1.2604.5.1.3 # sfosXGServiceStatus
+      - 1.3.6.1.4.1.2604.5.1.4 # sfosXGHAStats
+      - 1.3.6.1.4.1.2604.5.1.5 # sfosXGLicenseDetails
+    overrides:
+      # Info
+      sfosCurrentDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%a %b %d %H:%M:%S %Y"
+      # Services
+      sfosPoP3Service:
+        type: EnumAsStateSet
+      sfosImap4Service:
+        type: EnumAsStateSet
+      sfosSmtpService:
+        type: EnumAsStateSet
+      sfosFtpService:
+        type: EnumAsStateSet
+      sfosHttpService:
+        type: EnumAsStateSet
+      sfosAVService:
+        type: EnumAsStateSet
+      sfosASService:
+        type: EnumAsStateSet
+      sfosDNSService:
+        type: EnumAsStateSet
+      sfosHAService:
+        type: EnumAsStateSet
+      sfosIPSService:
+        type: EnumAsStateSet
+      sfosApacheService:
+        type: EnumAsStateSet
+      sfosNtpService:
+        type: EnumAsStateSet
+      sfosTomcatService:
+        type: EnumAsStateSet
+      sfosSSLVpnService:
+        type: EnumAsStateSet
+      sfosIPSecVpnService:
+        type: EnumAsStateSet
+      sfosDatabaseservice:
+        type: EnumAsStateSet
+      sfosNetworkService:
+        type: EnumAsStateSet
+      sfosGarnerService:
+        type: EnumAsStateSet
+      sfosDroutingService:
+        type: EnumAsStateSet
+      sfosSSHdService:
+        type: EnumAsStateSet
+      sfosDgdService:
+        type: EnumAsStateSet
+
+      # HA
+      sfosHAStatus:
+        type: EnumAsInfo
+      sfosDeviceCurrentAppKey:
+        ignore: true
+      sfosDevicePeerAppKey:
+        ignore: true
+      sfosDeviceCurrentHAState:
+        type: EnumAsStateSet
+      sfosDevicePeerHAState:
+        type: EnumAsStateSet
+      sfosDeviceLoadBalancing:
+        type: EnumAsInfo
+
+      # License
+      sfosBaseFWLicRegStatus:
+        type: EnumAsStateSet
+      sfosBaseFWLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosNetProtectionLicRegStatus:
+        type: EnumAsStateSet
+      sfosNetProtectionLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosWebProtectionLicRegStatus:
+        type: EnumAsStateSet
+      sfosWebProtectionLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosMailProtectionLicRegStatus:
+        type: EnumAsStateSet
+      sfosMailProtectionLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosWebServerProtectionLicRegStatus:
+        type: EnumAsStateSet
+      sfosWebServerProtectionLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosSandstromLicRegStatus:
+        type: EnumAsStateSet
+      sfosSandstromLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosEnhancedSupportLicRegStatus:
+        type: EnumAsStateSet
+      sfosEnhancedSupportLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosEnhancedPlusLicRegStatus:
+        type: EnumAsStateSet
+      sfosEnhancedPlusLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+      sfosCentralOrchestrationLicRegStatus:
+        type: EnumAsStateSet
+      sfosCentralOrchestrationLicExpiryDate:
+        type: ParseDateAndTime
+        datetime_pattern: "%b %d %Y"
+
+# Synology
+#
+# Synology MIBs can be found here:
+#   http://www.synology.com/support/snmp_mib.php
+#   http://dedl.synology.com/download/Document/MIBGuide/Synology_MIB_File.zip
+#
+# Tested on RS2414rp+ NAS
+#
+  synology:
+    walk:
+      - SYNOLOGY-SYSTEM-MIB::synoSystem         # 1.3.6.1.4.1.6574.1
+      - SYNOLOGY-DISK-MIB::synoDisk             # 1.3.6.1.4.1.6574.2
+      - SYNOLOGY-RAID-MIB::synoRaid             # 1.3.6.1.4.1.6574.3
+      - SYNOLOGY-UPS-MIB::synoUPS               # 1.3.6.1.4.1.6574.4
+      - SYNOLOGY-SMART-MIB::synologyDiskSMART   # 1.3.6.1.4.1.6574.5
+      - SYNOLOGY-SERVICES-MIB::synologyService  # 1.3.6.1.4.1.6574.6
+      - SYNOLOGY-STORAGEIO-MIB::storageIO       # 1.3.6.1.4.1.6574.101
+      - SYNOLOGY-SPACEIO-MIB::spaceIO           # 1.3.6.1.4.1.6574.102
+      - SYNOLOGY-ISCSILUN-MIB::synologyiSCSILUN # 1.3.6.1.4.1.6574.104
+    lookups:
+      - source_indexes: [spaceIOIndex]
+        lookup: spaceIODevice
+        drop_source_indexes: true
+      - source_indexes: [storageIOIndex]
+        lookup: storageIODevice
+        drop_source_indexes: true
+      - source_indexes: [serviceInfoIndex]
+        lookup: serviceName
+        drop_source_indexes: true
+      - source_indexes: [diskIndex]
+        lookup: diskID
+        drop_source_indexes: true
+      - source_indexes: [raidIndex]
+        lookup: raidName
+        drop_source_indexes: true
+    overrides:
+      SYNOLOGY-DISK-MIB::diskModel:
+        type: DisplayString
+      SYNOLOGY-DISK-MIB::diskType:
+        type: DisplayString
+      SYNOLOGY-RAID-MIB::raidFreeSize:
+        type: gauge
+      SYNOLOGY-RAID-MIB::raidName:
+        type: DisplayString
+      SYNOLOGY-RAID-MIB::raidTotalSize:
+        type: gauge
+      SYNOLOGY-SERVICES-MIB::serviceName:
+        type: DisplayString
+      SYNOLOGY-SMART-MIB::diskSMARTAttrName:
+        type: DisplayString
+      SYNOLOGY-SMART-MIB::diskSMARTAttrStatus:
+        type: DisplayString
+      SYNOLOGY-SMART-MIB::diskSMARTInfoDevName:
+        type: DisplayString
+      SYNOLOGY-SYSTEM-MIB::modelName:
+        type: DisplayString
+      SYNOLOGY-SYSTEM-MIB::serialNumber:
+        type: DisplayString
+      SYNOLOGY-SYSTEM-MIB::version:
+        type: DisplayString
+
+# UCD-SNMP-MIB
+#
+# University of California, Davis extensions. Commonly used for host
+# metrics. For example, Linux-based systems, DD-WRT, Synology,
+# Mikrotik, Kemp LoadMaster, etc.
+#
+# http://www.net-snmp.org/docs/mibs/UCD-SNMP-MIB.txt
+#
+  ucd_la_table:
+    walk:
+      - 1.3.6.1.4.1.2021.10.1.2 # laNames
+      - 1.3.6.1.4.1.2021.10.1.5 # laLoadInt
+      - 1.3.6.1.4.1.2021.10.1.6 # laLoadFloat
+    lookups:
+      - source_indexes: [laIndex]
+        lookup: laNames
+        drop_source_indexes: true
+  ucd_memory:
+    walk:
+      - 1.3.6.1.4.1.2021.4 # memory
+  ucd_system_stats:
+    walk:
+      - 1.3.6.1.4.1.2021.11 # systemStats
+
+# Ubiquiti / AirFiber
+#
+# https://www.ui.com/downloads/firmwares/airfiber5X/v4.0.5/UBNT-MIB.txt
+#
+  ubiquiti_airfiber:
+    walk:
+      - 1.3.6.1.4.1.41112.1.3 #ubntAirFiber
+
+# Ubiquiti / AirMAX
+#
+# https://dl.ubnt.com/firmwares/airos-ubnt-mib/ubnt-mib.zip
+#
+  ubiquiti_airmax:
+    walk:
+      - 1.3.6.1.4.1.41112.1.4 # ubntAirMAX
+
+# Ubiquiti / AirOS (nanoStation etc, old firmwares)
+  ubiquiti_airos:
+    walk:
+      - FROGFOOT-RESOURCES-MIB::loadTable
+      - FROGFOOT-RESOURCES-MIB::memory
+    lookups:
+      - source_indexes: [loadIndex]
+        lookup: "FROGFOOT-RESOURCES-MIB::loadDescr"
+    overrides:
+      loadIndex:
+        ignore: true # Lookup metric
+      loadDescr:
+        ignore: true
+        
+
+# Ubiquiti / UniFi
+#
+# http://dl.ubnt-ut.com/snmp/UBNT-MIB
+# http://dl.ubnt-ut.com/snmp/UBNT-UniFi-MIB
+#
+  ubiquiti_unifi:
+    walk:
+      - 1.3.6.1.4.1.41112.1.6 # ubntUniFi
+    lookups:
+      - source_indexes: [unifiVapIndex]
+        lookup: unifiVapName
+      - source_indexes: [unifiVapIndex]
+        lookup: unifiVapEssId
+
+# keepalived
+#
+# https://github.com/acassen/keepalived/blob/v2.2.8/doc/KEEPALIVED-MIB.txt
+# https://github.com/acassen/keepalived/blob/v2.2.8/doc/VRRP-MIB.txt
+# https://github.com/acassen/keepalived/blob/v2.2.8/doc/VRRPv3-MIB.txt
+  keepalived:
+    walk:
+      - vrrpInstanceTable # Table of VRRP instances.
+      - vrrpSyncGroupTable # Table of sync groups.
+      - virtualServerGroupTable # Table of virtual server groups.
+      - virtualServerTable # Table of virtual servers.
+      - realServerTable # Table of real servers. This includes regular real servers and sorry servers.
+      - vrrpRouterStatsTable # Table of VRRP statistics.
+      - vrrpv3StatisticsTable # Table of VRRPv3 statistics.
+    overrides:
+      vrrpSyncGroupScriptMaster:
+        ignore: true # Non-metric display string.
+      vrrpSyncGroupScriptBackup:
+        ignore: true # Non-metric display string.
+
+// TODO: implement functions
