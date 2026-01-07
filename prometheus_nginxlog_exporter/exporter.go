@@ -32,3 +32,4 @@ func Run(name string, version string) error {
 		return s.Error
 	}
 }
+// Part 2 commit for prometheus_nginxlog_exporter/exporter.go
