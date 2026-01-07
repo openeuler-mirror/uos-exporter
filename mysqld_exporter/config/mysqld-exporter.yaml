@@ -1,0 +1,11 @@
+address: "127.0.0.1"
+port: 9048
+metricsPath: "/metrics"
+log:
+  level: "debug"
+#  log_path: "/var/log/exporter.log"
+mysql:
+  host: "127.0.0.1"  # mysql host
+  port: 3306 # mysql port
+  user: "root" # mysql user
+# TODO: complete
