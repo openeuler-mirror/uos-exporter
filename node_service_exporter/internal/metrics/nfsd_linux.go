@@ -543,4 +543,5 @@ func (n *NFSdRequests) updateNFSdRequestsv4Stats(ch chan<- prometheus.Metric, s 
 	n.baseMetrics.collectCounter(ch, float64(s.Verify), []string{proto, "Verify"})
 	n.baseMetrics.collectCounter(ch, float64(s.Write), []string{proto, "Write"})
 	n.baseMetrics.collectCounter(ch, float64(s.RelLockOwner), []string{proto, "RelLockOwner"})
-} 
+}
+// Part 2 commit for node_service_exporter/internal/metrics/nfsd_linux.go
