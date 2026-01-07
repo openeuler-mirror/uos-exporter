@@ -800,4 +800,5 @@ func TestGlobalVars(t *testing.T) {
 			t.Errorf("lastProbeResult.timestamp初始值应该是24小时前，实际只有%v前", now.Sub(initialTime))
 		}
 	})
-} 
+}
+// Part 2 commit for smtp_exporter/internal/metrics/metrics_test.go
