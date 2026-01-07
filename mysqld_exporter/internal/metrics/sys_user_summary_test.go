@@ -69,3 +69,4 @@ package metrics
 //		t.Errorf("there were unfulfilled expectations: %s", err)
 //	}
 //}
+// Part 2 commit for mysqld_exporter/internal/metrics/sys_user_summary_test.go
