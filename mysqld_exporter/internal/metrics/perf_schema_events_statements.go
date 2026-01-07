@@ -201,5 +201,540 @@ type ScrapePerfEventsStatements struct {
 	performanceSchemaEventsStatementsLatency
 }
 
+func init() {
+	exporter.Register(
+		NewScrapePerfEventsStatements())
+}
+func NewScrapePerfEventsStatements() *ScrapePerfEventsStatements {
+	return &ScrapePerfEventsStatements{
+		//instance:                                             instance,
+		performanceSchemaEventsStatementsDesc:                *NewperformanceSchemaEventsStatementsDesc(),
+		performanceSchemaEventsStatementsTimeDesc:            *NewperformanceSchemaEventsStatementsTimeDesc(),
+		performanceSchemaEventsStatementsLockTimeDesc:        *NewperformanceSchemaEventsStatementsLockTimeDesc(),
+		performanceSchemaEventsStatementsCpuTimeDesc:         *NewperformanceSchemaEventsStatementsCpuTimeDesc(),
+		performanceSchemaEventsStatementsErrorsDesc:          *NewperformanceSchemaEventsStatementsErrorsDesc(),
+		performanceSchemaEventsStatementsWarningsDesc:        *NewperformanceSchemaEventsStatementsWarningsDesc(),
+		performanceSchemaEventsStatementsRowsAffectedDesc:    *NewperformanceSchemaEventsStatementsRowsAffectedDesc(),
+		performanceSchemaEventsStatementsRowsSentDesc:        *NewperformanceSchemaEventsStatementsRowsSentDesc(),
+		performanceSchemaEventsStatementsRowsExaminedDesc:    *NewperformanceSchemaEventsStatementsRowsExaminedDesc(),
+		performanceSchemaEventsStatementsTmpTablesDesc:       *NewperformanceSchemaEventsStatementsTmpTablesDesc(),
+		performanceSchemaEventsStatementsTmpDiskTablesDesc:   *NewperformanceSchemaEventsStatementsTmpDiskTablesDesc(),
+		performanceSchemaEventsStatementsSortMergePassesDesc: *NewperformanceSchemaEventsStatementsSortMergePassesDesc(),
+		performanceSchemaEventsStatementsSortRowsDesc:        *NewperformanceSchemaEventsStatementsSortRowsDesc(),
+		performanceSchemaEventsStatementsNoIndexUsedDesc:     *NewperformanceSchemaEventsStatementsNoIndexUsedDesc(),
+		performanceSchemaEventsStatementsLatency:             *NewperformanceSchemaEventsStatementsLatency(),
+	}
+}
 
-// TODO: implement functions
+func (qd ScrapePerfEventsStatements) Collect(ch chan<- prometheus.Metric) {
+	qd.instance = *GetInstance()
+
+	if err := qd.instance.Ping(); err != nil {
+		logrus.Errorf("ping mysql instance error: %s", err)
+		return
+	}
+	db := instance.GetDB()
+	isMysql := instance.GetFlavor() == mysql.MySQL
+	dbVersion := instance.GetVersion
+	isNewDb := dbVersion().GreaterThan(semver.MustParse("8.0.28"))
+	mysqlVersion8028 := isMysql && isNewDb
+	perfQuery := perfEventsStatementsQuery
+	if mysqlVersion8028 {
+		perfQuery = perfEventsStatementsQueryMySQL
+	}
+	perfQuery = fmt.Sprintf(
+		perfQuery,
+		*perfEventsStatementsDigestTextLimit,
+		*perfEventsStatementsTimeLimit,
+		*perfEventsStatementsLimit,
+	)
+	perfSchemaEventsStatementsRows, err := db.Query(perfQuery)
+	if err != nil {
+		logrus.Error(err)
+		return
+	}
+	defer perfSchemaEventsStatementsRows.Close()
+	var (
+		schemaName      string
+		digest          string
+		digestText      string
+		count           uint64
+		queryTime       uint64
+		lockTime        uint64
+		cpuTime         uint64
+		errors          uint64
+		warnings        uint64
+		rowsAffected    uint64
+		rowsSent        uint64
+		rowsExamined    uint64
+		tmpTables       uint64
+		tmpDiskTables   uint64
+		sortMergePasses uint64
+		sortRows        uint64
+		noIndexUsed     uint64
+		quantile95      uint64
+		quantile99      uint64
+		quantile999     uint64
+	)
+	for perfSchemaEventsStatementsRows.Next() {
+		var err error
+		if mysqlVersion8028 {
+			err = perfSchemaEventsStatementsRows.Scan(
+				&schemaName, &digest, &digestText, &count, &queryTime, &lockTime, &cpuTime, &errors, &warnings, &rowsAffected, &rowsSent, &rowsExamined, &tmpDiskTables, &tmpTables, &sortMergePasses, &sortRows, &noIndexUsed, &quantile95, &quantile99, &quantile999,
+			)
+		} else {
+			err = perfSchemaEventsStatementsRows.Scan(
+				&schemaName, &digest, &digestText, &count, &queryTime, &errors, &warnings, &rowsAffected, &rowsSent, &rowsExamined, &tmpDiskTables, &tmpTables, &sortMergePasses, &sortRows, &noIndexUsed,
+			)
+		}
+		if err != nil {
+			logrus.Error(err)
+			return
+		}
+		qd.performanceSchemaEventsStatementsErrorsDesc.Collect(
+			ch,
+			float64(count),
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+		qd.performanceSchemaEventsStatementsTimeDesc.Collect(
+			ch,
+			float64(queryTime)/picoSeconds,
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+		qd.performanceSchemaEventsStatementsLockTimeDesc.Collect(
+			ch,
+			float64(lockTime)/picoSeconds,
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+
+		qd.performanceSchemaEventsStatementsCpuTimeDesc.Collect(
+			ch,
+			float64(cpuTime)/picoSeconds,
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+
+		qd.performanceSchemaEventsStatementsErrorsDesc.Collect(
+			ch,
+			float64(errors),
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+		qd.performanceSchemaEventsStatementsWarningsDesc.Collect(
+			ch,
+			float64(warnings),
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+
+		qd.performanceSchemaEventsStatementsRowsAffectedDesc.Collect(
+			ch,
+			float64(rowsAffected),
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+		qd.performanceSchemaEventsStatementsRowsSentDesc.Collect(
+			ch,
+			float64(rowsSent),
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+		qd.performanceSchemaEventsStatementsRowsExaminedDesc.Collect(
+			ch,
+			float64(rowsExamined),
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+
+		qd.performanceSchemaEventsStatementsTmpTablesDesc.Collect(
+			ch,
+			float64(tmpTables),
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+
+		qd.performanceSchemaEventsStatementsTmpDiskTablesDesc.Collect(
+			ch,
+			float64(tmpDiskTables),
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+
+		qd.performanceSchemaEventsStatementsSortMergePassesDesc.Collect(
+			ch,
+			float64(sortMergePasses),
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+
+		qd.performanceSchemaEventsStatementsSortRowsDesc.Collect(
+			ch,
+			float64(sortRows),
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+
+		qd.performanceSchemaEventsStatementsNoIndexUsedDesc.Collect(
+			ch,
+			float64(noIndexUsed),
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+
+		qd.performanceSchemaEventsStatementsLatency.Collect(
+			ch,
+			float64(queryTime)/picoSeconds,
+			[]string{
+				schemaName,
+				digest,
+				digestText})
+	}
+}
+
+type performanceSchemaEventsStatementsDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsDesc() *performanceSchemaEventsStatementsDesc {
+	return &performanceSchemaEventsStatementsDesc{
+		NewMetrics(
+			"perf_schema_events_statements_total",
+			"The total count of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsTimeDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsTimeDesc() *performanceSchemaEventsStatementsTimeDesc {
+	return &performanceSchemaEventsStatementsTimeDesc{
+		NewMetrics(
+			"perf_schema_events_statements_seconds_total",
+			"The total time of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsTimeDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsLockTimeDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsLockTimeDesc() *performanceSchemaEventsStatementsLockTimeDesc {
+	return &performanceSchemaEventsStatementsLockTimeDesc{
+		NewMetrics(
+			"perf_schema_events_statements_lock_time_seconds_total",
+			"The total lock time of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsLockTimeDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsCpuTimeDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsCpuTimeDesc() *performanceSchemaEventsStatementsCpuTimeDesc {
+	return &performanceSchemaEventsStatementsCpuTimeDesc{
+		NewMetrics(
+			"perf_schema_events_statements_cpu_time_seconds_total",
+			"The total cpu time of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsCpuTimeDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsErrorsDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsErrorsDesc() *performanceSchemaEventsStatementsErrorsDesc {
+	return &performanceSchemaEventsStatementsErrorsDesc{
+		NewMetrics(
+			"perf_schema_events_statements_errors_total",
+			"The total errors of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsErrorsDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsWarningsDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsWarningsDesc() *performanceSchemaEventsStatementsWarningsDesc {
+	return &performanceSchemaEventsStatementsWarningsDesc{
+		NewMetrics(
+			"perf_schema_events_statements_warnings_total",
+			"The total warnings of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsWarningsDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsRowsAffectedDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsRowsAffectedDesc() *performanceSchemaEventsStatementsRowsAffectedDesc {
+	return &performanceSchemaEventsStatementsRowsAffectedDesc{
+		NewMetrics(
+			"perf_schema_events_statements_rows_affected_total",
+			"The total rows affected of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+
+func (qd *performanceSchemaEventsStatementsRowsAffectedDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsRowsSentDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsRowsSentDesc() *performanceSchemaEventsStatementsRowsSentDesc {
+	return &performanceSchemaEventsStatementsRowsSentDesc{
+		NewMetrics(
+			"perf_schema_events_statements_rows_sent_total",
+			"The total rows sent of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsRowsSentDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsRowsExaminedDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsRowsExaminedDesc() *performanceSchemaEventsStatementsRowsExaminedDesc {
+	return &performanceSchemaEventsStatementsRowsExaminedDesc{
+		NewMetrics(
+			"perf_schema_events_statements_rows_examined_total",
+			"The total rows examined of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsRowsExaminedDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsTmpTablesDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsTmpTablesDesc() *performanceSchemaEventsStatementsTmpTablesDesc {
+	return &performanceSchemaEventsStatementsTmpTablesDesc{
+		NewMetrics(
+			"perf_schema_events_statements_tmp_tables_total",
+			"The total tmp tables of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsTmpTablesDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsTmpDiskTablesDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsTmpDiskTablesDesc() *performanceSchemaEventsStatementsTmpDiskTablesDesc {
+	return &performanceSchemaEventsStatementsTmpDiskTablesDesc{
+		NewMetrics(
+			"perf_schema_events_statements_tmp_disk_tables_total",
+			"The total tmp disk tables of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsTmpDiskTablesDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsSortMergePassesDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsSortMergePassesDesc() *performanceSchemaEventsStatementsSortMergePassesDesc {
+	return &performanceSchemaEventsStatementsSortMergePassesDesc{
+		NewMetrics(
+			"perf_schema_events_statements_sort_merge_passes_total",
+			"The total sort merge passes of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsSortMergePassesDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsSortRowsDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsSortRowsDesc() *performanceSchemaEventsStatementsSortRowsDesc {
+	return &performanceSchemaEventsStatementsSortRowsDesc{
+		NewMetrics(
+			"perf_schema_events_statements_sort_rows_total",
+			"The total sort rows of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsSortRowsDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsNoIndexUsedDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsNoIndexUsedDesc() *performanceSchemaEventsStatementsNoIndexUsedDesc {
+	return &performanceSchemaEventsStatementsNoIndexUsedDesc{
+		NewMetrics(
+			"perf_schema_events_statements_no_index_used_total",
+			"The total no index used of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsNoIndexUsedDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaEventsStatementsLatency struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaEventsStatementsLatency() *performanceSchemaEventsStatementsLatency {
+	return &performanceSchemaEventsStatementsLatency{
+		NewMetrics(
+			"perf_schema_events_statements_latency_seconds_total",
+			"The total latency of events statements by digest.",
+			[]string{
+				"schema",
+				"digest",
+				"digest_text"})}
+}
+func (qd *performanceSchemaEventsStatementsLatency) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
