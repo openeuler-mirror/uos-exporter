@@ -54,3 +54,4 @@ func TestFileRotator(t *testing.T) {
 		}
 	}
 }
+// Part 2 commit for prometheus_nginxlog_exporter/pkg/logger/filerotator_test.go
