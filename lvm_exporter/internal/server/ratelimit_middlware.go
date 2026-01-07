@@ -14,5 +14,22 @@ var (
 	UseRatelimit      *bool
 )
 
+func init() {
+	rateLimitInterval = kingpin.Flag("rate_limit_interval",
+		"rate limit interval").Default("1s").Duration()
+	rateLimitSize = kingpin.Flag("rate_limit_size",
+		"rate limit size").Default("100").Int()
+	UseRatelimit = kingpin.Flag("use_ratelimit",
+		"use rate limit").Bool()
+}
 
-// TODO: implement functions
+func Ratelimit(ratelimiter *ratelimit.RateLimiter) HandlerFunc {
+	logrus.Info("ratelimit middleware init")
+	logrus.Debugf("ratelimit middleware init rateLimitInterval: %v, rateLimitSize: %v\n", *rateLimitInterval, *rateLimitSize)
+	return func(req *Request) {
+		if err := ratelimiter.Get(); err != nil {
+			req.Error = err
+			req.Fail(429)
+		}
+	}
+}
