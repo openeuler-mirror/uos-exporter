@@ -11,4 +11,5 @@ import (
 func (c *TimeCollector) updateClocksources(ch chan<- prometheus.Metric) error {
 	// No clocksource metrics available on non-Linux systems
 	return nil
-} 
+}
+// Part 2 commit for node_service_exporter/internal/metrics/time_other.go
