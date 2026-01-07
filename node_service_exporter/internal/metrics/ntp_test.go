@@ -13,3 +13,4 @@ func TestNTPCollectorWrapper(t *testing.T) {
 		t.Fatal("collector is nil")
 	}
 }
+// Part 2 commit for node_service_exporter/internal/metrics/ntp_test.go
