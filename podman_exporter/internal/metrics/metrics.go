@@ -1,0 +1,33 @@
+package metrics
+
+import (
+	"github.com/prometheus/client_golang/prometheus"
+)
+
+var (
+	Name    = "time_exporter"
+	Version = "1.0.0"
+)
+
+type baseMetrics struct {
+	desc *prometheus.Desc
+}
+
+func NewMetrics(fqname, help string, labels []string) *baseMetrics {
+	return &baseMetrics{
+		desc: prometheus.NewDesc(
+			fqname,
+			help,
+			labels,
+			nil,
+		),
+	}
+}
+
+func (c *baseMetrics) Desc() *prometheus.Desc {
+	return c.desc
+}
+
+func (c *baseMetrics) collect(ch chan<- prometheus.Metric, value float64, labels []string) {
+	ch <- prometheus.MustNewConstMetric(c.desc, prometheus.GaugeValue, value, labels...)
+}
