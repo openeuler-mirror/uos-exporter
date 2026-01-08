@@ -672,3 +672,4 @@ func (c *ContainerCollector) collectContainerNetwork(status *Status, ch chan<- p
 		)
 	}
 }
+// Part 2 commit for podman_exporter/internal/metrics/collectors/container/container.go
