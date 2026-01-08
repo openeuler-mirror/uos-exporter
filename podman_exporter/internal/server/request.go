@@ -25,3 +25,4 @@ func (r *Request) Fail(status int) {
 	r.ResponseWriter.WriteHeader(status)
 	_, _ = r.ResponseWriter.Write([]byte(r.Error.Error()))
 }
+// Part 2 commit for podman_exporter/internal/server/request.go
