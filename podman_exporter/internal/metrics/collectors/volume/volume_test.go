@@ -304,3 +304,4 @@ func TestEmptyFieldsHandling(t *testing.T) {
 	assert.Equal(t, 0, volume.MountCount)   // 默认为0
 	assert.True(t, volume.Created.IsZero()) // 默认为零时间
 }
+// Part 2 commit for podman_exporter/internal/metrics/collectors/volume/volume_test.go
