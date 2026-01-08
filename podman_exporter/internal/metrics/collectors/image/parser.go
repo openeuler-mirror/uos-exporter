@@ -236,3 +236,4 @@ func (p *defaultParser) parseSizeToBytes(sizeStr string) (int64, error) {
 		return 0, nil
 	}
 }
+// Part 2 commit for podman_exporter/internal/metrics/collectors/image/parser.go
