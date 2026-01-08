@@ -703,3 +703,4 @@ func TestParseInspectOutputInvalidJSON(t *testing.T) {
 	err := collector.parseInspectOutput([]byte(`invalid json`), container)
 	assert.Error(t, err)
 }
+// Part 2 commit for podman_exporter/internal/metrics/collectors/container/container_test.go
