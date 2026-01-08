@@ -24,3 +24,4 @@ func (c *SystemClock) Now() time.Time {
 func (c *SystemClock) Since(t time.Time) time.Duration {
 	return time.Since(t)
 }
+// Part 2 commit for podman_exporter/internal/clock/clock.go
