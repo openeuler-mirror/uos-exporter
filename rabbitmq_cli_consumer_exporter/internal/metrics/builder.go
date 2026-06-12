@@ -29,5 +29,12 @@ type Builder interface {
 }
 
 // NewBuilder ensures a builder struct is setup and ready to be used.
+func NewBuilder(b Builder, cmd string, capture bool, l logr.Logger, infoW, errW io.Writer) (Builder, error) {
+	b.SetCommand(cmd)
+	b.SetLogger(l)
+	b.SetOutputWriter(infoW)
+	b.SetErrorWriter(errW)
+	b.SetCaptureOutput(capture)
 
-// TODO: implement
+	return b, nil
+}
