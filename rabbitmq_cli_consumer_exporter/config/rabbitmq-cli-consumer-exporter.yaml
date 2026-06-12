@@ -8,4 +8,8 @@ url: "amqp://guest:guest@localhost"
 executable: "/root/agent-exporter/tmp/rabbitmq_cli_consumer_exporter/internal/metrics/command.php"
 configuration: "/root/agent-exporter/tmp/rabbitmq_cli_consumer_exporter/internal/metrics/example.conf"
 pipe: false
-# TODO: complete
+strict_exit_code: false
+no_declare: false
+no_datetime: false
+queue_name: ""
+include_metadata: false
