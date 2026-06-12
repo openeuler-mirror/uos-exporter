@@ -8,4 +8,6 @@ mysql:
   host: "127.0.0.1"  # mysql host
   port: 3306 # mysql port
   user: "root" # mysql user
-# TODO: complete
+  password: "root" #  mysql password
+  protocol: "tcp" #  mysql protocol
+
