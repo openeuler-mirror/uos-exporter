@@ -1,0 +1,36 @@
+package metrics
+
+import (
+	"github.com/prometheus/client_golang/prometheus"
+)
+
+const namespace = "node"
+
+var (
+	Name    = "node_service_exporter"
+	Version = "1.0.0"
+)
+
+type baseMetrics struct {
+	labels []string
+	desc   *prometheus.Desc
+}
+
+func NewMetrics(fqname, help string, labels []string) *baseMetrics {
+	return &baseMetrics{
+		labels: labels,
+		desc: prometheus.NewDesc(
+			fqname,
+			help,
+			labels,
+			nil),
+	}
+}
+
+func (c *baseMetrics) collect(ch chan<- prometheus.Metric, value float64, labels []string) {
+	ch <- prometheus.MustNewConstMetric(c.desc, prometheus.GaugeValue, value, labels...)
+}
+
+func (c *baseMetrics) collectCounter(ch chan<- prometheus.Metric, value float64, labels []string) {
+	ch <- prometheus.MustNewConstMetric(c.desc, prometheus.CounterValue, value, labels...)
+}
