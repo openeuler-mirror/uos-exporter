@@ -32,5 +32,10 @@ var createBuilderTest = []struct {
 	{"pipe", true, false, false, &PipeBuilder{}},
 }
 
-
-// TODO: implement
+func TestCreateBuilder(t *testing.T) {
+	for _, test := range createBuilderTest {
+		t.Run(test.name, func(t *testing.T) {
+			assert.Equal(t, CreateBuilder(test.pipe, test.compression, test.metadata), test.want)
+		})
+	}
+}
