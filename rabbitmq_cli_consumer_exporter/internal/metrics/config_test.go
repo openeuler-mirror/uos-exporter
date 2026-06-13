@@ -1,0 +1,89 @@
+package metrics
+
+import (
+	"testing"
+
+	"github.com/magiconair/properties/assert"
+)
+
+var uriTests = []struct {
+	config string
+	uri    string
+}{
+	{
+		`[rabbitmq]
+host = localhost
+vhost = /vhost`,
+		"amqp://localhost/vhost",
+	},
+	{
+		`[rabbitmq]
+host = localhost
+vhost = vhost`,
+		"amqp://localhost/vhost",
+	},
+	{
+		`[rabbitmq]
+host = 127.0.0.1`,
+		"amqp://127.0.0.1",
+	},
+	{
+		`[rabbitmq]
+host = localhost
+port = 1234`,
+		"amqp://localhost:1234",
+	},
+	{
+		`[rabbitmq]
+password = seecret
+host = localhost`,
+		"amqp://localhost",
+	},
+	{
+		`[rabbitmq]
+username = richard
+host = localhost`,
+		"amqp://richard@localhost",
+	},
+	{
+		`[rabbitmq]
+username = richard
+password = seecret
+host = localhost`,
+		"amqp://richard:seecret@localhost",
+	},
+	{
+		`[rabbitmq]
+username = richard
+password = my@:secr%t
+host = localhost`,
+		"amqp://richard:my%40%3Asecr%25t@localhost",
+	},
+	{
+		`[rabbitmq]
+username = richard
+password = my@:secr%t
+host = example.com
+port = 1234
+vhost = myhost`,
+		"amqp://richard:my%40%3Asecr%25t@example.com:1234/myhost",
+	},
+	{
+		`[rabbitmq]
+amqpurl = amqp://guest:guest@example.com/myhost`,
+		"amqp://guest:guest@example.com/myhost",
+	},
+	{
+		`[rabbitmq]
+username = richard
+password = my@:secr%t
+host = example.com
+port = 1234
+vhost = myhost
+amqpurl = amqp://guest:guest@example.com/myhost`,
+		"amqp://guest:guest@example.com/myhost",
+	},
+}
+
+
+// TODO: implement functions
