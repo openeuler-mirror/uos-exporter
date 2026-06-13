@@ -24,4 +24,10 @@ func (StoppedClock) Since(t time.Time) time.Duration {
 
 type SystemClock struct{}
 
-// TODO: implement functions
+func (SystemClock) Now() time.Time {
+	return time.Now()
+}
+
+func (SystemClock) Since(t time.Time) time.Duration {
+	return time.Since(t)
+}
