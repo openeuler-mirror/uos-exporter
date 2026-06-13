@@ -7,5 +7,253 @@ import (
 	lxc2 "lxc_exporter/internal/lxc"
 )
 
+func init() {
+	exporter.Register(
+		NewLxcMem("lxc_mem_usage",
+			"lxc mem usage",
+			[]string{"name",
+				"type"}))
+}
 
-// TODO: implement functions
+type LxcMem struct {
+	*baseMetrics
+}
+
+func NewLxcMem(fqname, help string, labels []string) *LxcMem {
+	return &LxcMem{NewMetrics(fqname, help, labels)}
+}
+
+func (c *LxcMem) Collect(ch chan<- prometheus.Metric) {
+	lxc := lxc2.NewLxc()
+	lxc.UpdateContainerNameAll()
+	if len(lxc.GetContainerNameAll()) == 0 {
+		logrus.Warnf("No container found")
+		return
+	}
+	logrus.Debugf("Get container name all: %v",
+		lxc.GetContainerNameAll())
+	for _, name := range lxc.GetContainerNameAll() {
+		stat, err := lxc.GetMemoryStat(name)
+		if err != nil {
+			logrus.Warnf("Get container %s memory stat failed: %v",
+				name,
+				err)
+			continue
+		}
+		logrus.Debugf("Get container %s memory stat: %v",
+			name,
+			stat)
+		c.baseMetrics.collect(ch,
+			stat.ActiveAnon,
+			[]string{name,
+				"active_anon"})
+		c.baseMetrics.collect(ch,
+			stat.ActiveFile,
+			[]string{name,
+				"active_file"})
+		c.baseMetrics.collect(ch,
+			stat.Anon,
+			[]string{name,
+				"anon"})
+		c.baseMetrics.collect(ch,
+			stat.AnonThp,
+			[]string{name,
+				"anon_thp"})
+		c.baseMetrics.collect(ch,
+			stat.File,
+			[]string{name,
+				"file"})
+		c.baseMetrics.collect(ch,
+			stat.FileDirty,
+			[]string{name,
+				"file_dirty"})
+		c.baseMetrics.collect(ch,
+			stat.FileMapped,
+			[]string{name,
+				"file_mapped"})
+		c.baseMetrics.collect(ch,
+			stat.FileThp,
+			[]string{name,
+				"file_thp"})
+		c.baseMetrics.collect(ch,
+			stat.FileWriteback,
+			[]string{name,
+				"file_writeback"})
+		c.baseMetrics.collect(ch,
+			stat.InactiveAnon,
+			[]string{name,
+				"inactive_anon"})
+		c.baseMetrics.collect(ch,
+			stat.InactiveFile,
+			[]string{name,
+				"inactive_file"})
+		c.baseMetrics.collect(ch,
+			stat.Kernel,
+			[]string{name,
+				"kernel"})
+		c.baseMetrics.collect(ch,
+			stat.KernelStack,
+			[]string{name,
+				"kernel_stack"})
+		c.baseMetrics.collect(ch,
+			stat.Pagetables,
+			[]string{name,
+				"pagetables"})
+		c.baseMetrics.collect(ch,
+			stat.Percpu,
+			[]string{name,
+				"percpu"})
+		c.baseMetrics.collect(ch,
+			stat.Pgactivate,
+			[]string{name,
+				"pgactivate"})
+		c.baseMetrics.collect(ch,
+			stat.Pgdeactivate,
+			[]string{name,
+				"pgdeactivate"})
+		c.baseMetrics.collect(ch,
+			stat.Pgfault,
+			[]string{name,
+				"pgfault"})
+		c.baseMetrics.collect(ch,
+			stat.Pglazyfree,
+			[]string{name,
+				"pglazyfree"})
+		c.baseMetrics.collect(ch,
+			stat.Pglazyfreed,
+			[]string{name,
+				"pglazyfreed"})
+		c.baseMetrics.collect(ch,
+			stat.Pgmajfault,
+			[]string{name,
+				"pgmajfault"})
+		c.baseMetrics.collect(ch,
+			stat.Pgrefill,
+			[]string{name,
+				"pgrefill"})
+		c.baseMetrics.collect(ch,
+			stat.Pgscan,
+			[]string{name,
+				"pgscan"})
+		c.baseMetrics.collect(ch,
+			stat.PgscanDirect,
+			[]string{name,
+				"pgscan_direct"})
+		c.baseMetrics.collect(ch,
+			stat.PgscanKhugepaged,
+			[]string{name,
+				"pgscan_khugepaged"})
+		c.baseMetrics.collect(ch,
+			stat.PgscanKswapd,
+			[]string{name,
+				"pgscan_kswapd"})
+		c.baseMetrics.collect(ch,
+			stat.Pgsteal,
+			[]string{name,
+				"pgsteal"})
+		c.baseMetrics.collect(ch,
+			stat.PgstealDirect,
+			[]string{name,
+				"pgsteal_direct"})
+		c.baseMetrics.collect(ch,
+			stat.PgstealKhugepaged,
+			[]string{name,
+				"pgsteal_khugepaged"})
+		c.baseMetrics.collect(ch,
+			stat.PgstealKswapd,
+			[]string{name,
+				"pgsteal_kswapd"})
+		c.baseMetrics.collect(ch,
+			stat.SecPagetables,
+			[]string{name,
+				"sec_pagetables"})
+		c.baseMetrics.collect(ch,
+			stat.Shmem,
+			[]string{name,
+				"shmem"})
+		c.baseMetrics.collect(ch,
+			stat.ShmemThp,
+			[]string{name,
+				"shmem_thp"})
+		c.baseMetrics.collect(ch,
+			stat.Slab,
+			[]string{name,
+				"slab"})
+		c.baseMetrics.collect(ch,
+			stat.SlabReclaimable,
+			[]string{name,
+				"slab_reclaimable"})
+		c.baseMetrics.collect(ch,
+			stat.SlabUnreclaimable,
+			[]string{name,
+				"slab_unreclaimable"})
+		c.baseMetrics.collect(ch,
+			stat.Sock,
+			[]string{name,
+				"sock"})
+		c.baseMetrics.collect(ch,
+			stat.Swapcached,
+			[]string{name,
+				"swapcached"})
+		c.baseMetrics.collect(ch,
+			stat.ThpCollapseAlloc,
+			[]string{name,
+				"thp_collapse_alloc"})
+		c.baseMetrics.collect(ch,
+			stat.ThpFaultAlloc,
+			[]string{name,
+				"thp_fault_alloc"})
+		c.baseMetrics.collect(ch,
+			stat.Unevictable,
+			[]string{name,
+				"unevictable"})
+		c.baseMetrics.collect(ch,
+			stat.Vmalloc,
+			[]string{name,
+				"vmalloc"})
+		c.baseMetrics.collect(ch,
+			stat.WorkingsetActivateAnon,
+			[]string{name,
+				"workingset_activate_anon"})
+		c.baseMetrics.collect(ch,
+			stat.WorkingsetActivateFile,
+			[]string{name,
+				"workingset_activate_file"})
+		c.baseMetrics.collect(ch,
+			stat.WorkingsetNodereclaim,
+			[]string{name,
+				"workingset_nodereclaim"})
+		c.baseMetrics.collect(ch,
+			stat.WorkingsetRefaultAnon,
+			[]string{name,
+				"workingset_refault_anon"})
+		c.baseMetrics.collect(ch,
+			stat.WorkingsetRefaultFile,
+			[]string{name,
+				"workingset_refault_file"})
+		c.baseMetrics.collect(ch,
+			stat.WorkingsetRestoreAnon,
+			[]string{name,
+				"workingset_restore_anon"})
+		c.baseMetrics.collect(ch,
+			stat.WorkingsetRestoreFile,
+			[]string{name,
+				"workingset_restore_file"})
+		c.baseMetrics.collect(ch,
+			stat.Zswap,
+			[]string{name,
+				"zswap"})
+		c.baseMetrics.collect(ch,
+			stat.Zswapped,
+			[]string{name,
+				"zswapped"})
+		c.baseMetrics.collect(ch,
+			stat.Zswpin,
+			[]string{name,
+				"zswpin"})
+		c.baseMetrics.collect(ch,
+			stat.Zswpout,
+			[]string{name,
+				"zswpout"})
+	}
+}
