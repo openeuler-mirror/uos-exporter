@@ -1,0 +1,8 @@
+address: "127.0.0.1"
+port: 9109
+metricsPath: "/metrics"
+log:
+  level: "debug"
+  log_path: "/var/log/uos-exporter/squid-exporter.log"
+
+// TODO: implement functions
