@@ -123,5 +123,174 @@ SUM_TIMER_DELETE: 0
 `
 )
 
+func init() {
+	exporter.Register(
+		NewScrapePerfIndexIOWaits())
+}
 
-// TODO: implement functions
+type ScrapePerfIndexIOWaits struct {
+	instance mysql.Instance
+	performanceSchemaIndexWaitsDesc
+	performanceSchemaIndexWaitsTimeDesc
+}
+
+func NewScrapePerfIndexIOWaits() *ScrapePerfIndexIOWaits {
+	return &ScrapePerfIndexIOWaits{
+		//instance:                            instance,
+		performanceSchemaIndexWaitsDesc:     *NewPerformanceSchemaIndexWaitsDesc(),
+		performanceSchemaIndexWaitsTimeDesc: *NewPerformanceSchemaIndexWaitsTimeDesc(),
+	}
+}
+
+func (qd ScrapePerfIndexIOWaits) Collect(ch chan<- prometheus.Metric) {
+	qd.instance = *GetInstance()
+
+	if err := qd.instance.Ping(); err != nil {
+		logrus.Errorf("ping mysql instance error: %s", err)
+		return
+	}
+	db := instance.GetDB()
+	rows, err := db.Query(perfIndexIOWaitsQuery)
+	if err != nil {
+		logrus.Error(err)
+		return
+	}
+	defer rows.Close()
+	var (
+		objectSchema string
+		objectName   string
+		indexName    string
+		countFetch   uint64
+		countInsert  uint64
+		countUpdate  uint64
+		countDelete  uint64
+		timeFetch    uint64
+		timeInsert   uint64
+		timeUpdate   uint64
+		timeDelete   uint64
+	)
+	for rows.Next() {
+		err = rows.Scan(
+			&objectSchema,
+			&objectName,
+			&indexName,
+			&countFetch,
+			&countInsert,
+			&countUpdate,
+			&countDelete,
+			&timeFetch,
+			&timeInsert,
+			&timeUpdate,
+			&timeDelete)
+		if err != nil {
+			logrus.Error(err)
+			return
+		}
+		qd.performanceSchemaIndexWaitsDesc.Collect(ch,
+			float64(countFetch),
+			[]string{
+				objectSchema,
+				objectName,
+				indexName,
+				"fetch"})
+		if indexName == "NONE" {
+			qd.performanceSchemaIndexWaitsDesc.Collect(ch,
+				float64(countInsert),
+				[]string{
+					objectSchema,
+					objectName,
+					indexName,
+					"insert"})
+		}
+		qd.performanceSchemaIndexWaitsDesc.Collect(ch,
+			float64(countUpdate),
+			[]string{
+				objectSchema,
+				objectName,
+				indexName,
+				"update"})
+		qd.performanceSchemaIndexWaitsDesc.Collect(ch,
+			float64(countDelete),
+			[]string{
+				objectSchema,
+				objectName,
+				indexName,
+				"delete"})
+		qd.performanceSchemaIndexWaitsTimeDesc.Collect(ch,
+			float64(timeFetch)/picoSeconds,
+			[]string{
+				objectSchema,
+				objectName,
+				indexName,
+				"fetch"})
+		if indexName == "NONE" {
+			qd.performanceSchemaIndexWaitsTimeDesc.Collect(ch,
+				float64(timeInsert)/picoSeconds,
+				[]string{
+					objectSchema,
+					objectName,
+					indexName,
+					"insert"})
+		}
+		qd.performanceSchemaIndexWaitsTimeDesc.Collect(ch,
+			float64(timeUpdate)/picoSeconds,
+			[]string{
+				objectSchema,
+				objectName,
+				indexName,
+				"update"})
+		qd.performanceSchemaIndexWaitsTimeDesc.Collect(ch,
+			float64(timeDelete)/picoSeconds,
+			[]string{
+				objectSchema,
+				objectName,
+				indexName,
+				"delete"})
+	}
+}
+
+type performanceSchemaIndexWaitsDesc struct {
+	*baseMetrics
+}
+
+func NewPerformanceSchemaIndexWaitsDesc() *performanceSchemaIndexWaitsDesc {
+	return &performanceSchemaIndexWaitsDesc{
+		NewMetrics(
+			"perf_schema_index_io_waits_total",
+			"The total number of index I/O wait events for each index and operation.",
+			[]string{
+				"schema",
+				"name",
+				"index",
+				"operation"})}
+}
+func (qd *performanceSchemaIndexWaitsDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaIndexWaitsTimeDesc struct {
+	*baseMetrics
+}
+
+func NewPerformanceSchemaIndexWaitsTimeDesc() *performanceSchemaIndexWaitsTimeDesc {
+	return &performanceSchemaIndexWaitsTimeDesc{
+		NewMetrics(
+			"perf_schema_index_io_waits_time_seconds_total",
+			"The total time spent in index I/O wait events for each index and operation.",
+			[]string{
+				"schema",
+				"name",
+				"index",
+				"operation"})}
+}
+func (qd *performanceSchemaIndexWaitsTimeDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
