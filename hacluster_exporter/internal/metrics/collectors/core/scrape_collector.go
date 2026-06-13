@@ -25,50 +25,5 @@ type ScrapeCollector struct {
 	logger             *logrus.Logger
 }
 
-func NewScapreCollector(collector ScrapeCollectorInterface, logger *logrus.Logger) *ScrapeCollector {
-	return &ScrapeCollector{
-		collector: collector,
-		Clock:     &clock.SystemClock{},
-		scrapeDurationDesc: prometheus.NewDesc(
-			prometheus.BuildFQName(NAMESPACE, "scrape", "duration_seconds"),
-			"Duration of a collector scrape.",
-			nil,
-			prometheus.Labels{"collector": collector.GetSubsystem()},
-		),
-		scrapeSuccessDesc: prometheus.NewDesc(
-			prometheus.BuildFQName(NAMESPACE, "scrape", "success"),
-			"Whether a collector succeeded.",
-			nil,
-			prometheus.Labels{"collector": collector.GetSubsystem()},
-		),
-		logger: logger,
-	}
-}
 
-func (sc *ScrapeCollector) Collect(ch chan<- prometheus.Metric) {
-	var success float64
-	begin := sc.Clock.Now()
-	err := sc.collector.CollectWithError(ch)
-	duration := sc.Clock.Since(begin)
-	if err == nil {
-		success = 1
-	} else {
-		sc.logger.WithFields(logrus.Fields{
-			"subsystem": sc.GetSubsystem(),
-			"error":     err,
-			"duration":  duration.Seconds(),
-		}).Warn("collector scrape failed")
-	}
-	ch <- prometheus.MustNewConstMetric(sc.scrapeDurationDesc, prometheus.GaugeValue, duration.Seconds())
-	ch <- prometheus.MustNewConstMetric(sc.scrapeSuccessDesc, prometheus.GaugeValue, success)
-}
-
-func (sc *ScrapeCollector) Describe(ch chan<- *prometheus.Desc) {
-	sc.collector.Describe(ch)
-	ch <- sc.scrapeDurationDesc
-	ch <- sc.scrapeSuccessDesc
-}
-
-func (sc *ScrapeCollector) GetSubsystem() string {
-	return sc.collector.GetSubsystem()
-}
+// TODO: implement functions
