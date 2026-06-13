@@ -50,5 +50,79 @@ func (c *fakeStatusClient) GetStatus(ctx context.Context) (*client.SystemStatus,
 	}, &client.Response{}, c.err
 }
 
+func TestStatus(t *testing.T) {
+	errTest := errors.New("test error")
 
-// TODO: implement functions
+	for _, tc := range []struct {
+		name    string
+		cl      fakeStatusClient
+		wantErr error
+	}{
+		{
+			name: "empty",
+		},
+		{
+			name: "get status fails",
+			cl: fakeStatusClient{
+				err: errTest,
+			},
+			wantErr: errTest,
+		},
+		{
+			name: "get status succeeds",
+			cl:   fakeStatusClient{},
+		},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			c := newStatusCollector(&tc.cl)
+
+			err := c.collect(context.Background(), testutil.DiscardMetrics(t))
+
+			if diff := cmp.Diff(tc.wantErr, err, cmpopts.EquateErrors()); diff != "" {
+				t.Errorf("Error diff (-want +got):\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestStatusCollect(t *testing.T) {
+	cl := fakeStatusClient{}
+
+	c := newMultiCollectorForTest(t, newStatusCollector(&cl))
+
+	testutil.CollectAndCompare(t, c, `
+# HELP paperless_status_celery_status Status of celery. 1 is OK, 0 is not OK.
+# TYPE paperless_status_celery_status gauge
+paperless_status_celery_status 1
+# HELP paperless_status_classifier_last_trained_timestamp_seconds Number of seconds since 01.01.1970 since the last time the classifier has been trained.
+# TYPE paperless_status_classifier_last_trained_timestamp_seconds gauge
+paperless_status_classifier_last_trained_timestamp_seconds 1.740168301e+09
+# HELP paperless_status_classifier_status Status of the classifier. 1 is OK, 0 is not OK.
+# TYPE paperless_status_classifier_status gauge
+paperless_status_classifier_status 1
+# HELP paperless_status_database_status Status of the database. 1 is OK, 0 is not OK.
+# TYPE paperless_status_database_status gauge
+paperless_status_database_status 1
+# HELP paperless_status_database_unapplied_migrations Number of unapplied database migrations.
+# TYPE paperless_status_database_unapplied_migrations gauge
+paperless_status_database_unapplied_migrations 0
+# HELP paperless_status_index_last_modified_timestamp_seconds Number of seconds since 01.01.1970 since the last time the index has been modified.
+# TYPE paperless_status_index_last_modified_timestamp_seconds gauge
+paperless_status_index_last_modified_timestamp_seconds 1.740096114e+09
+# HELP paperless_status_index_status Status of the index. 1 is OK, 0 is not OK.
+# TYPE paperless_status_index_status gauge
+paperless_status_index_status 1
+# HELP paperless_status_redis_status Status of redis. 1 is OK, 0 is not OK.
+# TYPE paperless_status_redis_status gauge
+paperless_status_redis_status 1
+# HELP paperless_status_storage_available_bytes Available storage of Paperless in bytes.
+# TYPE paperless_status_storage_available_bytes gauge
+paperless_status_storage_available_bytes 1.3406437376e+10
+# HELP paperless_status_storage_total_bytes Total storage of Paperless in bytes.
+# TYPE paperless_status_storage_total_bytes gauge
+paperless_status_storage_total_bytes 2.147483648e+10
+# HELP paperless_warnings_total Number of warnings generated while scraping metrics.
+# TYPE paperless_warnings_total gauge
+paperless_warnings_total{category="unspecified"} 0
+`)
+}
