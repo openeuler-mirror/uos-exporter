@@ -1,0 +1,11 @@
+address: "0.0.0.0"
+port: 9019
+metricsPath: "/metrics"
+log:
+  level: "info"
+  log_path: "/var/log/uos-exporter/postgres-exporter.log"
+  # level: "debug"
+  # log_path: "./postgres-exporter.log"
+
+
+// TODO: implement functions
