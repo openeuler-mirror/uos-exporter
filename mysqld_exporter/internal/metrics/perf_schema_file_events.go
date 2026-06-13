@@ -171,5 +171,161 @@ type ScrapePerfFileEvents struct {
 	performanceSchemaFileEventsBytesDesc
 }
 
+func init() {
+	exporter.Register(
+		NewScrapePerfFileEvents())
+}
+func NewScrapePerfFileEvents() *ScrapePerfFileEvents {
+	return &ScrapePerfFileEvents{
+		//instance:                             instance,
+		performanceSchemaFileEventsDesc:      *NewPerformanceSchemaFileEventsDesc(),
+		performanceSchemaFileEventsTimeDesc:  *NewPerformanceSchemaFileEventsTimeDesc(),
+		performanceSchemaFileEventsBytesDesc: *NewPerformanceSchemaFileEventsBytesDesc(),
+	}
+}
 
-// TODO: implement functions
+func (qd ScrapePerfFileEvents) Collect(ch chan<- prometheus.Metric) {
+	qd.instance = *GetInstance()
+
+	if err := qd.instance.Ping(); err != nil {
+		logrus.Errorf("ping mysql instance error: %s", err)
+		return
+	}
+	db := instance.GetDB()
+	rows, err := db.Query(perfFileEventsQuery)
+	if err != nil {
+		logrus.Error(err)
+		return
+	}
+	defer rows.Close()
+	var (
+		eventName  string
+		countRead  uint64
+		timeRead   uint64
+		bytesRead  uint64
+		countWrite uint64
+		timeWrite  uint64
+		bytesWrite uint64
+		countMisc  uint64
+		timeMisc   uint64
+	)
+	for rows.Next() {
+		err = rows.Scan(
+			&eventName,
+			&countRead,
+			&timeRead,
+			&bytesRead,
+			&countWrite,
+			&timeWrite,
+			&bytesWrite,
+			&countMisc,
+			&timeMisc)
+		if err != nil {
+			logrus.Error(err)
+			return
+		}
+		qd.performanceSchemaFileEventsDesc.Collect(ch,
+			float64(countRead),
+			[]string{
+				eventName,
+				"read"})
+		qd.performanceSchemaFileEventsDesc.Collect(ch,
+			float64(countWrite),
+			[]string{
+				eventName,
+				"write"})
+		qd.performanceSchemaFileEventsDesc.Collect(ch,
+			float64(countMisc),
+			[]string{
+				eventName,
+				"misc"})
+		qd.performanceSchemaFileEventsTimeDesc.Collect(ch,
+			float64(timeRead)/picoSeconds,
+			[]string{
+				eventName,
+				"read"})
+		qd.performanceSchemaFileEventsTimeDesc.Collect(ch,
+			float64(timeWrite)/picoSeconds,
+			[]string{
+				eventName,
+				"write"})
+		qd.performanceSchemaFileEventsTimeDesc.Collect(ch,
+			float64(timeMisc)/picoSeconds,
+			[]string{
+				eventName,
+				"misc"})
+		qd.performanceSchemaFileEventsBytesDesc.Collect(ch,
+			float64(bytesRead),
+			[]string{
+				eventName,
+				"read"})
+		qd.performanceSchemaFileEventsBytesDesc.Collect(ch,
+			float64(bytesWrite),
+			[]string{
+				eventName,
+				"write"})
+	}
+}
+
+type performanceSchemaFileEventsDesc struct {
+	*baseMetrics
+}
+
+func NewPerformanceSchemaFileEventsDesc() *performanceSchemaFileEventsDesc {
+	return &performanceSchemaFileEventsDesc{
+		NewMetrics(
+			"perf_schema_file_events_total",
+			"The total file events by event name/mode.",
+			[]string{
+				"event_name",
+				"mode"})}
+}
+func (qd *performanceSchemaFileEventsDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaFileEventsTimeDesc struct {
+	*baseMetrics
+}
+
+func NewPerformanceSchemaFileEventsTimeDesc() *performanceSchemaFileEventsTimeDesc {
+	return &performanceSchemaFileEventsTimeDesc{
+		NewMetrics(
+			"perf_schema_file_events_seconds_total",
+			"The total seconds of file events by event name/mode.",
+			[]string{
+				"event_name",
+				"mode"})}
+}
+func (qd *performanceSchemaFileEventsTimeDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaFileEventsBytesDesc struct {
+	*baseMetrics
+}
+
+func NewPerformanceSchemaFileEventsBytesDesc() *performanceSchemaFileEventsBytesDesc {
+	return &performanceSchemaFileEventsBytesDesc{
+		NewMetrics(
+			"perf_schema_file_events_bytes_total",
+			"The total bytes of file events by event name/mode.",
+			[]string{
+				"event_name",
+				"mode"})}
+}
+func (qd *performanceSchemaFileEventsBytesDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
