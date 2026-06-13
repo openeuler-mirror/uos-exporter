@@ -59,5 +59,7 @@ type Primitive struct {
 }
 
 type Clone struct {
-
-// TODO: implement functions
+	Id             string      `xml:"id,attr"`
+	MetaAttributes []Attribute `xml:"meta_attributes>nvpair"`
+	Primitive      Primitive   `xml:"primitive"`
+}
