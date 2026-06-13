@@ -91,5 +91,6 @@ type Clone struct {
 }
 
 type Group struct {
-
-// TODO: implement functions
+	Id        string     `xml:"id,attr"`
+	Resources []Resource `xml:"resource"`
+}
