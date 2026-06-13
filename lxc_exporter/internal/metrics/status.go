@@ -5,5 +5,21 @@ import (
 	"lxc_exporter/internal/exporter"
 )
 
+func init() {
+	exporter.Register(
+		NewStatus("exporter_status",
+			"exporter status",
+			nil))
+}
 
-// TODO: implement functions
+type Status struct {
+	*baseMetrics
+}
+
+func NewStatus(fqname, help string, labels []string) *Status {
+	return &Status{NewMetrics(fqname, help, labels)}
+}
+
+func (c *Status) Collect(ch chan<- prometheus.Metric) {
+	c.baseMetrics.collect(ch, 1, nil)
+}
