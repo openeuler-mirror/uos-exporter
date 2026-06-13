@@ -102,5 +102,339 @@ var (
 	).Default("memory/").String()
 )
 
+func init() {
+	exporter.Register(
+		NewScrapePerfMemoryEvents())
+}
 
-// TODO: implement functions
+type ScrapePerfMemoryEvents struct {
+	instance mysql.Instance
+	performanceSchemaMemoryCountAlloc
+	performanceSchemaMemoryCountFree
+	performanceSchemaMemoryBytesAllocDesc
+	performanceSchemaMemoryBytesFreeDesc
+	performanceSchemaMemoryLowCountUsed
+	performanceSchemaMemoryCurrentCountUsed
+	performanceSchemaMemoryHighCountUsed
+	perforanceSchemaMemoryLowUsedBytesDesc
+	perforanceSchemaMemoryUsedBytesDesc
+	perforanceSchemaMemoryHighUsedBytesDesc
+}
+
+func NewScrapePerfMemoryEvents() *ScrapePerfMemoryEvents {
+	return &ScrapePerfMemoryEvents{
+		//instance:                                instance,
+		performanceSchemaMemoryBytesAllocDesc:   *newperformanceSchemaMemoryBytesAllocDesc(),
+		performanceSchemaMemoryBytesFreeDesc:    *NewperformanceSchemaMemoryBytesFreeDesc(),
+		perforanceSchemaMemoryUsedBytesDesc:     *NewPerformanceSchemaMemoryUsedBytesDesc(),
+		performanceSchemaMemoryCountAlloc:       *NewPerformanceSchemaMemoryCountAlloc(),
+		performanceSchemaMemoryCountFree:        *NewperformanceSchemaMemoryCountFree(),
+		performanceSchemaMemoryLowCountUsed:     *NewperformanceSchemaMemoryLowCountUsed(),
+		performanceSchemaMemoryCurrentCountUsed: *NewperformanceSchemaMemoryCurrentCountUsed(),
+		performanceSchemaMemoryHighCountUsed:    *NewperformanceSchemaMemoryHighCountUsed(),
+		perforanceSchemaMemoryLowUsedBytesDesc:  *NewPerformanceSchemaMemoryLowUsedBytesDesc(),
+		perforanceSchemaMemoryHighUsedBytesDesc: *NewPerformanceSchemaMemoryHighUsedBytesDesc(),
+	}
+}
+
+func (qd ScrapePerfMemoryEvents) Collect(ch chan<- prometheus.Metric) {
+	qd.instance = *GetInstance()
+
+	if err := qd.instance.Ping(); err != nil {
+		logrus.Errorf("ping mysql instance error: %s", err)
+		return
+	}
+	db := instance.GetDB()
+	rows, err := db.Query(perfMemoryEventsQuery)
+	if err != nil {
+		logrus.Error(err)
+		return
+	}
+	defer rows.Close()
+	var (
+		eventName            string
+		countAlloc           uint64
+		countFree            uint64
+		bytesAlloc           uint64
+		bytesFree            uint64
+		lowCountUsed         int64
+		currentCountUsed     int64
+		highCountUsed        int64
+		lowNumberOfBytesUsed int64
+		currentBytes         int64
+
+		highNumberOfBytesUsed int64
+	)
+	for rows.Next() {
+		err := rows.Scan(&eventName,
+			&countAlloc,
+			&countFree,
+			&bytesAlloc,
+			&bytesFree,
+			&lowCountUsed,
+			&currentCountUsed,
+			&highCountUsed,
+			&lowNumberOfBytesUsed,
+			&currentBytes,
+			&highNumberOfBytesUsed)
+		if err != nil {
+			logrus.Error(err)
+			return
+		}
+		eventName := strings.TrimPrefix(eventName,
+			*performanceSchemaMemoryEventsRemovePrefix)
+		qd.performanceSchemaMemoryCountAlloc.collect(
+			ch,
+			float64(countAlloc),
+			[]string{
+				eventName})
+		qd.performanceSchemaMemoryCountFree.collect(
+			ch,
+			float64(countFree),
+			[]string{
+				eventName})
+		qd.performanceSchemaMemoryBytesAllocDesc.collect(
+			ch,
+			float64(bytesAlloc),
+			[]string{
+				eventName})
+		qd.performanceSchemaMemoryBytesFreeDesc.collect(
+			ch,
+			float64(bytesFree),
+			[]string{
+				eventName})
+		qd.performanceSchemaMemoryLowCountUsed.collect(
+			ch,
+			float64(lowCountUsed),
+			[]string{
+				eventName})
+		qd.performanceSchemaMemoryCurrentCountUsed.collect(
+			ch,
+			float64(currentCountUsed),
+			[]string{
+				eventName})
+		qd.performanceSchemaMemoryHighCountUsed.collect(
+			ch,
+			float64(highCountUsed),
+			[]string{
+				eventName})
+		qd.perforanceSchemaMemoryLowUsedBytesDesc.collect(
+			ch,
+			float64(lowNumberOfBytesUsed),
+			[]string{
+				eventName})
+		qd.perforanceSchemaMemoryUsedBytesDesc.collect(
+			ch,
+			float64(currentBytes),
+			[]string{
+				eventName})
+		qd.perforanceSchemaMemoryHighUsedBytesDesc.collect(
+			ch,
+			float64(highNumberOfBytesUsed),
+			[]string{
+				eventName})
+	}
+}
+
+type performanceSchemaMemoryBytesAllocDesc struct {
+	*baseMetrics
+}
+
+func newperformanceSchemaMemoryBytesAllocDesc() *performanceSchemaMemoryBytesAllocDesc {
+	return &performanceSchemaMemoryBytesAllocDesc{
+		NewMetrics(
+			"perf_schema_memory_events_alloc_bytes_total",
+			"The total number of bytes allocated by events.",
+			[]string{
+				"event_name"})}
+}
+
+func (qd *performanceSchemaMemoryBytesAllocDesc) Collect(
+	ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaMemoryBytesFreeDesc struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaMemoryBytesFreeDesc() *performanceSchemaMemoryBytesFreeDesc {
+	return &performanceSchemaMemoryBytesFreeDesc{
+		NewMetrics(
+			"perf_schema_memory_events_free_bytes_total",
+			"The total number of bytes freed by events.",
+			[]string{
+				"event_name"})}
+}
+
+func (qd *performanceSchemaMemoryBytesFreeDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type perforanceSchemaMemoryUsedBytesDesc struct {
+	*baseMetrics
+}
+
+func NewPerformanceSchemaMemoryUsedBytesDesc() *perforanceSchemaMemoryUsedBytesDesc {
+	return &perforanceSchemaMemoryUsedBytesDesc{
+		NewMetrics(
+			"perf_schema_memory_events_used_bytes_total",
+			"The total number of bytes used by events.",
+			[]string{
+				"event_name"})}
+}
+func (qd *perforanceSchemaMemoryUsedBytesDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaMemoryCountAlloc struct {
+	*baseMetrics
+}
+
+func NewPerformanceSchemaMemoryCountAlloc() *performanceSchemaMemoryCountAlloc {
+	return &performanceSchemaMemoryCountAlloc{
+		NewMetrics(
+			"perf_schema_memory_events_count_alloc_total",
+			"The total number of allocations.",
+			[]string{
+				"event_name"})}
+}
+func (qd *performanceSchemaMemoryCountAlloc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaMemoryCountFree struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaMemoryCountFree() *performanceSchemaMemoryCountFree {
+	return &performanceSchemaMemoryCountFree{
+		NewMetrics(
+			"perf_schema_memory_events_count_free_total",
+			"The total number of frees.",
+			[]string{
+				"event_name"})}
+}
+func (qd *performanceSchemaMemoryCountFree) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaMemoryLowCountUsed struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaMemoryLowCountUsed() *performanceSchemaMemoryLowCountUsed {
+	return &performanceSchemaMemoryLowCountUsed{
+		NewMetrics(
+			"perf_schema_memory_events_low_count_used_total",
+			"The total number of low memory events.",
+			[]string{
+				"event_name"})}
+}
+func (qd *performanceSchemaMemoryLowCountUsed) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaMemoryCurrentCountUsed struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaMemoryCurrentCountUsed() *performanceSchemaMemoryCurrentCountUsed {
+	return &performanceSchemaMemoryCurrentCountUsed{
+		NewMetrics(
+			"perf_schema_memory_events_current_count_used_total",
+			"The total number of current memory events.",
+			[]string{
+				"event_name"})}
+}
+func (qd *performanceSchemaMemoryCurrentCountUsed) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type performanceSchemaMemoryHighCountUsed struct {
+	*baseMetrics
+}
+
+func NewperformanceSchemaMemoryHighCountUsed() *performanceSchemaMemoryHighCountUsed {
+	return &performanceSchemaMemoryHighCountUsed{
+		NewMetrics(
+			"perf_schema_memory_events_high_count_used_total",
+			"The total number of high memory events.",
+			[]string{
+				"event_name"})}
+}
+func (qd *performanceSchemaMemoryHighCountUsed) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type perforanceSchemaMemoryLowUsedBytesDesc struct {
+	*baseMetrics
+}
+
+func NewPerformanceSchemaMemoryLowUsedBytesDesc() *perforanceSchemaMemoryLowUsedBytesDesc {
+	return &perforanceSchemaMemoryLowUsedBytesDesc{
+		NewMetrics(
+			"perf_schema_memory_events_low_used_bytes_total",
+			"The total number of low memory events.",
+			[]string{
+				"event_name"})}
+}
+func (qd *perforanceSchemaMemoryLowUsedBytesDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
+
+type perforanceSchemaMemoryHighUsedBytesDesc struct {
+	*baseMetrics
+}
+
+func NewPerformanceSchemaMemoryHighUsedBytesDesc() *perforanceSchemaMemoryHighUsedBytesDesc {
+	return &perforanceSchemaMemoryHighUsedBytesDesc{
+		NewMetrics(
+			"perf_schema_memory_events_high_used_bytes_total",
+			"The total number of high memory events.",
+			[]string{
+				"event_name"})}
+}
+func (qd *perforanceSchemaMemoryHighUsedBytesDesc) Collect(ch chan<- prometheus.Metric,
+	value float64,
+	labels []string) {
+	qd.collect(ch,
+		value,
+		labels)
+}
