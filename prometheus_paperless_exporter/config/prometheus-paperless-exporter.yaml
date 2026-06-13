@@ -1,0 +1,6 @@
+address: "0.0.0.0"
+port: 9103
+metricsPath: "/metrics"
+log:
+  level: "debug"
+log_path: "/var/log/uos-exporter/prometheus-paperless-exporter.log"
