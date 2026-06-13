@@ -14,5 +14,17 @@ type baseMetrics struct {
 	desc   *prometheus.Desc
 }
 
+func NewMetrics(fqname, help string, labels []string) *baseMetrics {
+	return &baseMetrics{
+		labels: labels,
+		desc: prometheus.NewDesc(
+			fqname,
+			help,
+			labels,
+			nil),
+	}
+}
 
-// TODO: implement functions
+func (c *baseMetrics) collect(ch chan<- prometheus.Metric, value float64, labels []string) {
+	ch <- prometheus.MustNewConstMetric(c.desc, prometheus.GaugeValue, value, labels...)
+}
