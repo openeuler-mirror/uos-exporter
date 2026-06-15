@@ -17,5 +17,11 @@ type PgLocksStat struct {
 }
 
 // NewPgLocksStat 创建一个新的 PgLocksStat 实例
-
-// TODO: implement functions
+func NewPgLocksStat() *PgLocksStat {
+	return &PgLocksStat{
+		LocksByType:     make(map[string]int64),
+		LocksByMode:     make(map[string]int64),
+		LocksByState:    make(map[string]int64),
+		LocksByDatabase: make(map[string]int64),
+	}
+}
