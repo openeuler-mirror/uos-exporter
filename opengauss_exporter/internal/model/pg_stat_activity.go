@@ -27,10 +27,5 @@ type PgStatActivity struct {
 }
 
 // NewPgStatActivity 创建一个新的 PgStatActivity 实例
-func NewPgStatActivity() *PgStatActivity {
-	return &PgStatActivity{
-		ConnectionsByDatabase: make(map[string]int64),
-		ConnectionsByUser:     make(map[string]int64),
-		WaitEventStats:        make(map[string]int64),
-	}
-}
+
+// TODO: implement functions
