@@ -37,15 +37,5 @@ type PgSizeStats struct {
 }
 
 // NewPgSizeStats 创建一个新的 PgSizeStats 实例
-func NewPgSizeStats() *PgSizeStats {
-	return &PgSizeStats{
-		DatabaseSizes:   make(map[string]*PgDatabaseSize),
-		TableSizes:      make(map[string]*PgTableSize),
-		TablespaceSizes: make(map[string]*PgTablespaceSize),
-	}
-}
 
-// GetTableKey 生成表的唯一标识key
-func (t *PgTableSize) GetTableKey() string {
-	return t.SchemaName + "." + t.TableName
-}
+// TODO: implement functions
