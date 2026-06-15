@@ -48,5 +48,77 @@ var squidCounters = []squidCounter{
 }
 
 // GetSquidCounters 返回所有Squid计数器指标
+func GetSquidCounters() []prometheus.Collector {
+	counters := []prometheus.Collector{}
+	for _, counter := range squidCounters {
+		counters = append(counters, 
+			NewSquidCounter(counter.Section, counter.Counter, counter.Suffix, counter.Description))
+	}
+	return counters
+}
 
-// TODO: implement functions
+// SquidCounter 是用于存储Squid计数器的指标
+type SquidCounter struct {
+	*baseMetrics
+	section string
+	counter string
+}
+
+// NewSquidCounter创建一个新的SquidCounter实例
+func NewSquidCounter(section, counter, suffix, help string) *SquidCounter {
+	fqname := prometheus.BuildFQName("squid", 
+		replaceNonAlphanumeric(section), 
+		counter+"_"+suffix)
+	
+	return &SquidCounter{
+		baseMetrics: NewMetrics(fqname, help, []string{}),
+		section:     section,
+		counter:     counter,
+	}
+}
+
+// Describe 实现了Collector接口
+func (sc *SquidCounter) Describe(ch chan<- *prometheus.Desc) {
+	ch <- sc.baseMetrics.desc
+}
+
+// Collect实现了Collector接口，用于采集指标
+func (sc *SquidCounter) Collect(ch chan<- prometheus.Metric) {
+	// 创建一个客户端连接Squid服务器
+	client := NewCacheObjectClient(&CacheObjectRequest{
+		Hostname: GlobalHostname,
+		Port:     GlobalPort,
+		Login:    GlobalLogin,
+		Password: GlobalPassword,
+		Headers:  GlobalHeaders,
+	})
+
+	counters, err := client.GetCounters()
+	if err != nil {
+		// 连接失败，记录错误并返回
+		return
+	}
+
+	// 查找匹配的指标
+	key := fmt.Sprintf("%s.%s", sc.section, sc.counter)
+	for _, counter := range counters {
+		if counter.Key == key {
+			// 找到匹配的指标，使用实际数据，注意这里用CounterValue而不是GaugeValue
+			ch <- prometheus.MustNewConstMetric(sc.baseMetrics.desc, prometheus.CounterValue, counter.Value)
+			return
+		}
+	}
+}
+
+// 辅助函数：将非字母数字字符替换为下划线
+func replaceNonAlphanumeric(s string) string {
+	result := ""
+	for _, c := range s {
+		if (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') {
+			result += string(c)
+		} else {
+			result += "_"
+		}
+	}
+	return result
+} 
