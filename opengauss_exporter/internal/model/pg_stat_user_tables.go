@@ -45,5 +45,18 @@ type PgStatUserTablesCollection struct {
 }
 
 // NewPgStatUserTable 创建一个新的 PgStatUserTable 实例
+func NewPgStatUserTable() *PgStatUserTable {
+	return &PgStatUserTable{}
+}
 
-// TODO: implement functions
+// NewPgStatUserTablesCollection 创建一个新的 PgStatUserTablesCollection 实例
+func NewPgStatUserTablesCollection() *PgStatUserTablesCollection {
+	return &PgStatUserTablesCollection{
+		Tables: make(map[string]*PgStatUserTable),
+	}
+}
+
+// GetTableKey 生成表的唯一标识key
+func (t *PgStatUserTable) GetTableKey() string {
+	return t.SchemaName + "." + t.TableName
+}
