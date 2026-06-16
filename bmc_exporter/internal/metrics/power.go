@@ -122,5 +122,128 @@ func (c *PowerCollector) parseBasicMetrics(output string) error {
 }
 
 // 新增初始化方法
+func NewPowerCollector(client *ipmi.Client) *PowerCollector {
+	pc := &PowerCollector{
+		client: client,
+	}
 
-// TODO: implement functions
+	// 初始化默认配置
+	pc.refreshInterval = 30 * time.Second
+	pc.voltageThreshold.min = 200
+	pc.voltageThreshold.max = 240
+
+	// 初始化指标
+	pc.metrics.currentPower = prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "power_watts",
+		Help: "Current power consumption (watts)",
+	})
+
+	pc.metrics.avgPower = prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "power_avg_watts",
+		Help: "Average power consumption (watts)",
+	})
+
+	pc.metrics.maxPower = prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "power_max_watts",
+		Help: "Max power consumption (watts)",
+	})
+
+	pc.metrics.energyCounter = prometheus.NewCounter(prometheus.CounterOpts{
+		Name: "energy_kwh_total",
+		Help: "Total energy consumption (kWh)",
+	})
+
+	pc.metrics.healthStatus = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "power_health_status",
+			Help: "Power health status (0=OK, 1=Warning, 2=Critical)",
+		},
+		[]string{"component"},
+	)
+
+	pc.metrics.inputVoltage = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "power_input_voltage",
+			Help: "Input voltage (volts)",
+		},
+	)
+
+	pc.metrics.powerHistogram = prometheus.NewHistogram(
+		prometheus.HistogramOpts{
+			Name:    "power_watts_distribution",
+			Help:    "Histogram of power consumption distribution",
+			Buckets: []float64{100, 200, 300, 400, 500},
+		},
+	)
+
+	return pc
+}
+
+func (c *PowerCollector) parseHealthStatus(output string) error {
+	// 解析电源模块状态
+	reModule := regexp.MustCompile(`Power Supply\s+\|\s+(\w+)`)
+	moduleMatches := reModule.FindAllStringSubmatch(output, -1)
+	for _, match := range moduleMatches {
+		status := parseHealthState(match[1])
+		c.metrics.healthStatus.WithLabelValues("module_" + match[1]).Set(float64(status))
+	}
+
+	// 解析全局健康状态
+	reGlobal := regexp.MustCompile(`Overall Health\s+\:\s+(\w+)`)
+	if matches := reGlobal.FindStringSubmatch(output); len(matches) > 1 {
+		status := parseHealthState(matches[1])
+		c.metrics.healthStatus.WithLabelValues("global").Set(float64(status))
+	}
+	return nil
+}
+
+func parseHealthState(state string) int {
+	switch strings.ToLower(state) {
+	case "ok", "present":
+		return HealthOK
+	case "warning", "non-critical":
+		return HealthWarn
+	case "critical", "absent", "failure":
+		return HealthError
+	default:
+		return HealthError
+	}
+}
+
+func (c *PowerCollector) checkVoltageSafety(currentVoltage float64) {
+	status := HealthOK
+	switch {
+	case currentVoltage < c.voltageThreshold.min:
+		status = HealthWarn
+		log.Printf("Low voltage warning: %.1fV < minimum threshold%.1fV",
+			currentVoltage, c.voltageThreshold.min)
+	case currentVoltage > c.voltageThreshold.max:
+		status = HealthError
+		log.Printf("High voltage critical: %.1fV > maximum threshold%.1fV",
+			currentVoltage, c.voltageThreshold.max)
+	}
+	c.metrics.healthStatus.WithLabelValues("voltage").Set(float64(status))
+}
+
+// 实现Prometheus收集器接口
+func (c *PowerCollector) Describe(ch chan<- *prometheus.Desc) {
+	c.metrics.currentPower.Describe(ch)
+	c.metrics.avgPower.Describe(ch)
+	c.metrics.maxPower.Describe(ch)
+	c.metrics.energyCounter.Describe(ch)
+	c.metrics.healthStatus.Describe(ch)
+	c.metrics.inputVoltage.Describe(ch)
+	c.metrics.powerHistogram.Describe(ch)
+}
+
+func (c *PowerCollector) CollectMetrics(ch chan<- prometheus.Metric) {
+	if err := c.collect(context.Background()); err != nil {
+		log.Printf("Power metrics collection failed: %v", err)
+		return
+	}
+
+	c.metrics.currentPower.Collect(ch)
+	c.metrics.avgPower.Collect(ch)
+	c.metrics.maxPower.Collect(ch)
+	c.metrics.energyCounter.Collect(ch)
+}
