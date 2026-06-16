@@ -23,5 +23,6 @@ type PgStatBgwriter struct {
 }
 
 // NewPgStatBgwriter 创建一个新的 PgStatBgwriter 实例
-
-// TODO: implement functions
+func NewPgStatBgwriter() *PgStatBgwriter {
+	return &PgStatBgwriter{}
+}
