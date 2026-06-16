@@ -1,0 +1,15 @@
+address: "0.0.0.0"
+port: 9076
+metrics_path: "/metrics"
+logging:
+  level: "info"
+  log_path: "/var/log/uos-exporter/ssl_exporter.log"
+  max_size: "100MB"
+  max_age: 7
+
+# SSL特定配置
+ssl:
+  default_module: https
+  targets:
+
+// TODO: implement functions
