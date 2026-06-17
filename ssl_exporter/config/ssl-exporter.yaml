@@ -11,15 +11,5 @@ logging:
 ssl:
   default_module: https
   targets:
-    - name: "uniontech_com"
-      url: "uniontech.com:443"
-      module: "https"
-  modules:
-    https:
-      prober: https
-    tcp:
-      prober: tcp
-    tcp_smtp_starttls:
-      prober: tcp
-      tcp:
-        starttls: smtp
+
+// TODO: implement functions
