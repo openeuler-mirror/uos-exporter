@@ -151,3 +151,4 @@ func columnValue(scanArgs []interface{}, slaveCols []string, colName string) str
 	}
 	return string(*scanArgs[columnIndex].(*sql.RawBytes))
 }
+// Part 2 commit for mysqld_exporter/internal/metrics/slave_status.go
