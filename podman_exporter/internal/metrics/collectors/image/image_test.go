@@ -369,3 +369,4 @@ func TestParseSizeToBytes(t *testing.T) {
 		})
 	}
 }
+// Part 2 commit for podman_exporter/internal/metrics/collectors/image/image_test.go
