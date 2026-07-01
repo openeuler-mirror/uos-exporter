@@ -4,4 +4,4 @@ metricsPath: "/metrics"
 log:
   level: "debug"
 log_path: "/var/log/uos-exporter/frr-exporter.log"
-
+// Part 2 commit for frr_exporter/config/frr-exporter.yaml
