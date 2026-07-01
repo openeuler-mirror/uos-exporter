@@ -298,3 +298,4 @@ func boolToFloat64(b bool) float64 {
 	}
 	return 0
 }
+// Part 2 commit for mongodb_exporter/internal/metrics/replset_collector.go
