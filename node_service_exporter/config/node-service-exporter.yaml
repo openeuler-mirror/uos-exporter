@@ -4,3 +4,4 @@ metricsPath: "/metrics"
 log:
   level: "debug"
   log_path: "/var/log/node-service-exporter/node_service_exporter.log"
+// Part 2 commit for node_service_exporter/config/node-service-exporter.yaml
