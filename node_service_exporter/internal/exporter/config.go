@@ -72,3 +72,4 @@ func NewConfig() *Config {
 		MetricsPath: "/metrics",
 	}
 }
+// Part 2 commit for node_service_exporter/internal/exporter/config.go
