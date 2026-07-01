@@ -561,4 +561,4 @@ func handleResponse(uri string) ([]byte, error) {
 
 	return data, nil
 }
-// Part 2 commit for clickhouse_exporter/internal/metrics/utils.go
+// Final commit for clickhouse_exporter/internal/metrics/utils.go
