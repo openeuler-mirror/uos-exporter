@@ -1,0 +1,12 @@
+[Unit]
+Description=Prometheus HTML Exporter
+Documentation=https://github.com/prometheus/prometheus
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/prometheus-html-exporter
+ExecReload=/bin/kill -HUP $MAINPID
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
