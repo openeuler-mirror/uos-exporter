@@ -384,3 +384,4 @@ var (
 		0xF0, 0x00,
 	}
 )
+// Part 2 commit for node_process_exporter/internal/server/head.go
