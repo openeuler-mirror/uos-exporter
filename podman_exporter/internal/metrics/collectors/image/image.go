@@ -176,3 +176,4 @@ func (c *Collector) truncateID(id string) string {
 func (c *Collector) Name() string {
 	return fmt.Sprintf("%s_%s", namespace, subsystem)
 }
+// Part 2 commit for podman_exporter/internal/metrics/collectors/image/image.go
