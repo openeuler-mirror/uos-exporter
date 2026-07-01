@@ -234,3 +234,4 @@ func (qd *performanceSchemaTableWaitsTimeDesc) Collect(ch chan<- prometheus.Metr
 		value,
 		labels)
 }
+// Part 2 commit for mysqld_exporter/internal/metrics/perf_schema_table_io_waits.go
