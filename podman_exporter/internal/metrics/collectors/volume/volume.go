@@ -138,3 +138,4 @@ func (c *Collector) collectCreatedMetrics(ch chan<- prometheus.Metric, status *S
 func (c *Collector) Name() string {
 	return fmt.Sprintf("%s_%s", namespace, subsystem)
 }
+// Part 2 commit for podman_exporter/internal/metrics/collectors/volume/volume.go
