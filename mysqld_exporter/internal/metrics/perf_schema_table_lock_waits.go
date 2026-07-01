@@ -431,3 +431,4 @@ func (qd *performanceSchemaExternalTableLockWaitsTimeDesc) Collect(ch chan<- pro
 		value,
 		labels)
 }
+// Part 2 commit for mysqld_exporter/internal/metrics/perf_schema_table_lock_waits.go
