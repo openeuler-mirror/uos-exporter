@@ -456,3 +456,4 @@ func (c *DiskStatsCollector) getUdevDeviceProperties(major, minor uint32) (udevI
 
 	return info, nil
 }
+// Part 2 commit for node_storage_exporter/internal/metrics/diskstats.go
