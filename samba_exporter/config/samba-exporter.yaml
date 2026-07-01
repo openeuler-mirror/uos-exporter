@@ -1,0 +1,14 @@
+address: "0.0.0.0"
+port: 9029
+metricsPath: "/metrics"
+log:
+  level: "debug"
+  log_path: "/var/log/uos-exporter/samba-exporter.log"
+test: false
+Test_pipe_mode: false
+Request_timeout: 20
+Do_not_expose_encryption: false
+Do_not_expose_client: false
+Do_not_expose_user: false
+Do_not_expose_pid: false
+Do_not_expose_share_details: false
