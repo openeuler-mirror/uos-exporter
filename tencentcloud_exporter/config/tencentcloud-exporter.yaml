@@ -1,0 +1,18 @@
+address: "0.0.0.0"
+port: 9112
+metricsPath: "/metrics"
+log:
+  level: "debug"
+  log_path: "/var/log/uos-exporter/tencentcloud_exporter.log"
+credential:
+  access_key: ""
+  secret_key: ""
+  region: "ap-guangzhou"
+  role: ""
+rate_limit: 15
+products:
+  # 监控所有CDB实例的所有指标
+  - namespace: QCE/CDB
+    all_metrics: true
+    all_instances: true
+
