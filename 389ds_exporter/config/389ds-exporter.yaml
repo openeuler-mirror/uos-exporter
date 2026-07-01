@@ -1,0 +1,21 @@
+address: "0.0.0.0"
+port: 9074
+metricsPath: "/metrics"
+log:
+  level: "debug"
+
+ldap_addr: "localhost:389"
+ldap_user: "cn=Directory Manager"
+ldap_pass: "uos123!!"
+ipa_domain: "example.com"
+
+ldap_base_dn: "dc=example,dc=com"
+ldap_suffix_format: "dc=%s"
+ldap_paths:
+  users: "ou=Users"
+  groups: "ou=Groups"
+  hosts: "ou=Hosts"
+  host_groups: "ou=HostGroups"
+  sudo_rules: "ou=SudoRules"
+  hbactrls: "ou=HBACRules"
+  dns_zones: "ou=DNSZones"
