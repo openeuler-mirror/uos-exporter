@@ -54,3 +54,4 @@ func Unpack(config interface{}) error {
 	}
 	return nil
 }
+// Part 2 commit for node_process_exporter/internal/exporter/config.go
