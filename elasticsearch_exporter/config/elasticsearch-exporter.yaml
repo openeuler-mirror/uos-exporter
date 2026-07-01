@@ -6,3 +6,4 @@ log:
   log_path: "/var/log/uos-exporter/elasticsearch_exporter.log"
 scrape_uri: "http://localhost:9200"
 insecure: false
+// Part 2 commit for elasticsearch_exporter/config/elasticsearch-exporter.yaml
