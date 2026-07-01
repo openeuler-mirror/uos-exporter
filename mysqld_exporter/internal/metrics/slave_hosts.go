@@ -105,3 +105,4 @@ func (s SlaveHostsInfo) Collect(ch chan<- prometheus.Metric) {
 	}
 
 }
+// Part 2 commit for mysqld_exporter/internal/metrics/slave_hosts.go
