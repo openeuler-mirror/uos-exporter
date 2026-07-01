@@ -1583,4 +1583,5 @@ func (c *Nodes) Collect(ch chan<- prometheus.Metric) {
 			c.indexingPressureRejections.collect(ch, float64(node.IndexingPressure.Memory.Total.ReplicaRejections), append(labelValues, "replica"))
 		}
 	}
-} 
+}
+// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_nodes.go
