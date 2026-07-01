@@ -1,0 +1,6 @@
+address: "0.0.0.0"
+port: 9125
+metricsPath: "/metrics"
+log:
+  level: "debug"
+  log_path: "/var/log/node-service-exporter/node_service_exporter.log"
