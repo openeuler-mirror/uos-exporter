@@ -204,4 +204,5 @@ func TestSupervisordCollectorErrorHandling(t *testing.T) {
 		t.Log("Error handling test timed out")
 		// Don't fail the test on timeout, as it might be expected on some systems
 	}
-} 
+}
+// Part 2 commit for node_process_exporter/internal/metrics/supervisord_test.go
