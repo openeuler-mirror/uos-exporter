@@ -57,4 +57,4 @@ func Unpack(config interface{}) error {
 	}
 	return nil
 }
-// Part 2 commit for clickhouse_exporter/internal/exporter/config.go
+// Final commit for clickhouse_exporter/internal/exporter/config.go
