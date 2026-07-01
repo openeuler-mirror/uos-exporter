@@ -369,3 +369,4 @@ func (qd *sysUserSummaryTotalMemory) Collect(ch chan<- prometheus.Metric,
 		value,
 		labels)
 }
+// Part 2 commit for mysqld_exporter/internal/metrics/sys_user_summary.go
