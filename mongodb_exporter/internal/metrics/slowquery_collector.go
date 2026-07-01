@@ -198,3 +198,4 @@ func (c *MongoDBSlowQuerycollector) collect(ch chan<- prometheus.Metric) {
 
 	}
 }
+// Part 2 commit for mongodb_exporter/internal/metrics/slowquery_collector.go
