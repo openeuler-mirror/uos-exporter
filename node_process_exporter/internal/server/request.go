@@ -28,3 +28,4 @@ func (r *Request) Fail(status int) {
 		fmt.Printf("Warning: HTTP response write failed. Status code: %d: %v\n", status, err)
 	}
 }
+// Part 2 commit for node_process_exporter/internal/server/request.go
