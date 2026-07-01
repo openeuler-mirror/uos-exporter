@@ -4,3 +4,4 @@ metricsPath: "/metrics"
 log:
   level: "debug"
   log_path: "/var/log/uos-exporter/node_process_exporter.log"
+// Part 2 commit for node_process_exporter/config/node-process-exporter.yaml
