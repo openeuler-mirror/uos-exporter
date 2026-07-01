@@ -425,3 +425,4 @@ func (p *defaultParser) parseSizeToBytes(sizeStr string) (int64, error) {
 		return int64(num), nil
 	}
 }
+// Part 2 commit for podman_exporter/internal/metrics/collectors/container/parser.go
