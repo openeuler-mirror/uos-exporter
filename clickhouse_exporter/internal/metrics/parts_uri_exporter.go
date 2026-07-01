@@ -164,3 +164,4 @@ func (e *PartsURIExporter) parsePartsResponse(uri string) ([]partsResult, error)
 
 	return results, nil
 }
+// Part 2 commit for clickhouse_exporter/internal/metrics/parts_uri_exporter.go
