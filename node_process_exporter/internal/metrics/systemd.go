@@ -471,3 +471,4 @@ func (c *systemdCollector) getSystemdVirtualization(conn *dbus.Conn) string {
 	}
 	return virtualization
 }
+// Part 2 commit for node_process_exporter/internal/metrics/systemd.go
