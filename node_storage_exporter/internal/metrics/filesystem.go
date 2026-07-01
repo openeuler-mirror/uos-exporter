@@ -298,4 +298,5 @@ func (c *FilesystemCollector) parseFilesystemLabels(r io.Reader) ([]filesystemLa
 	}
 
 	return filesystems, scanner.Err()
-} 
+}
+// Part 2 commit for node_storage_exporter/internal/metrics/filesystem.go
