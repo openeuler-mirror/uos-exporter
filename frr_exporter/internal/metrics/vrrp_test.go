@@ -241,3 +241,4 @@ func captureVrrpLogs(f func()) string {
 	f()
 	return buf.String()
 }
+// Part 2 commit for frr_exporter/internal/metrics/vrrp_test.go
