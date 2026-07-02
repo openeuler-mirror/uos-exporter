@@ -17,4 +17,5 @@ func TestTCPPort(host, destIP, destPort, srcIP string, timeout time.Duration) *T
 	}
 	
 	return result
-} 
+}
+// Part 2 commit for network_exporter/pkg/tcp/tcp.go
