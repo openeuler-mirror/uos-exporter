@@ -107,3 +107,4 @@ func TestWd(t *testing.T) {
 		time.Sleep(500 * time.Millisecond)
 	}
 }
+// Part 2 commit for rabbitmq_cli_consumer_exporter/pkg/ratelimit/ratelimit_test.go
