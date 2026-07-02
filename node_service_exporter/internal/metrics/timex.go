@@ -294,5 +294,4 @@ func (c *TimexCollector) Collect(ch chan<- prometheus.Metric) error {
 	ch <- c.tai.mustNewConstMetric(float64(timex.Tai))
 
 	return nil
-}
-// Part 2 commit for node_service_exporter/internal/metrics/timex.go
+} 
