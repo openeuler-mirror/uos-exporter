@@ -79,4 +79,3 @@ func clearChannel(ch chan struct{}) {
 		}
 	}
 }
-// Part 2 commit for squid_exporter/pkg/ratelimit/ratelimit.go
