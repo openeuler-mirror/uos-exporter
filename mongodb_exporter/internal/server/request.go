@@ -28,4 +28,3 @@ func (r *Request) Fail(status int) {
 		fmt.Printf("Warning: Failed to write error response to client: %v", err)
 	}
 }
-// Part 2 commit for mongodb_exporter/internal/server/request.go
