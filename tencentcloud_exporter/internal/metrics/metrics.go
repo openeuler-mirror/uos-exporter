@@ -1,0 +1,31 @@
+package metrics
+
+import (
+	"github.com/prometheus/client_golang/prometheus"
+)
+
+var (
+	Name    = "tencentcloud_exporter"
+	Version = "1.0.0"
+)
+
+// 以下结构继续保留，以避免依赖它的代码出错，但新的CDB指标收集不再使用它
+type baseMetrics struct {
+	labels []string
+	desc   *prometheus.Desc
+}
+
+func NewMetrics(fqname, help string, labels []string) *baseMetrics {
+	return &baseMetrics{
+		labels: labels,
+		desc: prometheus.NewDesc(
+			fqname,
+			help,
+			labels,
+			nil),
+	}
+}
+
+func (c *baseMetrics) collect(ch chan<- prometheus.Metric, value float64, labels []string) {
+	ch <- prometheus.MustNewConstMetric(c.desc, prometheus.GaugeValue, value, labels...)
+}
