@@ -78,5 +78,4 @@ func (c *VMStatCollector) Collect(ch chan<- prometheus.Metric) {
 
 func (c *VMStatCollector) Describe(ch chan<- *prometheus.Desc) {
 	// VMStat collector creates dynamic descriptors
-}
-// Part 2 commit for node_system_exporter/internal/metrics/vmstat.go
+} 
