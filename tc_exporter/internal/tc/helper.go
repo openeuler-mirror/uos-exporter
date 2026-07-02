@@ -54,4 +54,3 @@ func GetInterfaceInNetNS(ns string) ([]rtnetlink.LinkMessage, error) {
 	}
 	return selected, nil
 }
-// Part 2 commit for tc_exporter/internal/tc/helper.go
