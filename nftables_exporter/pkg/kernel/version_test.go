@@ -87,3 +87,4 @@ func TestParseMajorVersion(t *testing.T) {
 		}
 	}
 }
+// Part 2 commit for nftables_exporter/pkg/kernel/version_test.go
