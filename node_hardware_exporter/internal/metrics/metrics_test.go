@@ -84,4 +84,5 @@ func TestPackageConstants(t *testing.T) {
 	if Version != expectedVersion {
 		t.Errorf("expected Version to be %q, got %q", expectedVersion, Version)
 	}
-} 
+}
+// Part 2 commit for node_hardware_exporter/internal/metrics/metrics_test.go
