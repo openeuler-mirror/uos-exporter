@@ -20,4 +20,3 @@ func HandleSignals(function func()) {
 	logrus.Infof("service received signal: %v", sig)
 	callback.Do(function)
 }
-// Part 2 commit for node_storage_exporter/pkg/utils/signal.go
