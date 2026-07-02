@@ -346,5 +346,4 @@ func TestHwmonRegexes(t *testing.T) {
 			t.Errorf("hwmonFilenameFormat should match %q", testCase)
 		}
 	}
-}
-// Part 2 commit for node_hardware_exporter/internal/metrics/hwmon_test.go
+} 
