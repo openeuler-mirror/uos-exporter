@@ -7,3 +7,4 @@ log:
 bpftrace_path: "/usr/bin/bpftrace"
 script_path: "/usr/share/bpftrace/tools/runqlat.bt"
 var_defs: "usecs:hist"
+// Part 2 commit for bpftrace_exporter/config/bpftrace-exporter.yaml
