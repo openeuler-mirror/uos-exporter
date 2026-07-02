@@ -421,3 +421,4 @@ func (h *LandingPageHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		logrus.Warnf("Failed to write landing page response to client: %v", err)
 	}
 }
+// Part 2 commit for nftables_exporter/internal/server/landpage.go
