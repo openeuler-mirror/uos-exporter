@@ -624,3 +624,4 @@ func (f *followerImpl) Lines() chan string {
 	}()
 	return f.line
 }
+// Part 2 commit for prometheus_nginxlog_exporter/internal/metrics/collection.go
