@@ -46,4 +46,5 @@ func TestRaplCollectorCollect(t *testing.T) {
 	// We don't assert on the exact count because it depends on system capabilities
 	// Just ensure it doesn't crash
 	t.Logf("Collected %d RAPL metrics", count)
-} 
+}
+// Part 2 commit for node_hardware_exporter/internal/metrics/rapl_test.go
