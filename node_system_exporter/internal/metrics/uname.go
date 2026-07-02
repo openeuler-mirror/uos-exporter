@@ -86,4 +86,5 @@ func (c *UnameCollector) getUname() (uname, error) {
 
 func (c *UnameCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.info
-} 
+}
+// Part 2 commit for node_system_exporter/internal/metrics/uname.go
