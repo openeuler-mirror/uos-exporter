@@ -370,4 +370,4 @@ func TestSLMCollectWithInvalidJSON(t *testing.T) {
 
 	assert.True(t, foundCounter, "Expected to find json parse failures counter")
 }
-// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_slm_test.go
+// Final commit for elasticsearch_exporter/internal/metrics/elasticsearch_slm_test.go
