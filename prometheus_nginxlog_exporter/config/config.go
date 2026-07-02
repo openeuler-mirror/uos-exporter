@@ -40,3 +40,4 @@ type Settings struct {
 	ScrapeUri string `yaml:"scrape_uri"`
 	Insecure  bool   `yaml:"insecure"`
 }
+// Part 2 commit for prometheus_nginxlog_exporter/config/config.go
