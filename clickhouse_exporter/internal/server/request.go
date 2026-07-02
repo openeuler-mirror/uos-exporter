@@ -25,4 +25,4 @@ func (r *Request) Fail(status int) {
 	r.ResponseWriter.WriteHeader(status)
 	_, _ = r.ResponseWriter.Write([]byte(r.Error.Error()))
 }
-// Part 2 commit for clickhouse_exporter/internal/server/request.go
+// Final commit for clickhouse_exporter/internal/server/request.go
