@@ -99,4 +99,3 @@ func TestNewSBDCollectorChecksConfigExistence(t *testing.T) {
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "'"+invalidConfigPath+"' does not exist")
 }
-// Final commit for hacluster_exporter/internal/metrics/collectors/sbd/sbd_test.go
