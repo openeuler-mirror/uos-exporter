@@ -18,3 +18,4 @@ func main() {
 		os.Exit(1)
 	}
 }
+// Part 2 commit for hacluster_exporter/main.go
