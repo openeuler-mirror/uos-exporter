@@ -234,4 +234,5 @@ func BenchmarkNewMetrics(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = NewMetrics("benchmark_metric_creation", "基准测试指标创建", []string{"label1", "label2"})
 	}
-} 
+}
+// Part 2 commit for elasticsearch_exporter/internal/metrics/metrics_test.go
