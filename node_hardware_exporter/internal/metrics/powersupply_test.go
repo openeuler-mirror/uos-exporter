@@ -123,4 +123,5 @@ func TestPowerSupplyGetPowerSupplyClassInfo(t *testing.T) {
 			t.Logf("getPowerSupplyClassInfo returned error (expected in test environment): %v", err)
 		}
 	}()
-} 
+}
+// Part 2 commit for node_hardware_exporter/internal/metrics/powersupply_test.go
