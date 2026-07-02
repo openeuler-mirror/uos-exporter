@@ -306,4 +306,3 @@ func (s *Server) loadConfig() error {
 	logrus.Info("CommonConfig file loaded")
 	return nil
 }
-// Part 2 commit for rabbitmq_cli_consumer_exporter/internal/server/server.go
