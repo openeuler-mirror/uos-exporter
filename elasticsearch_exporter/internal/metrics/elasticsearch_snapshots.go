@@ -335,4 +335,5 @@ func (s *Snapshots) Collect(ch chan<- prometheus.Metric) {
 		s.snapshotFailedShards.collect(ch, float64(lastSnapshot.Shards.Failed), labels)
 		s.snapshotSuccessShards.collect(ch, float64(lastSnapshot.Shards.Successful), labels)
 	}
-} 
+}
+// Part 2 commit for elasticsearch_exporter/internal/metrics/elasticsearch_snapshots.go
