@@ -325,4 +325,5 @@ func TestPerfCollectorUpdateStats(t *testing.T) {
 	})
 	
 	close(ch)
-} 
+}
+// Part 2 commit for node_hardware_exporter/internal/metrics/perf_linux_test.go
