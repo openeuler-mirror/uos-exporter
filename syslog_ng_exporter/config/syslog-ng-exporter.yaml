@@ -1,0 +1,8 @@
+address: "0.0.0.0"
+port: 9068
+metricsPath: "/metrics"
+socket:
+  path: "/var/lib/syslog-ng/syslog-ng.ctl"
+log:
+  level: "debug"
+  log_path: "/var/log/uos-exporter/syslog_ng_exporter.log"
