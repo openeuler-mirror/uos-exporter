@@ -421,4 +421,3 @@ func (h *LandingPageHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("Warning: The response to writing to the login page failed: %v\n", err)
 	}
 }
-// Part 2 commit for node_service_exporter/internal/server/landpage.go
