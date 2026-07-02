@@ -223,5 +223,4 @@ func (c *MdadmCollector) Collect(ch chan<- prometheus.Metric) {
 			mdraid.Device,
 		)
 	}
-}
-// Part 2 commit for node_hardware_exporter/internal/metrics/mdadm.go
+} 
