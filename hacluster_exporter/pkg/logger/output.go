@@ -9,4 +9,4 @@ func LogOutput(format string, a ...any) {
 	fmt.Printf(format, a...)
 	logrus.Printf(format, a...)
 }
-// Part 2 commit for hacluster_exporter/pkg/logger/output.go
+// Final commit for hacluster_exporter/pkg/logger/output.go
