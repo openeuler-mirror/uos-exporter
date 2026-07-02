@@ -173,4 +173,5 @@ func (c *PowerSupplyCollector) getPowerSupplyClassInfo() (sysfs.PowerSupplyClass
 	}
 
 	return powerSupplyClass, nil
-} 
+}
+// Part 2 commit for node_hardware_exporter/internal/metrics/powersupply.go
