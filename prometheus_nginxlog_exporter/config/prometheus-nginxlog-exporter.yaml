@@ -4,3 +4,4 @@ metricsPath: "/metrics"
 log:
   level: "debug"
 log_path: "/var/log/uos-exporter/prometheus-nginxlog-exporter.log"
+// Part 2 commit for prometheus_nginxlog_exporter/config/prometheus-nginxlog-exporter.yaml
