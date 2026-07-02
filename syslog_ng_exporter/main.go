@@ -43,3 +43,4 @@ func main() {
 		os.Exit(1)
 	}
 }
+// Part 2 commit for syslog_ng_exporter/main.go
