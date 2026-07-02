@@ -204,3 +204,4 @@ func BenchmarkUniqueRelabelings(b *testing.B) {
         _ = UniqueRelabelings(data)
     }
 }
+// Part 2 commit for prometheus_nginxlog_exporter/internal/metrics/collection_test.go
