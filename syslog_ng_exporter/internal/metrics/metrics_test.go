@@ -493,4 +493,5 @@ func TestValueTypeCasting(t *testing.T) {
 		// float64
 		metrics.collect(ch, 3.14159265358979323846, []string{})
 	})
-} 
+}
+// Part 2 commit for syslog_ng_exporter/internal/metrics/metrics_test.go
