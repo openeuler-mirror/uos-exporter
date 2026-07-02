@@ -28,3 +28,4 @@ func NewMetrics(fqname, help string, labels []string) *baseMetrics {
 func (c *baseMetrics) collect(ch chan<- prometheus.Metric, value float64, labels []string) {
 	ch <- prometheus.MustNewConstMetric(c.desc, prometheus.GaugeValue, value, labels...)
 }
+// Part 2 commit for node_hardware_exporter/internal/metrics/metrics.go
