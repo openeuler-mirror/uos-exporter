@@ -269,5 +269,4 @@ func createCounterMetricDescriptions() map[string]*prometheus.Desc {
 			"Allocation from other node",
 			[]string{"node", "zone"}, nil),
 	}
-}
-// Part 2 commit for node_service_exporter/internal/metrics/zoneinfo_linux.go
+} 
