@@ -71,4 +71,5 @@ func TestThermalZoneCollectorFields(t *testing.T) {
 	if collector.baseMetrics == nil {
 		t.Error("baseMetrics should not be nil")
 	}
-} 
+}
+// Part 2 commit for node_hardware_exporter/internal/metrics/thermal_zone_test.go
