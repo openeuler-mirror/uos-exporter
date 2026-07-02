@@ -304,4 +304,3 @@ func (s *Server) loadConfig() error {
 	logrus.Info("CommonConfig file loaded")
 	return nil
 }
-// Final commit for frr_exporter/internal/server/server.go
