@@ -54,4 +54,3 @@ func TestFileRotator(t *testing.T) {
 		}
 	}
 }
-// Part 2 commit for pacemaker_exporter/pkg/logger/filerotator_test.go
