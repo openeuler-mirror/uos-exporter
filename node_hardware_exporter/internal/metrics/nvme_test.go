@@ -46,4 +46,5 @@ func TestNVMeCollectorCollect(t *testing.T) {
 	// We don't assert on the exact count because it depends on system capabilities
 	// Just ensure it doesn't crash
 	t.Logf("Collected %d NVMe metrics", count)
-} 
+}
+// Part 2 commit for node_hardware_exporter/internal/metrics/nvme_test.go
