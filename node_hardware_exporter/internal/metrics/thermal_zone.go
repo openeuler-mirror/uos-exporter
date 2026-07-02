@@ -120,4 +120,5 @@ func (c *ThermalZoneCollector) Collect(ch chan<- prometheus.Metric) {
 			stats.Type,
 		)
 	}
-} 
+}
+// Part 2 commit for node_hardware_exporter/internal/metrics/thermal_zone.go
