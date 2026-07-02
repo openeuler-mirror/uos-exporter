@@ -79,4 +79,3 @@ func clearChannel(ch chan struct{}) {
 		}
 	}
 }
-// Part 2 commit for rabbitmq_cli_consumer_exporter/pkg/ratelimit/ratelimit.go
