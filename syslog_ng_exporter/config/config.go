@@ -48,3 +48,4 @@ type Settings struct {
 	Insecure   bool   `yaml:"insecure"`
 	SocketPath string `yaml:"socket.path"`
 }
+// Part 2 commit for syslog_ng_exporter/config/config.go
