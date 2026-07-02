@@ -5,3 +5,4 @@ import "github.com/prometheus/client_golang/prometheus"
 type Metric interface {
 	Collect(ch chan<- prometheus.Metric)
 }
+// Part 2 commit for prometheus_nginxlog_exporter/internal/exporter/metrics.go
