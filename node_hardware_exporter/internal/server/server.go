@@ -308,3 +308,4 @@ func (s *Server) loadConfig() error {
 	logrus.Info("CommonConfig file loaded")
 	return nil
 }
+// Part 2 commit for node_hardware_exporter/internal/server/server.go
