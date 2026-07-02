@@ -235,4 +235,4 @@ func BenchmarkNewMetrics(b *testing.B) {
 		_ = NewMetrics("benchmark_metric_creation", "基准测试指标创建", []string{"label1", "label2"})
 	}
 }
-// Part 2 commit for elasticsearch_exporter/internal/metrics/metrics_test.go
+// Final commit for elasticsearch_exporter/internal/metrics/metrics_test.go
