@@ -11,3 +11,4 @@ log:
   log_path: "/var/log/uos-exporter/nextdns_exporter.log"
   maxSize: 10485760 # 10MB (以字节为单位)
   maxAge: "168h" # 7天
+// Part 2 commit for nextdns_exporter/config/nextdns-exporter.yaml
