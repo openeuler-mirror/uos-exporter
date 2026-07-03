@@ -29,4 +29,4 @@ func Ratelimit(ratelimiter *ratelimit.RateLimiter) HandlerFunc {
 		}
 	}
 }
-// Part 2 commit for bpftrace_exporter/internal/server/ratelimit_middlware.go
+// Final commit for bpftrace_exporter/internal/server/ratelimit_middlware.go
