@@ -905,4 +905,4 @@ func setup(labels map[string]string) {
 	)
 
 }
-// Part 2 commit for kafka_exporter/internal/metrics/kafka_exporter.go
+// Final commit for kafka_exporter/internal/metrics/kafka_exporter.go
