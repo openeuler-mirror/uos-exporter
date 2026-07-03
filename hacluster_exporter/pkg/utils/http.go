@@ -15,4 +15,4 @@ func ValidateURI(uri string) error {
 	}
 	return nil
 }
-// Part 2 commit for hacluster_exporter/pkg/utils/http.go
+// Final commit for hacluster_exporter/pkg/utils/http.go
