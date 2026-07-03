@@ -172,3 +172,4 @@ func (e *PostgreSQLRoleExporter) collect(ch chan<- prometheus.Metric) {
 		}
 	}
 }
+// Part 2 commit for postgres_exporter/internal/metrics/role_exporter.go
