@@ -191,3 +191,4 @@ func Unpack(config interface{}) error {
 
 	return nil
 }
+// Part 2 commit for nextdns_exporter/internal/exporter/config.go
