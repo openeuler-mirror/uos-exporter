@@ -1,0 +1,17 @@
+address: "0.0.0.0"
+port: 9085
+metricsPath: "/metrics"
+log:
+  level: "debug"
+
+ntp_config:
+  ntp_server: pool.ntp.org
+  ntp_protocol_version: 4
+  ntp_server_is_local: false
+  ntp_ip_ttl: 1
+  ntp_max_distance: "3.46608s"
+  ntp_offset_tolerance: "1ms"
+
+chrony_config:
+  chrony_address: pool.ntp.org
+  chrony_port: 323
