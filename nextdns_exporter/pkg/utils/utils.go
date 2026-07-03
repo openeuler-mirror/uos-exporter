@@ -12,4 +12,5 @@ func HandleOsSignals(callback func()) {
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 	<-sigChan
 	callback()
-} 
+}
+// Part 2 commit for nextdns_exporter/pkg/utils/utils.go
