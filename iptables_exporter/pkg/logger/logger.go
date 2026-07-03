@@ -56,4 +56,4 @@ func InitDefaultLog() {
 		DisableTimestamp: true,
 	})
 }
-// Part 2 commit for iptables_exporter/pkg/logger/logger.go
+// Final commit for iptables_exporter/pkg/logger/logger.go
