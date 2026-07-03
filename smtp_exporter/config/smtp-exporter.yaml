@@ -1,0 +1,45 @@
+address: "0.0.0.0"
+port: 9104
+metricsPath: "/metrics"
+log:
+  level: "info"
+  log_path: "/var/log/uos-exporter/smtp_exporter.log"
+
+# SMTP模块配置
+modules:
+  default:
+    prober: smtp
+    timeout: 5s
+    smtp:
+      preferred_ip_protocol: "ip4"
+      ip_protocol_fallback: true
+      tls: "no"
+      ehlo: "localhost"
+
+  tls_example:
+    prober: smtp
+    timeout: 10s
+    smtp:
+      preferred_ip_protocol: "ip4"
+      ip_protocol_fallback: true
+      tls: "tls"
+      ehlo: "localhost"
+      mail_from: "from@example.com"
+      mail_to: "to@example.com"
+      auth:
+        username: "user@example.com"
+        password: "password"
+
+  starttls_example:
+    prober: smtp
+    timeout: 10s
+    smtp:
+      preferred_ip_protocol: "ip4"
+      ip_protocol_fallback: true
+      tls: "starttls"
+      ehlo: "localhost"
+      mail_from: "from@example.com"
+      mail_to: "to@example.com"
+      auth:
+        username: "user@example.com"
+        password: "password"
