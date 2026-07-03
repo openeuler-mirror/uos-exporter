@@ -41,4 +41,4 @@ type Settings struct {
 	ScrapeUri string `yaml:"scrape_uri"`
 	Insecure  bool   `yaml:"insecure"`
 }
-// Part 2 commit for kafka_exporter/config/config.go
+// Final commit for kafka_exporter/config/config.go
