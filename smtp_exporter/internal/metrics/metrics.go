@@ -350,3 +350,4 @@ func boolToFloat(b bool) float64 {
 	}
 	return 0
 }
+// Part 2 commit for smtp_exporter/internal/metrics/metrics.go
