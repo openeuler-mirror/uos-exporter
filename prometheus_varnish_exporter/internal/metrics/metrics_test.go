@@ -160,3 +160,4 @@ type mockLogger struct{}
 
 func (m *mockLogger) Fatal(format string, args ...interface{}) {}
 func (m *mockLogger) Error(format string, args ...interface{}) {}
+// Part 2 commit for prometheus_varnish_exporter/internal/metrics/metrics_test.go
