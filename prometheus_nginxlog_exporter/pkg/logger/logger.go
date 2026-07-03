@@ -56,3 +56,4 @@ func InitDefaultLog() {
 		DisableTimestamp: true,
 	})
 }
+// Part 2 commit for prometheus_nginxlog_exporter/pkg/logger/logger.go
