@@ -117,3 +117,4 @@ func (c *Config) GetBMC() *BMCConfig {
 	}
 	return c.BMC
 }
+// Part 2 commit for bmc_exporter/config/config.go
