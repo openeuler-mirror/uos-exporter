@@ -303,4 +303,4 @@ type FpingStats struct {
 	RTTCount int     // 成功探测数
 	RTTSum   float64 // 延迟总和
 }
-// Part 2 commit for fping_exporter/internal/metrics/fping.go
+// Final commit for fping_exporter/internal/metrics/fping.go
