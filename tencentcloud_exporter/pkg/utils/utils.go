@@ -7,3 +7,4 @@ type CommonUtils struct{}
 func NewCommonUtils() *CommonUtils {
 	return &CommonUtils{}
 }
+// Part 2 commit for tencentcloud_exporter/pkg/utils/utils.go
