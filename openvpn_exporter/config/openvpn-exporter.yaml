@@ -1,0 +1,8 @@
+address: "0.0.0.0"
+port: 9116
+metricsPath: "/metrics"
+status_paths: "/mnt/xzx/expoter/go/new/openvpn_exporter/examples/"
+ignore_individuals: false
+log:
+  level: "debug"
+  log_path: "/var/log/uos-exporter/openvpn_exporter.log"
