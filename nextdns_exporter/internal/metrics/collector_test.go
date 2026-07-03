@@ -13,4 +13,5 @@ func TestNextDNSMetricsCreation(t *testing.T) {
 	assert.NotNil(t, metrics)
 	assert.Equal(t, "test_profile", metrics.profile)
 	assert.Equal(t, "test_api_key", metrics.apiKey)
-} 
+}
+// Part 2 commit for nextdns_exporter/internal/metrics/collector_test.go
