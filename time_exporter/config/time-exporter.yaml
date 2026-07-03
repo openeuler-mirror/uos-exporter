@@ -15,3 +15,4 @@ ntp_config:
 chrony_config:
   chrony_address: pool.ntp.org
   chrony_port: 323
+// Part 2 commit for time_exporter/config/time-exporter.yaml
