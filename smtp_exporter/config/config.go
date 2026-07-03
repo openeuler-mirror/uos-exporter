@@ -229,3 +229,4 @@ func (sc *SafeConfig) GetModule(moduleName string) (Module, bool) {
 	module, ok := sc.C.Modules[moduleName]
 	return module, ok
 }
+// Part 2 commit for smtp_exporter/config/config.go
