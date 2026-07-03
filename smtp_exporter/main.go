@@ -78,3 +78,4 @@ func main() {
 	<-s.ExitSignal
 	logrus.Info("服务器已退出")
 }
+// Part 2 commit for smtp_exporter/main.go
