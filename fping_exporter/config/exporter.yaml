@@ -9,3 +9,4 @@ fping_targets:
   - "1.1.1.1"
   - "127.0.0.1"
   - "github.com"
+// Part 2 commit for fping_exporter/config/exporter.yaml
