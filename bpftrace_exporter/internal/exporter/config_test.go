@@ -205,4 +205,5 @@ func TestConfigfileVariable(t *testing.T) {
 func TestInitFunc(t *testing.T) {
 	// 无法直接测试init函数，但可以验证其结果
 	assert.NotNil(t, Configfile, "Configfile应在init中被设置")
-} 
+}
+// Part 2 commit for bpftrace_exporter/internal/exporter/config_test.go
