@@ -262,4 +262,5 @@ func (m *NextDNSMetrics) Collect(ch chan<- prometheus.Metric) {
 			)
 		}
 	}
-} 
+}
+// Part 2 commit for nextdns_exporter/internal/metrics/nextdns.go
