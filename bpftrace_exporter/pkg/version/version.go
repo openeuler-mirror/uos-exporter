@@ -34,4 +34,4 @@ func NewCollector(program string) prometheus.Collector {
 		func() float64 { return 1 },
 	)
 }
-// Part 2 commit for bpftrace_exporter/pkg/version/version.go
+// Final commit for bpftrace_exporter/pkg/version/version.go
