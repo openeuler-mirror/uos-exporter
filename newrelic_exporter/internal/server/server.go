@@ -373,3 +373,4 @@ func (s *Server) loadConfig() error {
 	
 	return nil
 }
+// Part 2 commit for newrelic_exporter/internal/server/server.go
