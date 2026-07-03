@@ -17,3 +17,4 @@ func main() {
 		os.Exit(1)
 	}
 }
+// Part 2 commit for prometheus_nginxlog_exporter/main.go
