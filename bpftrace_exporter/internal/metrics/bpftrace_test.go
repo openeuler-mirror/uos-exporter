@@ -397,4 +397,4 @@ func TestMain(m *testing.M) {
 	// 退出程序
 	os.Exit(result)
 }
-// Part 2 commit for bpftrace_exporter/internal/metrics/bpftrace_test.go
+// Final commit for bpftrace_exporter/internal/metrics/bpftrace_test.go
