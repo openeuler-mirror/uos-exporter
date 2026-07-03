@@ -453,4 +453,5 @@ func (c *NextDNSClient) CollectDestinations() (*DestinationsResponse, error) {
 	}
 
 	return &destinationsResponse, nil
-} 
+}
+// Part 2 commit for nextdns_exporter/internal/api/client.go
