@@ -308,4 +308,5 @@ func TestValidateConfig(t *testing.T) {
 			}
 		})
 	}
-} 
+}
+// Part 2 commit for nextdns_exporter/internal/config/config_test.go
