@@ -190,3 +190,4 @@ var ErrNoData = errors.New("collector returned no data")
 func IsNoDataError(err error) bool {
 	return err == ErrNoData
 }
+// Part 2 commit for time_exporter/internal/metrics/collector.go
