@@ -419,3 +419,4 @@ func BenchmarkCollector(b *testing.B) {
 		}
 	}
 }
+// Part 2 commit for fping_exporter/internal/metrics/fping_test.go
