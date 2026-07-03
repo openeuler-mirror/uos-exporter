@@ -1,0 +1,11 @@
+address: "0.0.0.0"
+port: 9009
+metricsPath: "/metrics"
+log:
+  level: "info"
+  log_path: "/var/log/uos-exporter/fping-exporter.log"
+
+fping_targets:
+  - "1.1.1.1"
+  - "127.0.0.1"
+  - "github.com"
