@@ -33,4 +33,4 @@ func Run(name string, version string) error {
 		return s.Error
 	}
 }
-// Part 2 commit for bmc_exporter/exporter.go
+// Final commit for bmc_exporter/exporter.go
