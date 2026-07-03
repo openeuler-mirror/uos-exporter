@@ -20,3 +20,4 @@ scrape_config:
 
 global_config:
   metric_name_prefix: "htmlexporter_"
+// Part 2 commit for prometheus_html_exporter/config/prometheus-html-exporter.yaml
