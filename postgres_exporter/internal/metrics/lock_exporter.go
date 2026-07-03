@@ -119,3 +119,4 @@ func getStateValue(state string) float64 {
 		return 0.0
 	}
 }
+// Part 2 commit for postgres_exporter/internal/metrics/lock_exporter.go
