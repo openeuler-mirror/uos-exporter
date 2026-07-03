@@ -383,4 +383,5 @@ func TestGlobalVariables(t *testing.T) {
 	// 检查全局变量
 	assert.Equal(t, "bpftrace_exporter", Name, "Name全局变量应正确设置")
 	assert.Equal(t, "1.0.0", Version, "Version全局变量应正确设置")
-} 
+}
+// Part 2 commit for bpftrace_exporter/internal/metrics/metrics_test.go
