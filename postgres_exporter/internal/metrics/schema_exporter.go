@@ -127,3 +127,4 @@ func (e *PostgreSQLSchemaExporter) collect(ch chan<- prometheus.Metric) {
 		)
 	}
 }
+// Part 2 commit for postgres_exporter/internal/metrics/schema_exporter.go
