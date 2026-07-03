@@ -256,4 +256,5 @@ func (be *BpftraceExporter) exportVar(ch chan<- prometheus.Metric, varDef *VarDe
 			be.exportScalarVar(ch, varDef, v, k)
 		}
 	}
-} 
+}
+// Part 2 commit for bpftrace_exporter/internal/metrics/bpftrace.go
