@@ -212,3 +212,4 @@ func isFlagSet(context *kingpin.Application, name string) bool {
 	}
 	return false
 }
+// Part 2 commit for sftp_exporter/internal/exporter/config.go
