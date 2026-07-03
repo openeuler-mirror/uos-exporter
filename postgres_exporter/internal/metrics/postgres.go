@@ -72,3 +72,4 @@ func (p *PostgreSQLExporter) Collect(ch chan<- prometheus.Metric) {
 	p.PostgreSQLRoleExporter.collect(ch)
 	p.PostgreSQLSchemaExporter.collect(ch)
 }
+// Part 2 commit for postgres_exporter/internal/metrics/postgres.go
