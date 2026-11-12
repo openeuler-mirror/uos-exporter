@@ -25,7 +25,7 @@ func (r *Request) Fail(status int) {
 	r.ResponseWriter.Header().Set("Content-Type", "text/html")
 	r.ResponseWriter.WriteHeader(status)
 	if _, err := r.ResponseWriter.Write([]byte(r.Error.Error())); err != nil {
-		fmt.Printf("Warning: Failed to write error response to client: %v", err)
+		fmt.Printf("Warning: Failed to write error response to client: %v\n", err)
 	}
 }
 // Final commit for frr_exporter/internal/server/request.go
