@@ -158,7 +158,7 @@ func (t *perfTracepoint) tracepoint() string {
 }
 
 // PerfCollector is a Collector that uses the perf subsystem to collect
-// metrics. It uses perf_event_open an ioctls for profiling.
+// metrics. It uses perf_event_open and ioctls for profiling.
 type PerfCollector struct {
 	*baseMetrics
 	hwProfilerCPUMap    map[*perf.HardwareProfiler]int
