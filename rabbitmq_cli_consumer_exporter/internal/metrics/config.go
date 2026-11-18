@@ -231,6 +231,6 @@ func (c Config) ConsumerTag() string {
 	return fmt.Sprintf("ctag-%s-%d@%s", os.Args[0], os.Getpid(), host)
 }
 
-// LoadAndParse creates a new instance of config by parsing the content of teh given file.
+// LoadAndParse creates a new instance of config by parsing the content of the given file.
 
 // TODO: implement functions
