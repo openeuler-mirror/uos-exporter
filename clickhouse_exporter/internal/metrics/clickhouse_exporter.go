@@ -98,7 +98,7 @@ func (e *ClickhouseExporter) Collect(ch chan<- prometheus.Metric) {
 	// log.Println("run here Collect")
 	config, err := LoadClickhouseConfig("/etc/uos-exporter/clickhouse-exporter.yaml")
 	if err != nil {
-		fmt.Printf("Error get clickhouse URI %v\n", err)
+		fmt.Printf("Error getting clickhouse URI %v\n", err)
 	} else {
 		URI = config.Uri
 	}
